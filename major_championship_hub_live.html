@@ -1,0 +1,635 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap');
+:root{
+  --bg:#141B2D;--bg2:#1C2540;--bg3:#232E50;
+  --acc:#D4AF37;--acc2:#B8952A;--acc3:#F0CC5A;
+  --txt:#E8EAF0;--txt2:#9BA3BA;
+  --grn:#1D9E75;--red:#E24B4A;
+  --bdr:rgba(212,175,55,.15);--bdr2:rgba(212,175,55,.07);
+  --hover:rgba(212,175,55,.07);
+}
+.masters{--acc:#2D6A4F;--acc2:#1B4332;--acc3:#74C69D;--bdr:rgba(45,106,79,.3);--bdr2:rgba(45,106,79,.1);--hover:rgba(45,106,79,.08)}
+.usopen{--acc:#1A3A6B;--acc2:#0D2045;--acc3:#7BAFD4;--bdr:rgba(26,58,107,.35);--bdr2:rgba(26,58,107,.12);--hover:rgba(26,58,107,.1)}
+.theopen{--acc:#8B0000;--acc2:#5C0000;--acc3:#F4A261;--bdr:rgba(139,0,0,.3);--bdr2:rgba(139,0,0,.1);--hover:rgba(139,0,0,.08)}
+.pgachamp{--acc:#D4AF37;--acc2:#B8952A;--acc3:#F0CC5A;--bdr:rgba(212,175,55,.15);--bdr2:rgba(212,175,55,.07);--hover:rgba(212,175,55,.06)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:transparent;font-family:'DM Sans',sans-serif;color:var(--txt)}
+.app{background:var(--bg);border-radius:12px;overflow:hidden;border:1px solid var(--bdr);transition:border-color .4s;max-width:480px;margin:0 auto}
+.header{background:#0D1220;padding:12px 14px 0;border-bottom:1px solid var(--bdr)}
+.hdr-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:8px}
+.hdr-left{flex:1;min-width:0}
+.maj-scroll{display:flex;gap:5px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.maj-scroll::-webkit-scrollbar{display:none}
+.maj-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--txt2);font-size:11px;font-weight:500;padding:5px 10px;border-radius:5px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.maj-btn.active{background:var(--acc);border-color:var(--acc);color:#0D1220;font-weight:600}
+.t-title{font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:1.2px;color:var(--acc);line-height:1.1;margin-top:7px;transition:color .4s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-sub{font-size:10px;color:var(--txt2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr-right{display:flex;align-items:center;gap:6px;flex-shrink:0;margin-top:2px}
+.live-badge{background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:3px 7px;border-radius:4px;letter-spacing:1px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.refresh-btn{background:rgba(255,255,255,.07);border:1px solid var(--bdr);color:var(--acc);font-size:11px;padding:6px 10px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:4px;transition:all .15s;white-space:nowrap}
+.round-bar{display:flex;gap:12px;font-size:11px;color:var(--txt2);margin:8px 0 10px;flex-wrap:wrap}
+.round-bar b{color:var(--acc3);font-weight:600}
+.tabs{display:flex;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:10px 14px;font-size:12px;font-weight:500;color:var(--txt2);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.tab.active{color:var(--acc);border-bottom-color:var(--acc)}
+.tab:hover:not(.active){color:var(--txt)}
+.notice{background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:7px;margin:10px 12px;padding:8px 11px;font-size:11px;color:var(--acc3)}
+.err-notice{background:rgba(226,75,74,.08);border:1px solid rgba(226,75,74,.3);border-radius:7px;margin:10px 12px;padding:8px 11px;font-size:11px;color:#ff9494}
+.sec-lbl{font-size:10px;letter-spacing:1.4px;color:var(--txt2);text-transform:uppercase;padding:10px 14px 5px;font-weight:600}
+.loading-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;gap:12px}
+.spinner{width:28px;height:28px;border:2px solid var(--bdr);border-top-color:var(--acc);border-radius:50%;animation:spin .8s linear infinite}
+.loading-txt{font-size:12px;color:var(--txt2)}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+thead th{padding:6px 8px;font-size:10px;letter-spacing:.8px;color:var(--txt2);font-weight:600;text-transform:uppercase;border-bottom:1px solid var(--bdr);text-align:left}
+th.r,td.r{text-align:right}th.c,td.c{text-align:center}
+tbody tr{border-bottom:1px solid var(--bdr2);transition:background .1s}
+tbody tr.clk{cursor:pointer}
+tbody tr.clk:active{background:var(--hover)}
+tbody tr.gold-b{border-left:2px solid var(--acc)}
+tbody tr.soft-b{border-left:2px solid rgba(255,255,255,.1)}
+td{padding:10px 8px;vertical-align:middle;font-size:13px}
+.pos-n{font-family:'Bebas Neue',cursive;font-size:18px;color:var(--txt2)}
+.pos-n.hi{color:var(--acc)}
+.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#0D1220;background:var(--acc2);flex-shrink:0}
+.pname{font-weight:500;font-size:13px;color:var(--txt);line-height:1.2}
+.psub{font-size:10px;color:var(--txt2);margin-top:2px}
+.sc{font-family:'Bebas Neue',cursive;font-size:18px}
+.un{color:var(--acc3)}.ov{color:var(--red)}.ev{color:var(--txt2)}
+.chv{font-size:12px;color:var(--txt2);transition:transform .2s;display:inline-block}
+.chv.op{transform:rotate(180deg)}
+.drill td{padding:0!important;background:var(--bg2)!important;border-bottom:1px solid var(--bdr)!important}
+.drill-in{padding:10px 12px 12px}
+.drill-ttl{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--txt2);margin-bottom:8px;font-weight:600}
+.gg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.gc{background:var(--bg3);border:1px solid var(--bdr2);border-radius:7px;padding:9px 10px;display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
+.gcn{font-size:11px;font-weight:500;color:var(--txt);line-height:1.3}
+.gcp{font-size:10px;color:var(--txt2);margin-top:2px}
+.gcr{text-align:right;flex-shrink:0}
+.gcsc{font-family:'Bebas Neue',cursive;font-size:18px}
+.gcth{font-size:10px;color:var(--txt2);margin-top:1px}
+.gcth.lv{color:var(--grn)}
+.ts-row{display:flex;gap:7px;padding:10px 12px 6px;overflow-x:auto;scrollbar-width:none}
+.ts-row::-webkit-scrollbar{display:none}
+.ts{flex:1;min-width:70px;background:var(--bg2);border-radius:7px;border:1px solid var(--bdr2);padding:9px 10px}
+.ts-lbl{font-size:9px;letter-spacing:.8px;color:var(--txt2);text-transform:uppercase}
+.ts-val{font-family:'Bebas Neue',cursive;font-size:20px;color:var(--acc);margin-top:1px;transition:color .4s}
+.mt-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:10px 12px}
+.mtc{background:var(--bg2);border:1px solid var(--bdr);border-radius:8px;padding:10px}
+.mtc-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;gap:6px}
+.mtc-nm{font-weight:600;font-size:12px;line-height:1.3;color:var(--txt)}
+.mtc-sc{font-family:'Bebas Neue',cursive;font-size:21px}
+.mtc-pos{font-size:10px;color:var(--txt2)}
+.rp-row{display:flex;gap:3px;flex-wrap:wrap;margin-top:5px}
+.rp{background:rgba(255,255,255,.05);border-radius:4px;padding:3px 6px;font-size:10px;color:var(--txt2)}
+.sel-row{display:flex;align-items:center;gap:8px;padding:10px 12px 4px;flex-wrap:wrap}
+.sel-lbl{font-size:12px;color:var(--txt2);flex-shrink:0}
+select{background:var(--bg2);border:1px solid var(--bdr);color:var(--txt);font-family:'DM Sans',sans-serif;font-size:12px;padding:6px 10px;border-radius:6px;max-width:200px}
+.champ-sec{padding:0 12px 4px}
+.cmaj-ttl{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--acc);font-weight:600;padding:12px 2px 6px;border-bottom:1px solid var(--bdr);margin-bottom:5px}
+.crow{display:flex;align-items:flex-start;gap:8px;padding:8px 4px;border-radius:6px;border-bottom:1px solid var(--bdr2)}
+.cy{font-family:'Bebas Neue',cursive;font-size:17px;color:var(--acc3);width:38px;flex-shrink:0;padding-top:1px}
+.cwrap{flex:1;min-width:0}
+.cname{font-weight:500;font-size:12px;color:var(--txt);margin-bottom:3px}
+.cbadges{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:3px}
+.badge{font-size:10px;padding:2px 7px;border-radius:4px;font-weight:600;letter-spacing:.2px}
+.badge.t4{background:rgba(212,175,55,.15);color:var(--acc3)}
+.badge.pk{background:rgba(29,158,117,.15);color:#74C69D}
+.csub{font-size:10px;color:var(--txt2)}
+.an-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:12px 12px 8px}
+.ac{background:var(--bg2);border:1px solid var(--bdr);border-radius:8px;padding:11px}
+.ac-ttl{font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--txt2);margin-bottom:6px}
+.ac-big{font-family:'Bebas Neue',cursive;font-size:24px;color:var(--acc);line-height:1;transition:color .4s}
+.ac-sub{font-size:10px;color:var(--txt2);margin-top:3px}
+.bar-row{display:flex;align-items:center;gap:6px;margin-top:6px}
+.bn{font-size:11px;color:var(--txt);width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0}
+.bt{flex:1;background:rgba(255,255,255,.07);border-radius:3px;height:5px}
+.bf{height:5px;border-radius:3px;background:var(--acc)}
+.bp{font-size:10px;color:var(--txt2);width:24px;text-align:right;flex-shrink:0}
+.an-wide{padding:0 12px 12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.fin-tbl{width:100%;font-size:11px;border-collapse:collapse}
+.fin-tbl th{font-size:9px;letter-spacing:.7px;text-transform:uppercase;color:var(--txt2);padding:4px 5px;border-bottom:1px solid var(--bdr2);text-align:right}
+.fin-tbl th:first-child{text-align:left}
+.fin-tbl td{padding:5px 5px;border-bottom:1px solid var(--bdr2);color:var(--txt);text-align:right;font-size:11px}
+.fin-tbl td:first-child{text-align:left;font-weight:500}
+.pay-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--bdr2);font-size:12px}
+.pay-name{color:var(--txt);font-weight:500;font-size:11px}
+.pay-amt{font-family:'Bebas Neue',cursive;font-size:15px;color:var(--grn)}
+.streak{font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(212,175,55,.1);color:var(--acc3)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinning{animation:spin .7s linear infinite}
+</style>
+
+<div class="app pgachamp" id="app">
+  <div class="header">
+    <div class="hdr-top">
+      <div class="hdr-left">
+        <div class="maj-scroll" id="maj-btns"></div>
+        <div class="t-title" id="t-title">⛳ PGA Championship 2026</div>
+        <div class="t-sub" id="t-sub">Loading...</div>
+      </div>
+      <div class="hdr-right">
+        <span class="live-badge" id="live-badge">LIVE</span>
+        <button class="refresh-btn" onclick="loadAllData()"><i class="ti ti-refresh" id="ri" aria-hidden="true"></i> Refresh</button>
+      </div>
+    </div>
+    <div class="round-bar">
+      <span>Round <b id="rnd-disp">—</b>/4</span>
+      <span>Updated <b id="upd">—</b></span>
+    </div>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('lb',this)">Leaderboard</div>
+      <div class="tab" onclick="switchTab('mt',this)">My Team</div>
+      <div class="tab" onclick="switchTab('ch',this)">Champions</div>
+      <div class="tab" onclick="switchTab('an',this)">Analytics</div>
+    </div>
+  </div>
+
+  <div id="tab-lb">
+    <div class="loading-wrap" id="lb-loading">
+      <div class="spinner"></div>
+      <div class="loading-txt">Fetching leaderboard...</div>
+    </div>
+    <div id="lb-content" style="display:none">
+      <div class="notice"><i class="ti ti-users" aria-hidden="true"></i> Participant standings · tap a row to see picks</div>
+      <div class="sec-lbl" id="lb-sublabel">Ranked by cumulative team score</div>
+      <table>
+        <thead><tr>
+          <th class="c" style="width:32px">Pos</th>
+          <th style="width:34px"></th>
+          <th>Player (Team)</th>
+          <th class="r" style="width:58px">Score</th>
+          <th class="r" style="width:56px">Today</th>
+          <th style="width:22px"></th>
+        </tr></thead>
+        <tbody id="lb-body"></tbody>
+      </table>
+    </div>
+    <div id="lb-error" style="display:none"></div>
+  </div>
+
+  <div id="tab-mt" style="display:none">
+    <div class="sel-row">
+      <span class="sel-lbl">Participant:</span>
+      <select id="mt-sel" onchange="renderMyTeam(this.value)"></select>
+    </div>
+    <div class="ts-row" id="mt-stats"></div>
+    <div class="mt-grid" id="mt-grid"></div>
+  </div>
+
+  <div id="tab-ch" style="display:none">
+    <div class="sec-lbl">Past participant champions</div>
+    <div id="champ-list" style="padding:0 12px 12px"></div>
+  </div>
+
+  <div id="tab-an" style="display:none">
+    <div class="sel-row">
+      <span class="sel-lbl">View:</span>
+      <select id="an-view" onchange="onAnView(this.value)">
+        <option value="overview">Overview</option>
+        <option value="participant">By Participant</option>
+      </select>
+      <select id="an-p-sel" style="display:none" onchange="renderParticipantAnalytics(this.value)"></select>
+    </div>
+    <div id="an-body"></div>
+  </div>
+</div>
+
+<script>
+const BASE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS42Jq2JDLP8HJdxyzKQZFoyUJx4WaHpll-89pQSUGVN08IJuLm0oX1WNKcDi2wQJ9POj8twIybvM2c/pub?output=csv";
+
+const SHEET_URLS = {
+  leaderboard: BASE_URL + "&gid=0",
+  teams:       BASE_URL + "&gid=1",
+  history:     BASE_URL + "&gid=2",
+};
+
+const MAJORS = {
+  masters: {id:"masters",label:"Masters",emoji:"🌿",title:"Masters Tournament 2026",sub:"Augusta National · Augusta, GA",cls:"masters",par:72},
+  pga:     {id:"pga",label:"PGA",emoji:"⛳",title:"PGA Championship 2026",sub:"Quail Hollow · Charlotte, NC",cls:"pgachamp",par:72},
+  usopen:  {id:"usopen",label:"US Open",emoji:"🦅",title:"US Open 2026",sub:"Pinehurst No. 2 · Pinehurst, NC",cls:"usopen",par:70},
+  theopen: {id:"theopen",label:"The Open",emoji:"🏆",title:"The Open Championship 2026",sub:"Royal Portrush · N. Ireland",cls:"theopen",par:71},
+};
+
+const FLAGS = {
+  USA:"🇺🇸",ENG:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",SCO:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",WAL:"🏴󠁧󠁢󠁷󠁬󠁳󠁿",NIR:"🇬🇧",IRL:"🇮🇪",
+  AUS:"🇦🇺",NZL:"🇳🇿",RSA:"🇿🇦",ZAF:"🇿🇦",CAN:"🇨🇦",MEX:"🇲🇽",
+  ESP:"🇪🇸",GER:"🇩🇪",FRA:"🇫🇷",ITA:"🇮🇹",SWE:"🇸🇪",NOR:"🇳🇴",
+  DEN:"🇩🇰",JPN:"🇯🇵",KOR:"🇰🇷",CHN:"🇨🇳",CHI:"🇨🇱",ARG:"🇦🇷",
+  BRA:"🇧🇷",COL:"🇨🇴",FIJ:"🇫🇯",THA:"🇹🇭",IND:"🇮🇳",ZIM:"🇿🇼",
+  NAM:"🇳🇦",AUT:"🇦🇹",BEL:"🇧🇪",NED:"🇳🇱",POL:"🇵🇱",CZE:"🇨🇿",
+  SVK:"🇸🇰",HKG:"🇭🇰",SGP:"🇸🇬",GBR:"🇬🇧",
+};
+
+const PAY = {top4:250, picker:150};
+
+let activeMajor = "pga";
+let GOLFERS = {};
+let PARTICIPANTS = [];
+let HISTORY = [];
+let expanded = {};
+
+function parseCSV(text) {
+  const lines = text.trim().split("\n");
+  const headers = splitCSVLine(lines[0]).map(h => h.trim().replace(/^"|"$/g,"").toUpperCase());
+  return lines.slice(1).map(line => {
+    const vals = splitCSVLine(line).map(v => v.trim().replace(/^"|"$/g,""));
+    const obj = {};
+    headers.forEach((h,i) => obj[h] = vals[i] || "");
+    return obj;
+  }).filter(row => Object.values(row).some(v => v !== ""));
+}
+
+function splitCSVLine(line) {
+  const result = [];
+  let cur = "", inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') { inQ = !inQ; }
+    else if (ch === "," && !inQ) { result.push(cur); cur = ""; }
+    else cur += ch;
+  }
+  result.push(cur);
+  return result;
+}
+
+function toNum(v) {
+  if (!v || v === "" || v === "--" || v === "-" || v.toLowerCase() === "e") return 0;
+  const n = parseFloat(v.replace(/[^0-9.\-+]/g,""));
+  return isNaN(n) ? 0 : n;
+}
+
+function fs(n) {
+  if (n === null || n === undefined) return "—";
+  if (n === 0) return "E";
+  return n > 0 ? "+" + n : "" + n;
+}
+
+function sc(n) {
+  if (n === null || n === undefined) return "ev";
+  return n < 0 ? "un" : n > 0 ? "ov" : "ev";
+}
+
+function initials(name) {
+  return name.split(" ").filter(Boolean).map(w=>w[0]).slice(0,2).join("").toUpperCase();
+}
+
+function getFlag(country) {
+  if (!country) return "🌍";
+  const key = country.trim().toUpperCase().substring(0,3);
+  return FLAGS[key] || "🌍";
+}
+
+async function fetchSheet(url) {
+  const cacheBust = "?cb=" + Date.now();
+  const res = await fetch(url + "&cachebust=" + Date.now());
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  return await res.text();
+}
+
+async function loadAllData() {
+  const ri = document.getElementById("ri");
+  ri.className = "ti ti-refresh spinning";
+  document.getElementById("lb-loading").style.display = "flex";
+  document.getElementById("lb-content").style.display = "none";
+  document.getElementById("lb-error").style.display = "none";
+
+  try {
+    const [lbText, teamsText, histText] = await Promise.all([
+      fetchSheet(SHEET_URLS.leaderboard),
+      fetchSheet(SHEET_URLS.teams),
+      fetchSheet(SHEET_URLS.history),
+    ]);
+
+    processLeaderboard(parseCSV(lbText));
+    processTeams(parseCSV(teamsText));
+    processHistory(parseCSV(histText));
+
+    document.getElementById("upd").textContent = new Date().toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}) + " ET";
+    document.getElementById("lb-loading").style.display = "none";
+    document.getElementById("lb-content").style.display = "block";
+
+    renderLeaderboard();
+    buildSelectors();
+    renderMyTeam(PARTICIPANTS[0]?.name || "");
+    renderChampions();
+    if (document.getElementById("tab-an").style.display !== "none") {
+      onAnView(document.getElementById("an-view").value);
+    }
+  } catch(e) {
+    document.getElementById("lb-loading").style.display = "none";
+    document.getElementById("lb-error").style.display = "block";
+    document.getElementById("lb-error").innerHTML = `<div class="err-notice"><i class="ti ti-alert-circle" aria-hidden="true"></i> Could not load sheet data. Check the sheet is published to web. (${e.message})</div>`;
+  }
+  ri.className = "ti ti-refresh";
+}
+
+function processLeaderboard(rows) {
+  GOLFERS = {};
+  rows.forEach(r => {
+    const name = r["PLAYER"] || r["NAME"] || "";
+    if (!name) return;
+    const scoreRaw = r["SCORE"] || r["TO PAR"] || "0";
+    const todayRaw = r["TODAY"] || "0";
+    const score = scoreRaw.toUpperCase() === "E" ? 0 : toNum(scoreRaw);
+    const today = todayRaw.toUpperCase() === "E" ? 0 : toNum(todayRaw);
+    const country = r["COUNTRY"] || r["CTY"] || r["NAT"] || "";
+    const key = name.trim().toUpperCase().replace(/\s+/g,"_");
+    GOLFERS[key] = {
+      id: key,
+      name: name.trim(),
+      flag: getFlag(country),
+      country: country,
+      pos: r["POS"] || "—",
+      score: score,
+      today: today,
+      thru: r["THRU"] || "—",
+      r1: r["R1"] ? toNum(r["R1"]) : null,
+      r2: r["R2"] ? toNum(r["R2"]) : null,
+      r3: r["R3"] ? toNum(r["R3"]) : null,
+      r4: r["R4"] ? toNum(r["R4"]) : null,
+      live: (r["THRU"] || "").toUpperCase() !== "F" && (r["THRU"] || "") !== "" && (r["THRU"] || "").toUpperCase() !== "WD" && (r["THRU"] || "") !== "—",
+    };
+  });
+
+  const roundsPlayed = Math.max(...Object.values(GOLFERS).map(g => [g.r1,g.r2,g.r3,g.r4].filter(x=>x!==null).length), 0);
+  document.getElementById("rnd-disp").textContent = roundsPlayed || "—";
+  document.getElementById("lb-sublabel").textContent = `${Object.keys(GOLFERS).length} golfers · ranked by team score`;
+}
+
+function processTeams(rows) {
+  const map = {};
+  rows.forEach(r => {
+    const pName = (r["PARTICIPANT NAME"] || r["PARTICIPANT"] || "").trim();
+    if (!pName) return;
+    if (!map[pName]) map[pName] = {name: pName, picks: []};
+    ["PICK 1","PICK 2","PICK 3","PICK 4"].forEach(col => {
+      const pick = (r[col] || "").trim();
+      if (pick) map[pName].picks.push(pick);
+    });
+  });
+  PARTICIPANTS = Object.values(map).map(p => ({
+    ...p,
+    initials: initials(p.name),
+    picks: [...new Set(p.picks)],
+  }));
+}
+
+function processHistory(rows) {
+  HISTORY = rows.map(r => ({
+    year: r["YEAR"] || r["YEAR "] || "",
+    major: (r["MAJOR"] || "").trim(),
+    t4: (r["TOP4WINNER"] || r["TOP4 WINNER"] || r["TOPFOURWINNER"] || "").trim(),
+    pk: (r["PICKERWINNER"] || r["PICKER WINNER"] || "").trim(),
+    aw: (r["ACTUALWINNER"] || r["ACTUAL WINNER"] || "").trim(),
+  })).filter(r => r.year && r.major);
+}
+
+function resolveGolfer(pickName) {
+  if (!pickName) return null;
+  const key = pickName.trim().toUpperCase().replace(/\s+/g,"_");
+  if (GOLFERS[key]) return GOLFERS[key];
+  const lower = pickName.trim().toLowerCase();
+  return Object.values(GOLFERS).find(g =>
+    g.name.toLowerCase() === lower ||
+    g.name.toLowerCase().includes(lower) ||
+    lower.includes(g.name.toLowerCase().split(" ").slice(-1)[0])
+  ) || null;
+}
+
+function computeTeams() {
+  return PARTICIPANTS.map(p => {
+    const gs = p.picks.map(name => resolveGolfer(name)).filter(Boolean);
+    const total = gs.reduce((a,g) => a + g.score, 0);
+    const todaySum = gs.reduce((a,g) => a + (g.today||0), 0);
+    const best = gs.length ? gs.reduce((b,g) => g.score < b.score ? g : b, gs[0]) : null;
+    return {...p, gs, total, todaySum, best};
+  }).sort((a,b) => a.total - b.total);
+}
+
+function toggleDrill(i) { expanded[i] = !expanded[i]; renderLeaderboard(); }
+
+function renderLeaderboard() {
+  const ranked = computeTeams();
+  let h = "";
+  ranked.forEach((p,i) => {
+    const pos = i + 1;
+    const pCls = pos <= 3 ? "pos-n hi" : "pos-n";
+    const rCls = pos <= 3 ? "gold-b clk" : "soft-b clk";
+    const isOpen = expanded[i];
+    h += `<tr class="${rCls}" onclick="toggleDrill(${i})">
+      <td class="${pCls} c">${pos}</td>
+      <td><div class="av">${p.initials}</div></td>
+      <td><div class="pname">${p.name}</div><div class="psub">${p.picks.length} picks</div></td>
+      <td class="r"><span class="sc ${sc(p.total)}">${fs(p.total)}</span></td>
+      <td class="r"><span class="sc ${sc(p.todaySum)}" style="font-size:15px">${fs(p.todaySum)}</span></td>
+      <td class="c"><span class="chv ${isOpen?'op':''}"><i class="ti ti-chevron-down" aria-hidden="true" style="font-size:12px"></i></span></td>
+    </tr>`;
+    if (isOpen) {
+      h += `<tr class="drill"><td colspan="6"><div class="drill-in">
+        <div class="drill-ttl">${p.name}'s picks</div>
+        <div class="gg">${p.gs.map(g => `<div class="gc">
+          <div style="min-width:0">
+            <div class="gcn">${g.flag} ${g.name}</div>
+            <div class="gcp">${g.country} · ${g.pos}</div>
+            <div class="gcp" style="margin-top:3px">${[g.r1,g.r2,g.r3,g.r4].filter(x=>x!==null).join(' · ')}</div>
+          </div>
+          <div class="gcr">
+            <div class="gcsc ${sc(g.score)}">${fs(g.score)}</div>
+            <div class="gcth">T: <span class="${sc(g.today)}">${fs(g.today)}</span></div>
+            <div class="gcth ${g.live?'lv':''}">${g.thru}${g.live?' ●':''}</div>
+          </div>
+        </div>`).join('')}
+        ${p.gs.length === 0 ? '<div style="font-size:11px;color:var(--txt2);grid-column:span 2">No golfer matches found — check player name spelling in your Teams sheet matches the Leaderboard sheet.</div>' : ''}
+        </div>
+      </div></td></tr>`;
+    }
+  });
+  document.getElementById("lb-body").innerHTML = h;
+}
+
+function renderMyTeam(name) {
+  const p = PARTICIPANTS.find(x => x.name === name);
+  if (!p) return;
+  const gs = p.picks.map(n => resolveGolfer(n)).filter(Boolean);
+  const total = gs.reduce((a,g) => a + g.score, 0);
+  const todaySum = gs.reduce((a,g) => a + (g.today||0), 0);
+  const best = gs.length ? gs.reduce((b,g) => g.score < b.score ? g : b, gs[0]) : null;
+  const ranked = computeTeams();
+  const standing = ranked.findIndex(x => x.name === name) + 1;
+  document.getElementById("mt-stats").innerHTML = `
+    <div class="ts"><div class="ts-lbl">Score</div><div class="ts-val ${sc(total)}">${fs(total)}</div></div>
+    <div class="ts"><div class="ts-lbl">Today</div><div class="ts-val ${sc(todaySum)}">${fs(todaySum)}</div></div>
+    <div class="ts"><div class="ts-lbl">Place</div><div class="ts-val">${standing}/${PARTICIPANTS.length}</div></div>
+    <div class="ts"><div class="ts-lbl">Best</div><div class="ts-val ${best?sc(best.score):'ev'}">${best?fs(best.score):'—'}</div></div>`;
+  document.getElementById("mt-grid").innerHTML = gs.map(g => `<div class="mtc">
+    <div class="mtc-h">
+      <div style="min-width:0"><div class="mtc-nm">${g.flag} ${g.name}</div><div class="mtc-pos">${g.pos} · ${g.country}</div></div>
+      <div style="text-align:right;flex-shrink:0">
+        <div class="mtc-sc ${sc(g.score)}">${fs(g.score)}</div>
+        <div style="font-size:10px;color:var(--txt2)">T: <span class="${sc(g.today)}">${fs(g.today)}</span></div>
+      </div>
+    </div>
+    <div class="rp-row">
+      ${["R1","R2","R3","R4"].map((r,i) => `<div class="rp">${r}:${[g.r1,g.r2,g.r3,g.r4][i]!==null?[g.r1,g.r2,g.r3,g.r4][i]:"—"}</div>`).join("")}
+      <div class="rp ${g.live?'lv':''}" style="${g.live?'color:var(--grn)':''}">${g.thru}</div>
+    </div>
+  </div>`).join("") || `<div class="err-notice" style="grid-column:span 2;font-size:11px">No golfers matched — check name spelling in Teams sheet.</div>`;
+}
+
+function renderChampions() {
+  const majors = ["Masters","PGA","US Open","The Open"];
+  let h = "";
+  majors.forEach(maj => {
+    const entries = HISTORY.filter(x => x.major === maj).sort((a,b) => b.year - a.year);
+    if (!entries.length) return;
+    h += `<div class="champ-sec"><div class="cmaj-ttl">${maj}</div>`;
+    entries.forEach(e => {
+      const same = e.t4 === e.pk;
+      h += `<div class="crow">
+        <div class="cy">${e.year}</div>
+        <div class="cwrap">
+          ${same
+            ? `<div class="cbadges"><span class="badge t4">Top 4some</span><span class="badge pk">Picked Winner</span></div><div class="cname">${e.t4}</div>`
+            : `<div class="cbadges"><span class="badge t4">Top 4some</span></div><div class="cname">${e.t4}</div>
+               <div class="cbadges" style="margin-top:4px"><span class="badge pk">Picked Winner</span></div><div class="cname">${e.pk}</div>`
+          }
+          <div class="csub" style="margin-top:3px">Winner: ${e.aw}</div>
+        </div>
+      </div>`;
+    });
+    h += "</div>";
+  });
+  document.getElementById("champ-list").innerHTML = h || `<div class="notice">No history data yet.</div>`;
+}
+
+function onAnView(v) {
+  const pSel = document.getElementById("an-p-sel");
+  pSel.style.display = v === "participant" ? "" : "none";
+  if (v === "participant") renderParticipantAnalytics(pSel.value || PARTICIPANTS[0]?.name || "");
+  else renderOverviewAnalytics();
+}
+
+function renderOverviewAnalytics() {
+  const ranked = computeTeams();
+  if (!ranked.length) { document.getElementById("an-body").innerHTML = `<div class="notice">No data loaded yet.</div>`; return; }
+  const allT = ranked.map(p => p.total);
+  const avg = Math.round(allT.reduce((a,b)=>a+b,0)/allT.length);
+  const spread = Math.abs(ranked[0].total - ranked[ranked.length-1].total);
+  const t4w = {}, pkw = {};
+  HISTORY.forEach(h => { t4w[h.t4]=(t4w[h.t4]||0)+1; pkw[h.pk]=(pkw[h.pk]||0)+1; });
+  const mt4 = Object.entries(t4w).sort((a,b)=>b[1]-a[1])[0] || ["—",0];
+  const mpk = Object.entries(pkw).sort((a,b)=>b[1]-a[1])[0] || ["—",0];
+  const pc = {};
+  PARTICIPANTS.forEach(p => p.picks.forEach(n => { pc[n]=(pc[n]||0)+1; }));
+  const topPicks = Object.entries(pc).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const payRows = PARTICIPANTS.map(p => ({
+    name: p.name.split(" ")[0],
+    full: p.name,
+    total: (t4w[p.name]||0)*PAY.top4 + (pkw[p.name]||0)*PAY.picker,
+    t4: t4w[p.name]||0, pk: pkw[p.name]||0
+  })).sort((a,b)=>b.total-a.total);
+
+  document.getElementById("an-body").innerHTML = `
+    <div class="an-grid">
+      <div class="ac"><div class="ac-ttl">Leader</div><div class="ac-big" style="font-size:14px;line-height:1.3">${ranked[0].name.split(" ")[0]}</div><div class="ac-sub">${fs(ranked[0].total)} team</div></div>
+      <div class="ac"><div class="ac-ttl">Avg score</div><div class="ac-big">${fs(avg)}</div><div class="ac-sub">${PARTICIPANTS.length} participants</div></div>
+      <div class="ac"><div class="ac-ttl">Spread</div><div class="ac-big">${spread}</div><div class="ac-sub">1st to last</div></div>
+      <div class="ac"><div class="ac-ttl">Most 4some wins</div><div class="ac-big" style="font-size:14px;line-height:1.3">${mt4[0].split(" ")[0]}</div><div class="ac-sub">${mt4[1]} win${mt4[1]!==1?'s':''}</div></div>
+      <div class="ac"><div class="ac-ttl">Most picker wins</div><div class="ac-big" style="font-size:14px;line-height:1.3">${mpk[0].split(" ")[0]}</div><div class="ac-sub">${mpk[1]} correct</div></div>
+      <div class="ac"><div class="ac-ttl">On record</div><div class="ac-big">${HISTORY.length}</div><div class="ac-sub">Tournaments</div></div>
+    </div>
+    <div class="an-wide">
+      <div class="ac">
+        <div class="ac-ttl">Most-drafted picks</div>
+        ${topPicks.map(([name,ct]) => { const pct=Math.round(ct/PARTICIPANTS.length*100); return `<div class="bar-row"><div class="bn">${name.split(" ").slice(-1)[0]}</div><div class="bt"><div class="bf" style="width:${pct}%"></div></div><div class="bp">${pct}%</div></div>`; }).join("")}
+      </div>
+      <div class="ac">
+        <div class="ac-ttl">Payout ranking</div>
+        ${payRows.map((r,i) => `<div class="pay-row"><span class="pay-name">${i+1}. ${r.name}</span><div style="display:flex;align-items:center;gap:5px"><span class="streak">${r.t4}T/${r.pk}P</span><span class="pay-amt">$${r.total}</span></div></div>`).join("")}
+      </div>
+    </div>`;
+}
+
+function renderParticipantAnalytics(name) {
+  const p = PARTICIPANTS.find(x => x.name === name);
+  if (!p) return;
+  const myH = HISTORY.map(h => {
+    const allT4s = HISTORY.filter(x=>x.major===h.major&&x.year===h.year).map(x=>x.t4);
+    return {...h, isT4: h.t4===name, isPk: h.pk===name};
+  });
+  const t4w = myH.filter(h=>h.t4===name).length;
+  const pkw = myH.filter(h=>h.pk===name).length;
+  const earn = t4w*PAY.top4 + pkw*PAY.picker;
+  const ranked = computeTeams();
+  const standing = ranked.findIndex(x=>x.name===name)+1;
+  const majList = ["Masters","PGA","US Open","The Open"];
+  const mWins = {};
+  majList.forEach(m => {
+    mWins[m] = {t4: HISTORY.filter(h=>h.major===m&&h.t4===name).length, pk: HISTORY.filter(h=>h.major===m&&h.pk===name).length};
+  });
+
+  document.getElementById("an-body").innerHTML = `
+    <div class="an-grid">
+      <div class="ac"><div class="ac-ttl">4some wins</div><div class="ac-big">${t4w}</div><div class="ac-sub">$${t4w*PAY.top4} earned</div></div>
+      <div class="ac"><div class="ac-ttl">Picker wins</div><div class="ac-big">${pkw}</div><div class="ac-sub">$${pkw*PAY.picker} earned</div></div>
+      <div class="ac"><div class="ac-ttl">Total earned</div><div class="ac-big">$${earn}</div><div class="ac-sub">${t4w+pkw} total wins</div></div>
+      <div class="ac"><div class="ac-ttl">Current standing</div><div class="ac-big">${standing}/${PARTICIPANTS.length}</div><div class="ac-sub">This tournament</div></div>
+      <div class="ac"><div class="ac-ttl">Tournaments</div><div class="ac-big">${HISTORY.length}</div><div class="ac-sub">In history</div></div>
+      <div class="ac"><div class="ac-ttl">Win rate</div><div class="ac-big">${HISTORY.length?Math.round((t4w+pkw)/HISTORY.length*100):0}%</div><div class="ac-sub">Win per event</div></div>
+    </div>
+    <div class="an-wide">
+      <div class="ac">
+        <div class="ac-ttl">Wins by major</div>
+        <table class="fin-tbl" style="margin-top:6px">
+          <thead><tr><th>Major</th><th>4some</th><th>Picker</th></tr></thead>
+          <tbody>${majList.map(m=>`<tr><td>${m.replace("The Open","Open").replace("US Open","US")}</td><td>${mWins[m].t4||"—"}</td><td>${mWins[m].pk||"—"}</td></tr>`).join("")}</tbody>
+        </table>
+      </div>
+      <div class="ac">
+        <div class="ac-ttl">Win history</div>
+        <table class="fin-tbl" style="margin-top:6px">
+          <thead><tr><th>Year / Major</th><th>Type</th></tr></thead>
+          <tbody>${myH.filter(h=>h.isT4||h.isPk).reverse().map(h=>{
+            const type = h.isT4&&h.isPk?"🥇 Both":h.isT4?"🏅 4some":"🎯 Picker";
+            return`<tr><td>${h.year} ${h.major.replace("The Open","Open").replace("US Open","US")}</td><td>${type}</td></tr>`;
+          }).join("") || '<tr><td colspan="2" style="color:var(--txt2)">No wins yet</td></tr>'}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+function buildSelectors() {
+  const mtSel = document.getElementById("mt-sel");
+  mtSel.innerHTML = PARTICIPANTS.map(p=>`<option value="${p.name}">${p.name}</option>`).join("");
+  const anSel = document.getElementById("an-p-sel");
+  anSel.innerHTML = PARTICIPANTS.map(p=>`<option value="${p.name}">${p.name}</option>`).join("");
+}
+
+function switchMajor(id) {
+  activeMajor = id; expanded = {};
+  const m = MAJORS[id];
+  document.getElementById("app").className = "app " + m.cls;
+  document.getElementById("t-title").textContent = m.emoji + " " + m.title;
+  document.getElementById("t-sub").textContent = m.sub;
+  document.querySelectorAll(".maj-btn").forEach(b => b.classList.toggle("active", b.dataset.id === id));
+}
+
+function switchTab(tab, el) {
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  el.classList.add("active");
+  el.scrollIntoView({behavior:"smooth",block:"nearest",inline:"center"});
+  ["lb","mt","ch","an"].forEach(t => document.getElementById("tab-"+t).style.display = t===tab?"block":"none");
+  if (tab==="an") onAnView(document.getElementById("an-view").value);
+}
+
+function init() {
+  document.getElementById("maj-btns").innerHTML = Object.values(MAJORS).map(m =>
+    `<button class="maj-btn${m.id===activeMajor?" active":""}" data-id="${m.id}" onclick="switchMajor('${m.id}')">${m.emoji} ${m.label}</button>`
+  ).join("");
+  loadAllData();
+}
+init();
+</script>
