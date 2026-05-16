@@ -353,7 +353,7 @@ async function loadAllData() {
     processLeaderboard(parseCSV(lbText));
     processTeams(parseCSV(teamsText));
     processHistory(parseCSV(histText));
-    document.getElementById('upd').textContent = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) + ' ET';
+    document.getElementById('upd').textContent = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) + ' ';
     document.getElementById('lb-loading').style.display = 'none';
     document.getElementById('lb-content').style.display = 'block';
     buildSelectors();
