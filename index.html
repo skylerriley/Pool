@@ -679,14 +679,14 @@ function renderParticipantAnalytics(name) {
     '<div class="an-wide">' +
       '<div class="ac"><div class="ac-ttl">Wins by major</div>' +
         '<table class="fin-tbl" style="margin-top:6px"><thead><tr><th>Major</th><th>4some</th><th>Pick</th></tr></thead><tbody>' +
-        majList.map(m=>'<tr><td>'+m.replace('The Open','Open').replace('US Open','US')+'</td><td>'+(mWins[m].t4||'&#8212;')+'</td><td>'+(mWins[m].pk||'&#8212;')+'</td></tr>').join('') +
+        majList.map(m=>'<tr><td>'+m.replace('The Open','The Open').replace('US Open','US Open')+'</td><td>'+(mWins[m].t4||'&#8212;')+'</td><td>'+(mWins[m].pk||'&#8212;')+'</td></tr>').join('') +
         '</tbody></table></div>' +
       '<div class="ac"><div class="ac-ttl">Win history</div>' +
         '<table class="fin-tbl" style="margin-top:6px"><thead><tr><th>Year Major</th><th>Type</th></tr></thead><tbody>' +
         (myWins.length ? myWins.slice().reverse().map(h=>{
           const both=h.t4===name&&h.pk===name;
           const type=both?'&#127942; Both':h.t4===name?'&#127949; 4some':'&#127919; Picker';
-          return '<tr><td>'+h.year+' '+h.major.replace('The Open','Open').replace('US Open','US')+'</td><td>'+type+'</td></tr>';
+          return '<tr><td>'+h.year+' '+h.major.replace('The Open','The Open').replace('US Open','US Open')+'</td><td>'+type+'</td></tr>';
         }).join('') : '<tr><td colspan="2" style="color:var(--txt2)">No wins yet</td></tr>') +
         '</tbody></table></div>' +
     '</div>';
