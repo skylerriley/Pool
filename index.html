@@ -181,7 +181,7 @@
       <div class="loading-txt">Fetching your sheet...</div>
     </div>
     <div id="lb-content" style="display:none">
-      <div class="notice">Participant standings &middot; tap a row to see picks</div>
+      <div class="notice">Participant standings tap a row to see picks</div>
       <div class="sec-lbl" id="lb-sublabel">Ranked by cumulative team score</div>
       <table>
         <thead><tr>
@@ -261,10 +261,10 @@ const SHEET_URLS = {
 };
 
 const MAJORS = {
-  masters:{id:'masters',label:'Masters',emoji:'&#127807;',title:'Masters Tournament 2026',sub:'Augusta National &middot; Augusta, GA',cls:'masters',par:72},
-  pga:    {id:'pga',   label:'PGA',    emoji:'&#9971;', title:'PGA Championship 2026',   sub:'Quail Hollow &middot; Charlotte, NC',   cls:'pgachamp',par:72},
-  usopen: {id:'usopen',label:'US Open',emoji:'&#129413;',title:'US Open 2026',            sub:'Pinehurst No. 2 &middot; Pinehurst, NC',cls:'usopen', par:70},
-  theopen:{id:'theopen',label:'The Open',emoji:'&#127942;',title:'The Open Championship 2026',sub:'Royal Portrush &middot; N. Ireland',cls:'theopen',par:71},
+  masters:{id:'masters',label:'Masters',emoji:'&#127807;',title:'Masters Tournament 2026',sub:'Augusta National Augusta, GA',cls:'masters',par:72},
+  pga:    {id:'pga',   label:'PGA',    emoji:'&#9971;', title:'PGA Championship 2026',   sub:'Quail Hollow Charlotte, NC',   cls:'pgachamp',par:72},
+  usopen: {id:'usopen',label:'US Open',emoji:'&#129413;',title:'US Open 2026',            sub:'Pinehurst No. 2 Pinehurst, NC',cls:'usopen', par:70},
+  theopen:{id:'theopen',label:'The Open',emoji:'&#127942;',title:'The Open Championship 2026',sub:'Royal Portrush  N. Ireland',cls:'theopen',par:71},
 };
 
 const FLAGS={USA:'&#127482;&#127480;',ENG:'&#127988;&#917607;&#917602;&#917605;&#917614;&#917607;&#917631;',
@@ -439,7 +439,7 @@ function processLeaderboard(rows) {
   });
   const maxRnd = Math.max(0, ...Object.values(GOLFERS).map(g=>[g.r1,g.r2,g.r3,g.r4].filter(x=>x!==null).length));
   document.getElementById('rnd-disp').textContent = maxRnd || '&#8212;';
-  document.getElementById('lb-sublabel').textContent = Object.keys(GOLFERS).length + ' golfers &middot; ranked by team score';
+  document.getElementById('lb-sublabel').textContent = Object.keys(GOLFERS).length + ' golfers ranked by team score';
   document.getElementById('t-sub').textContent = MAJORS[activeMajor].sub;
 }
 
@@ -522,7 +522,7 @@ function renderLeaderboard() {
         return '<div class="gc">' +
           '<div style="min-width:0">' +
             '<div class="gcn">' + (g.flag||'') + ' ' + g.name + cutBadge + '</div>' +
-            '<div class="gcp">' + (g.country||'') + ' &middot; Pos ' + g.pos + '</div>' +
+            '<div class="gcp">' + (g.country||'') + 'Pos ' + g.pos + '</div>' +
             '<div class="gcp" style="margin-top:3px">R1:' + (g.r1!==null?g.r1:'&#8212;') + ' R2:' + (g.r2!==null?g.r2:'&#8212;') + ' R3:' + r3disp + ' R4:' + r4disp + (g.cut?' <span style="font-size:9px;color:#ff9494">(+2 pen ea)</span>':'') + '</div>' +
           '</div>' +
           '<div class="gcr">' +
@@ -566,7 +566,7 @@ function renderMyTeam(name) {
       '<div class="mtc-h">' +
         '<div style="min-width:0">' +
           '<div class="mtc-nm">' + (g.flag||'') + ' ' + g.name + (g.cut?'<span class="cut-badge">CUT</span>':'') + '</div>' +
-          '<div class="mtc-pos">Pos ' + g.pos + ' &middot; ' + (g.country||'') + '</div>' +
+          '<div class="mtc-pos">Pos ' + g.pos + ' ' + (g.country||'') + '</div>' +
         '</div>' +
         '<div style="text-align:right;flex-shrink:0">' +
           '<div class="mtc-sc ' + sc(g.score) + '">' + fs(g.score) + '</div>' +
@@ -681,7 +681,7 @@ function renderParticipantAnalytics(name) {
         majList.map(m=>'<tr><td>'+m.replace('The Open','Open').replace('US Open','US')+'</td><td>'+(mWins[m].t4||'&#8212;')+'</td><td>'+(mWins[m].pk||'&#8212;')+'</td></tr>').join('') +
         '</tbody></table></div>' +
       '<div class="ac"><div class="ac-ttl">Win history</div>' +
-        '<table class="fin-tbl" style="margin-top:6px"><thead><tr><th>Year &middot; Major</th><th>Type</th></tr></thead><tbody>' +
+        '<table class="fin-tbl" style="margin-top:6px"><thead><tr><th>Year Major</th><th>Type</th></tr></thead><tbody>' +
         (myWins.length ? myWins.slice().reverse().map(h=>{
           const both=h.t4===name&&h.pk===name;
           const type=both?'&#127942; Both':h.t4===name?'&#127949; 4some':'&#127919; Picker';
