@@ -132,6 +132,29 @@
     .streak{font-size:11px;padding:2px 7px;border-radius:4px;background:rgba(212,175,55,.1);color:var(--acc3)}
     @keyframes spin{to{transform:rotate(360deg)}}
     .spinning{animation:spin .7s linear infinite}
+    /* Tournament tab */
+    .trn-toolbar{display:flex;gap:8px;padding:10px 13px 6px;align-items:center}
+    .trn-search{flex:1;background:var(--bg2);border:1px solid var(--bdr);color:var(--txt);font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 12px;border-radius:7px;outline:none;min-width:0}
+    .trn-search::placeholder{color:var(--txt2)}
+    .trn-search:focus{border-color:var(--acc)}
+    .trn-filter{background:var(--bg2);border:1px solid var(--bdr);color:var(--txt);font-family:'DM Sans',sans-serif;font-size:12px;padding:8px 10px;border-radius:7px;flex-shrink:0}
+    .trn-stats{display:flex;gap:7px;padding:0 13px 8px;overflow-x:auto;scrollbar-width:none}
+    .trn-stats::-webkit-scrollbar{display:none}
+    .trn-stat{background:var(--bg2);border:1px solid var(--bdr2);border-radius:6px;padding:7px 11px;flex-shrink:0;text-align:center}
+    .trn-stat-val{font-family:'Bebas Neue',cursive;font-size:18px;color:var(--acc);line-height:1}
+    .trn-stat-lbl{font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--txt2);margin-top:2px}
+    .trn-tbl thead th{cursor:pointer;user-select:none;position:relative;padding-right:16px}
+    .trn-tbl thead th:hover{color:var(--txt)}
+    .sort-icon{position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--txt2);opacity:.5}
+    .sort-icon.on{opacity:1;color:var(--acc)}
+    .trn-tbl tbody tr.picked-row{background:rgba(212,175,55,.04)}
+    .trn-tbl tbody tr.picked-row td:nth-child(3){font-weight:600}
+    .pick-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--acc);margin-left:5px;vertical-align:middle;flex-shrink:0}
+    .cut-divider td{padding:4px 8px!important;background:rgba(226,75,74,.07)!important;border-top:1px solid rgba(226,75,74,.3)!important;border-bottom:1px solid rgba(226,75,74,.3)!important}
+    .cut-label-txt{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#ff9494;font-weight:600}
+    .trn-empty{padding:32px 20px;text-align:center;color:var(--txt2);font-size:13px}
+    .pool-badge{font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(212,175,55,.15);color:var(--acc3);font-weight:600;letter-spacing:.3px;margin-left:4px;vertical-align:middle}
+    .live-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--grn);margin-right:3px;animation:pulse 1.5s infinite;vertical-align:middle}
   </style>
 </head>
 <body>
@@ -155,6 +178,7 @@
     <div class="tabs">
       <div class="tab active" onclick="switchTab('lb',this)">Leaderboard</div>
       <div class="tab" onclick="switchTab('mt',this)">My Team</div>
+      <div class="tab" onclick="switchTab('trn',this)">Tournament</div>
       <div class="tab" onclick="switchTab('ch',this)">Champions</div>
       <div class="tab" onclick="switchTab('an',this)">Analytics</div>
     </div>
@@ -208,9 +232,30 @@
     </div>
     <div id="an-body"></div>
   </div>
+  <div id="tab-trn" style="display:none">
+    <div class="trn-toolbar">
+      <input class="trn-search" id="trn-search" type="text" placeholder="Search player..." oninput="renderTournament()">
+      <select class="trn-filter" id="trn-filter" onchange="renderTournament()">
+        <option value="all">All Players</option>
+        <option value="pool">Pool Picks Only</option>
+        <option value="live">Currently Playing</option>
+      </select>
+    </div>
+    <div class="trn-stats" id="trn-stats"></div>
+    <table class="trn-tbl">
+      <thead><tr id="trn-thead">
+        <th class="c" style="width:36px" onclick="trnSort('pos')">Pos<span class="sort-icon on" id="si-pos">▲</span></th>
+        <th style="width:28px"></th>
+        <th onclick="trnSort('name')">Player<span class="sort-icon" id="si-name">⇅</span></th>
+        <th class="r" style="width:54px" onclick="trnSort('score')">Score<span class="sort-icon" id="si-score">⇅</span></th>
+        <th class="r" style="width:50px" onclick="trnSort('today')">Today<span class="sort-icon" id="si-today">⇅</span></th>
+        <th class="r" style="width:44px">Thru</th>
+      </tr></thead>
+      <tbody id="trn-body"></tbody>
+    </table>
+    <div id="trn-empty" class="trn-empty" style="display:none">No players match your search.</div>
+  </div>
 </div>
-
-<script>
 const SHEET_URLS = {
   leaderboard: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS42Jq2JDLP8HJdxyzKQZFoyUJx4WaHpll-89pQSUGVN08IJuLm0oX1WNKcDi2wQJ9POj8twIybvM2c/pub?output=csv&gid=0",
   teams:       "https://docs.google.com/spreadsheets/d/e/2PACX-1vS42Jq2JDLP8HJdxyzKQZFoyUJx4WaHpll-89pQSUGVN08IJuLm0oX1WNKcDi2wQJ9POj8twIybvM2c/pub?output=csv&gid=857167336",
@@ -596,10 +641,107 @@ function switchTab(tab,el){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
   el.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
-  ['lb','mt','ch','an'].forEach(t=>document.getElementById('tab-'+t).style.display=t===tab?'block':'none');
+  ['lb','mt','ch','an','trn'].forEach(t=>document.getElementById('tab-'+t).style.display=t===tab?'block':'none');
   if(tab==='mt') renderMyTeam(document.getElementById('mt-sel').value);
   if(tab==='an') onAnView(document.getElementById('an-view').value);
   if(tab==='ch') renderChampions();
+  if(tab==='trn') renderTournament();
+}
+
+// ── Tournament tab ───────────────────────────────────────────
+let trnSortKey='pos', trnSortAsc=true;
+
+function trnSort(key){
+  if(trnSortKey===key){ trnSortAsc=!trnSortAsc; }
+  else { trnSortKey=key; trnSortAsc=key==='pos'||key==='name'; }
+  document.querySelectorAll('.sort-icon').forEach(el=>{ el.className='sort-icon'; el.textContent='⇅'; });
+  const si=document.getElementById('si-'+key);
+  if(si){ si.className='sort-icon on'; si.textContent=trnSortAsc?'▲':'▼'; }
+  renderTournament();
+}
+
+function posToNum(pos){
+  if(!pos||pos==='—'||pos==='WD'||pos==='CUT'||pos==='MDF'||pos==='DQ') return 9999;
+  return parseInt(String(pos).replace(/[^0-9]/g,''))||9999;
+}
+
+function renderTournament(){
+  const golfers=Object.values(GOLFERS);
+  if(!golfers.length){ document.getElementById('trn-body').innerHTML=''; return; }
+
+  // Build set of all pool picks for highlight
+  const poolPicks=new Set();
+  PARTICIPANTS.forEach(p=>p.picks.forEach(n=>{ const g=resolveGolfer(n); if(g) poolPicks.add(g.id); }));
+
+  // Stats bar
+  const made=golfers.filter(g=>g.pos!=='CUT'&&g.pos!=='WD'&&g.pos!=='MDF'&&g.pos!=='DQ');
+  const live=golfers.filter(g=>g.live);
+  const leaders=golfers.filter(g=>g.pos==='1'||g.pos==='T1');
+  const best=leaders.length?leaders[0]:golfers[0];
+  document.getElementById('trn-stats').innerHTML=`
+    <div class="trn-stat"><div class="trn-stat-val">${golfers.length}</div><div class="trn-stat-lbl">Field</div></div>
+    <div class="trn-stat"><div class="trn-stat-val">${live.length}</div><div class="trn-stat-lbl">Playing</div></div>
+    <div class="trn-stat"><div class="trn-stat-val">${poolPicks.size}</div><div class="trn-stat-lbl">Pool Picks</div></div>
+    <div class="trn-stat"><div class="trn-stat-val ${sc(best.score)}">${fs(best.score)}</div><div class="trn-stat-lbl">Leader</div></div>`;
+
+  // Filter
+  const query=(document.getElementById('trn-search').value||'').toLowerCase().trim();
+  const filter=document.getElementById('trn-filter').value;
+  let filtered=golfers.filter(g=>{
+    if(query&&!g.name.toLowerCase().includes(query)&&!(g.country||'').toLowerCase().includes(query)) return false;
+    if(filter==='pool'&&!poolPicks.has(g.id)) return false;
+    if(filter==='live'&&!g.live) return false;
+    return true;
+  });
+
+  // Sort
+  filtered.sort((a,b)=>{
+    let va,vb;
+    if(trnSortKey==='pos'){va=posToNum(a.pos);vb=posToNum(b.pos);}
+    else if(trnSortKey==='score'){va=a.score;vb=b.score;}
+    else if(trnSortKey==='today'){va=a.today;vb=b.today;}
+    else if(trnSortKey==='name'){va=a.name;vb=b.name;return trnSortAsc?va.localeCompare(vb):vb.localeCompare(va);}
+    else{va=posToNum(a.pos);vb=posToNum(b.pos);}
+    return trnSortAsc?va-vb:vb-va;
+  });
+
+  if(!filtered.length){
+    document.getElementById('trn-body').innerHTML='';
+    document.getElementById('trn-empty').style.display='block';
+    return;
+  }
+  document.getElementById('trn-empty').style.display='none';
+
+  // Find cut position (first WD/CUT/MDF row when sorted by pos)
+  let cutInserted=false;
+  let h='';
+  filtered.forEach((g,i)=>{
+    const isCut=g.pos==='CUT'||g.pos==='MDF'||g.pos==='DQ'||g.pos==='WD';
+    const prevNotCut=i>0&&filtered[i-1].pos!=='CUT'&&filtered[i-1].pos!=='MDF'&&filtered[i-1].pos!=='DQ'&&filtered[i-1].pos!=='WD';
+    if(isCut&&!cutInserted&&trnSortKey==='pos'&&trnSortAsc&&prevNotCut){
+      cutInserted=true;
+      h+=`<tr class="cut-divider"><td colspan="6"><span class="cut-label-txt">✂ Projected Cut</span></td></tr>`;
+    }
+    const isPicked=poolPicks.has(g.id);
+    const rowCls=isPicked?'picked-row':'';
+    const posCls=posToNum(g.pos)<=3?'pos-n hi':'pos-n';
+    const thruCls=g.live?'gcth lv':'gcth';
+    h+=`<tr class="${rowCls}">
+      <td class="${posCls} c">${g.pos}</td>
+      <td style="text-align:center;font-size:16px;padding:10px 4px">${g.flag||'🌍'}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:0;flex-wrap:wrap">
+          <span class="pname" style="font-size:13px">${g.name}</span>
+          ${isPicked?'<span class="pool-badge">POOL</span>':''}
+        </div>
+        <div class="psub">${g.country||''}</div>
+      </td>
+      <td class="r"><span class="bigsc ${sc(g.score)}">${fs(g.score)}</span></td>
+      <td class="r"><span style="font-family:'Bebas Neue',cursive;font-size:16px" class="${sc(g.today)}">${fs(g.today)}</span></td>
+      <td class="r"><span class="${thruCls}" style="font-size:11px">${g.live?'<span class="live-dot"></span>':''}${g.thru}</span></td>
+    </tr>`;
+  });
+  document.getElementById('trn-body').innerHTML=h;
 }
 
 function init(){
