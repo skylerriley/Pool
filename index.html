@@ -527,7 +527,7 @@ function renderLeaderboard() {
           '</div>' +
           '<div class="gcr">' +
             '<div class="gcsc ' + sc(g.score) + '">' + fs(g.score) + '</div>' +
-            '<div class="gcth">' + (g.cut ? '<span style="color:#ff9494;font-size:10px">missed cut</span>' : 'T: <span class="' + sc(g.today) + '">' + fs(g.today) + '</span>') + '</div>' +
+            '<div class="gcth">' + (g.cut ? '<span style="color:#ff9494;font-size:10px"></span>' : 'T: <span class="' + sc(g.today) + '">' + fs(g.today) + '</span>') + '</div>' +
             '<div class="gcth ' + (g.live?'lv':'') + '">' + (g.live?'<span class="live-dot"></span>':'') + g.thru + '</div>' +
           '</div>' +
         '</div>';
@@ -570,7 +570,7 @@ function renderMyTeam(name) {
         '</div>' +
         '<div style="text-align:right;flex-shrink:0">' +
           '<div class="mtc-sc ' + sc(g.score) + '">' + fs(g.score) + '</div>' +
-          '<div style="font-size:11px;color:var(--txt2)">' + (g.cut?'<span style="color:#ff9494">missed cut</span>':'T: <span class="'+sc(g.today)+'">'+fs(g.today)+'</span>') + '</div>' +
+          '<div style="font-size:11px;color:var(--txt2)">' + (g.cut?'<span style="color:#ff9494"></span>':'T: <span class="'+sc(g.today)+'">'+fs(g.today)+'</span>') + '</div>' +
         '</div>' +
       '</div>' +
       '<div class="rp-row">' +
