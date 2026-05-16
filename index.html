@@ -411,14 +411,20 @@ function processLeaderboard(rows) {
     const today = cut ? 0 : (String(todayRaw).toUpperCase() === 'E' ? 0 : (toNum(todayRaw) || 0));
 
     const key = name.toUpperCase().replace(/\s+/g,'_');
+    const isLive = (()=>{ const t=(thru||'').toUpperCase(); return !cut && t!=='' && t!=='F' && t!=='WD' && t!=='&#8212;'; })();
+
+    // liveScore: completed-rounds score + today's in-progress strokes if actively playing.
+    // Used for team totals so the leaderboard reflects real-time scoring during a round.
+    const liveScore = score + (isLive ? today : 0);
+
     GOLFERS[key] = {
       id: key, name, flag: getFlag(country), country,
-      pos: pos, score, today, thru, cut,
+      pos: pos, score, liveScore, today, thru, cut,
       r1: r1raw, r2: r2raw,
       r3: r3raw,
       r4: r4raw,
       penaltyRound: cut ? penaltyRound : null,
-      live: (()=>{ const t=(thru||'').toUpperCase(); return !cut && t!=='' && t!=='F' && t!=='WD' && t!=='&#8212;'; })(),
+      live: isLive,
     };
   });
   const maxRnd = Math.max(0, ...Object.values(GOLFERS).map(g=>[g.r1,g.r2,g.r3,g.r4].filter(x=>x !== null).length));
@@ -474,9 +480,11 @@ function resolveGolfer(pickName) {
 function computeTeams() {
   return PARTICIPANTS.map(p => {
     const gs = p.picks.map(n => resolveGolfer(n)).filter(Boolean);
-    const total = gs.reduce((a,g) => a + g.score, 0);
+    // total uses liveScore: completed-rounds score + today's live score for active players.
+    // For finished/cut players liveScore === score (today is 0 or not added).
+    const total = gs.reduce((a,g) => a + g.liveScore, 0);
     const todaySum = gs.reduce((a,g) => a + (g.today||0), 0);
-    const best = gs.length ? gs.reduce((b,g) => g.score < b.score ? g : b, gs[0]) : null;
+    const best = gs.length ? gs.reduce((b,g) => g.liveScore < b.liveScore ? g : b, gs[0]) : null;
     return {...p, gs, total, todaySum, best};
   }).sort((a,b) => a.total - b.total);
 }
@@ -503,7 +511,7 @@ function renderLeaderboard() {
       '<td class="' + pCls + ' c">' + pos + '</td>' +
       '<td><div class="av-flag">' + participantFlagDisplay + '</div></td>' +
       '<td><div class="pname">' + p.name + '</div></td>' +
-      '<td class="r"><span class="bigsc ' + sc(p.total) + '">' + fs(p.total) + '</span></td>' +
+      '<td class="r"><span class="bigsc ' + sc(p.total) + '">' + fs(p.total) + (p.gs.some(g=>g.live)?'<span style="font-size:9px;color:var(--grn);margin-left:3px;vertical-align:middle">&#9679;</span>':'') + '</span></td>' +
       '<td class="r"><span class="bigsc ' + sc(p.todaySum) + '" style="font-size:16px">' + fs(p.todaySum) + '</span></td>' +
       '<td class="c"><span class="chv ' + (isOpen?'op':'') + '"><i class="ti ti-chevron-down" style="font-size:13px"></i></span></td>' +
       '</tr>';
@@ -541,9 +549,9 @@ function renderMyTeam(name) {
   const p = PARTICIPANTS.find(x => x.name === name);
   if (!p) { document.getElementById('mt-grid').innerHTML=''; return; }
   const gs = p.picks.map(n => resolveGolfer(n)).filter(Boolean);
-  const total = gs.reduce((a,g) => a+g.score, 0);
+  const total = gs.reduce((a,g) => a+g.liveScore, 0);
   const todaySum = gs.reduce((a,g) => a+(g.today||0), 0);
-  const best = gs.length ? gs.reduce((b,g) => g.score<b.score?g:b, gs[0]) : null;
+  const best = gs.length ? gs.reduce((b,g) => g.liveScore<b.liveScore?g:b, gs[0]) : null;
   const ranked = computeTeams();
   const standing = ranked.findIndex(x=>x.name===name)+1;
   document.getElementById('mt-stats').innerHTML =
