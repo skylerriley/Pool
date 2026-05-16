@@ -54,7 +54,7 @@
     td{padding:11px 8px;vertical-align:middle;font-size:14px}
     .pos-n{font-family:'Bebas Neue',cursive;font-size:19px;color:var(--txt2)}
     .pos-n.hi{color:var(--acc)}
-    .av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#0D1220;background:var(--acc2);flex-shrink:0}
+    .av-flag{width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:24px;line-height:1;flex-shrink:0;user-select:none}
     .pname{font-weight:500;font-size:14px;color:var(--txt);line-height:1.2}
     .psub{font-size:11px;color:var(--txt2);margin-top:2px}
     .bigsc{font-family:'Bebas Neue',cursive;font-size:19px}
@@ -174,7 +174,6 @@
     </div>
   </div>
 
-  <!-- LEADERBOARD TAB -->
   <div id="tab-lb">
     <div class="loading-wrap" id="lb-loading">
       <div class="spinner"></div>
@@ -198,7 +197,6 @@
     <div id="lb-error" style="display:none"></div>
   </div>
 
-  <!-- MY TEAM TAB -->
   <div id="tab-mt" style="display:none">
     <div class="sel-row">
       <span class="sel-lbl">Participant:</span>
@@ -208,7 +206,6 @@
     <div class="mt-grid" id="mt-grid"></div>
   </div>
 
-  <!-- TOURNAMENT TAB -->
   <div id="tab-trn" style="display:none">
     <div class="trn-toolbar">
       <input class="trn-search" id="trn-search" type="text" placeholder="Search player..." oninput="renderTournament()">
@@ -233,13 +230,11 @@
     <div id="trn-empty" class="trn-empty" style="display:none">No players match your search.</div>
   </div>
 
-  <!-- CHAMPIONS TAB -->
   <div id="tab-ch" style="display:none">
     <div class="sec-lbl">Past participant champions</div>
     <div id="champ-list" style="padding:0 13px 13px"></div>
   </div>
 
-  <!-- ANALYTICS TAB -->
   <div id="tab-an" style="display:none">
     <div class="sel-row">
       <span class="sel-lbl">View:</span>
@@ -377,13 +372,7 @@ async function loadAllData() {
   ri.className = 'ti ti-refresh';
 }
 
-/* ── Process leaderboard sheet ──
-   CUT PENALTY LOGIC:
-   - If a player's POS or THRU indicates CUT/WD/DQ/MDF, they are flagged as cut.
-   - Their r3 and r4 are set to (par + CUT_PENALTY), i.e. par+2 each.
-   - Their displayed score uses the real R1+R2 to-par plus +2+2 penalty.
-   - The sheet's SCORE column is ignored for cut players; we recalculate from rounds.
-*/
+/* ── Process leaderboard sheet ── */
 function processLeaderboard(rows) {
   GOLFERS = {};
   const par = MAJORS[activeMajor].par;
@@ -396,33 +385,28 @@ function processLeaderboard(rows) {
     const thru = r['THRU'] || '&#8212;';
     const cut = isCutStatus(pos, thru);
 
-    // Parse raw round scores (strokes, not to-par)
     const r1raw = toNum(r['R1']);
     const r2raw = toNum(r['R2']);
     let r3raw = toNum(r['R3']);
     let r4raw = toNum(r['R4']);
 
-    // Apply cut penalty: override R3/R4 with par+2
     const penaltyRound = par + CUT_PENALTY;
     if (cut) {
       r3raw = penaltyRound;
       r4raw = penaltyRound;
     }
 
-    // Calculate to-par score from rounds if we have them, else fall back to sheet SCORE
     let score;
     if (r1raw !== null && r2raw !== null) {
       const roundsTotal = [r1raw, r2raw, r3raw, r4raw].filter(x => x !== null);
       const roundsPar = par * roundsTotal.length;
       score = roundsTotal.reduce((a,b) => a+b, 0) - roundsPar;
     } else {
-      // Fallback: use sheet SCORE column
       const scoreRaw = r['SCORE'] || r['TO PAR'] || '0';
       score = String(scoreRaw).toUpperCase() === 'E' ? 0 : (toNum(scoreRaw) || 0);
-      if (cut) score += (CUT_PENALTY * 2); // add +4 penalty if sheet score was pre-cut only
+      if (cut) score += (CUT_PENALTY * 2);
     }
 
-    // Today: if cut, no "today" applies
     const todayRaw = r['TODAY'] || '';
     const today = cut ? 0 : (String(todayRaw).toUpperCase() === 'E' ? 0 : (toNum(todayRaw) || 0));
 
@@ -431,13 +415,13 @@ function processLeaderboard(rows) {
       id: key, name, flag: getFlag(country), country,
       pos: pos, score, today, thru, cut,
       r1: r1raw, r2: r2raw,
-      r3: r3raw,  // penalized if cut
-      r4: r4raw,  // penalized if cut
+      r3: r3raw,
+      r4: r4raw,
       penaltyRound: cut ? penaltyRound : null,
       live: (()=>{ const t=(thru||'').toUpperCase(); return !cut && t!=='' && t!=='F' && t!=='WD' && t!=='&#8212;'; })(),
     };
   });
-  const maxRnd = Math.max(0, ...Object.values(GOLFERS).map(g=>[g.r1,g.r2,g.r3,g.r4].filter(x=>x!==null).length));
+  const maxRnd = Math.max(0, ...Object.values(GOLFERS).map(g=>[g.r1,g.r2,g.r3,g.r4].filter(x=>x !== null).length));
   document.getElementById('rnd-disp').textContent = maxRnd || '&#8212;';
   
   document.getElementById('t-sub').textContent = MAJORS[activeMajor].sub;
@@ -448,13 +432,21 @@ function processTeams(rows) {
   rows.forEach(r => {
     const pName = (r['PARTICIPANT NAME'] || r['PARTICIPANT'] || '').trim();
     if (!pName) return;
-    if (!map[pName]) map[pName] = {name:pName, picks:[]};
+
+    const pCountry = (r['COUNTRY'] || r['CTY'] || r['NAT'] || '').trim();
+
+    if (!map[pName]) map[pName] = {name:pName, country:pCountry, picks:[]};
     ['PICK 1','PICK 2','PICK 3','PICK 4'].forEach(col => {
       const pick = (r[col] || '').trim();
       if (pick) map[pName].picks.push(pick);
     });
   });
-  PARTICIPANTS = Object.values(map).map(p => ({...p, initials:initials(p.name), picks:[...new Set(p.picks)]}));
+  PARTICIPANTS = Object.values(map).map(p => ({
+    ...p, 
+    initials: initials(p.name), 
+    flag: getFlag(p.country),
+    picks: [...new Set(p.picks)]
+  }));
 }
 
 function processHistory(rows) {
@@ -479,7 +471,6 @@ function resolveGolfer(pickName) {
   }) || null;
 }
 
-/* ── Team scoring: uses each golfer's score which already includes cut penalty ── */
 function computeTeams() {
   return PARTICIPANTS.map(p => {
     const gs = p.picks.map(n => resolveGolfer(n)).filter(Boolean);
@@ -506,9 +497,11 @@ function renderLeaderboard() {
     const rCls = pos<=3 ? 'gold-b clk' : 'soft-b clk';
     const isOpen = expanded[i];
     const noMatch = p.picks.filter(n => !resolveGolfer(n));
+    const participantFlagDisplay = p.flag ? p.flag : '&#127948;';
+
     h += '<tr class="' + rCls + '" onclick="toggleDrill(' + i + ')">' +
       '<td class="' + pCls + ' c">' + pos + '</td>' +
-      '<td><div class="av">' + p.initials + '</div></td>' +
+      '<td><div class="av-flag">' + participantFlagDisplay + '</div></td>' +
       '<td><div class="pname">' + p.name + '</div><div class="psub">' + p.picks.length + ' picks</div></td>' +
       '<td class="r"><span class="bigsc ' + sc(p.total) + '">' + fs(p.total) + '</span></td>' +
       '<td class="r"><span class="bigsc ' + sc(p.todaySum) + '" style="font-size:16px">' + fs(p.todaySum) + '</span></td>' +
@@ -523,11 +516,11 @@ function renderLeaderboard() {
           '<div style="min-width:0">' +
             '<div class="gcn">' + (g.flag||'') + ' ' + g.name + cutBadge + '</div>' +
             '<div class="gcp">' + (g.country||'') + 'Pos ' + g.pos + '</div>' +
-            '<div class="gcp" style="margin-top:3px">R1:' + (g.r1!==null?g.r1:'&#8212;') + ' R2:' + (g.r2!==null?g.r2:'&#8212;') + ' R3:' + r3disp + ' R4:' + r4disp + (g.cut?' <span style="font-size:9px;color:#ff9494"></span>':'') + '</div>' +
+            '<div class="gcp" style="margin-top:3px">R1:' + (g.r1!==null?g.r1:'&#8212;') + ' R2:' + (g.r2!==null?g.r2:'&#8212;') + ' R3:' + r3disp + ' R4:' + r4disp + '</div>' +
           '</div>' +
           '<div class="gcr">' +
             '<div class="gcsc ' + sc(g.score) + '">' + fs(g.score) + '</div>' +
-            '<div class="gcth">' + (g.cut ? '<span style="color:#ff9494;font-size:10px"></span>' : 'T: <span class="' + sc(g.today) + '">' + fs(g.today) + '</span>') + '</div>' +
+            '<div class="gcth">' + (g.cut ? '' : 'T: <span class="' + sc(g.today) + '">' + fs(g.today) + '</span>') + '</div>' +
             '<div class="gcth ' + (g.live?'lv':'') + '">' + (g.live?'<span class="live-dot"></span>':'') + g.thru + '</div>' +
           '</div>' +
         '</div>';
@@ -570,7 +563,7 @@ function renderMyTeam(name) {
         '</div>' +
         '<div style="text-align:right;flex-shrink:0">' +
           '<div class="mtc-sc ' + sc(g.score) + '">' + fs(g.score) + '</div>' +
-          '<div style="font-size:11px;color:var(--txt2)">' + (g.cut?'<span style="color:#ff9494"></span>':'T: <span class="'+sc(g.today)+'">'+fs(g.today)+'</span>') + '</div>' +
+          '<div style="font-size:11px;color:var(--txt2)">' + (g.cut?'':'T: <span class="'+sc(g.today)+'">'+fs(g.today)+'</span>') + '</div>' +
         '</div>' +
       '</div>' +
       '<div class="rp-row">' +
@@ -581,7 +574,7 @@ function renderMyTeam(name) {
         '<div class="rp ' + (g.live?'lv':'') + '" style="' + (g.live?'color:var(--grn)':'') + '">' + g.thru + '</div>' +
       '</div>' +
     '</div>';
-  }).join('') || '<div class="err-box" style="grid-column:span 2">No golfers matched &#8212; check pick names match player names in the Leaderboard sheet.</div>';
+  }).join('') || '<div class="err-box" style="grid-column:span 2">No golfers matched — check pick names match player names in the Leaderboard sheet.</div>';
 }
 
 /* ── Champions ── */
