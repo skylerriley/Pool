@@ -166,9 +166,9 @@
       <span>Updated <b id="upd">&#8212;</b></span>
     </div>
     <div class="tabs">
+      <div class="tab" onclick="switchTab('trn',this)">Tournament</div>
       <div class="tab active" onclick="switchTab('lb',this)">Leaderboard</div>
       <div class="tab" onclick="switchTab('mt',this)">My Team</div>
-      <div class="tab" onclick="switchTab('trn',this)">Tournament</div>
       <div class="tab" onclick="switchTab('ch',this)">Champions</div>
       <div class="tab" onclick="switchTab('an',this)">Analytics</div>
     </div>
@@ -262,7 +262,7 @@ const SHEET_URLS = {
 
 const MAJORS = {
   masters:{id:'masters',label:'Masters',emoji:'&#127807;',title:'Masters Tournament 2026',sub:'Augusta National Augusta, GA',cls:'masters',par:72},
-  pga:    {id:'pga',   label:'PGA',    emoji:'&#9971;', title:'PGA Championship 2026',   sub:'Quail Hollow Charlotte, NC',   cls:'pgachamp',par:72},
+  pga:    {id:'pga',   label:'PGA',    emoji:'&#9971;', title:'PGA Championship 2026',   sub:'Quail Hollow Charlotte, NC',   cls:'pgachamp',par:70},
   usopen: {id:'usopen',label:'US Open',emoji:'&#129413;',title:'US Open 2026',            sub:'Pinehurst No. 2 Pinehurst, NC',cls:'usopen', par:70},
   theopen:{id:'theopen',label:'The Open',emoji:'&#127942;',title:'The Open Championship 2026',sub:'Royal Portrush  N. Ireland',cls:'theopen',par:71},
 };
