@@ -514,8 +514,8 @@ function renderLeaderboard() {
         const r4disp = g.r4 !== null ? (g.cut ? '<span style="color:#ff9494">' + g.r4 + '*</span>' : g.r4) : '&#8212;';
         return '<div class="gc">' +
           '<div style="min-width:0">' +
-            '<div class="gcn">' + (g.flag||'') + ' ' + g.name + cutBadge + '</div>' +
-            '<div class="gcp">' + (g.country||'') + ' Pos ' + g.pos + '</div>' +
+            '<div class="gcn">' + (g.flag||'') + ' ' + g.name + '</div>' +
+            '<div class="gcp">' + ' Pos ' + g.pos + '</div>' +
             '<div class="gcp" style="margin-top:3px">R1:' + (g.r1!==null?g.r1:'&#8212;') + ' R2:' + (g.r2!==null?g.r2:'&#8212;') + ' R3:' + r3disp + ' R4:' + r4disp + '</div>' +
           '</div>' +
           '<div class="gcr">' +
