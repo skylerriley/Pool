@@ -511,7 +511,7 @@ function renderLeaderboard() {
       '<td class="' + pCls + ' c">' + pos + '</td>' +
       '<td><div class="av-flag">' + participantFlagDisplay + '</div></td>' +
       '<td><div class="pname">' + p.name + '</div></td>' +
-      '<td class="r"><span class="bigsc ' + sc(p.total) + '">' + fs(p.total) + (p.gs.some(g=>g.live)?'<span style="font-size:9px;color:var(--grn);margin-left:3px;vertical-align:middle">&#9679;</span>':'') + '</span></td>' +
+      '<td class="r"><span class="bigsc ' + sc(p.total) + '">' + fs(p.total) + (p.gs.some(g=>g.live)?'<span style="font-size:9px;color:var(--grn);margin-left:3px;vertical-align:middle"></span>':'') + '</span></td>' +
       '<td class="r"><span class="bigsc ' + sc(p.todaySum) + '" style="font-size:16px">' + fs(p.todaySum) + '</span></td>' +
       '<td class="c"><span class="chv ' + (isOpen?'op':'') + '"><i class="ti ti-chevron-down" style="font-size:13px"></i></span></td>' +
       '</tr>';
