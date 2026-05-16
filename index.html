@@ -439,7 +439,7 @@ function processLeaderboard(rows) {
   });
   const maxRnd = Math.max(0, ...Object.values(GOLFERS).map(g=>[g.r1,g.r2,g.r3,g.r4].filter(x=>x!==null).length));
   document.getElementById('rnd-disp').textContent = maxRnd || '&#8212;';
-  document.getElementById('lb-sublabel').textContent = Object.keys(GOLFERS).length + ' golfers ranked by team score';
+  
   document.getElementById('t-sub').textContent = MAJORS[activeMajor].sub;
 }
 
