@@ -502,7 +502,7 @@ function renderLeaderboard() {
     h += '<tr class="' + rCls + '" onclick="toggleDrill(' + i + ')">' +
       '<td class="' + pCls + ' c">' + pos + '</td>' +
       '<td><div class="av-flag">' + participantFlagDisplay + '</div></td>' +
-      '<td><div class="pname">' + p.name + '</div><div class="psub">' + p.picks.length + ' picks</div></td>' +
+      '<td><div class="pname">' + p.name + '</div> +
       '<td class="r"><span class="bigsc ' + sc(p.total) + '">' + fs(p.total) + '</span></td>' +
       '<td class="r"><span class="bigsc ' + sc(p.todaySum) + '" style="font-size:16px">' + fs(p.todaySum) + '</span></td>' +
       '<td class="c"><span class="chv ' + (isOpen?'op':'') + '"><i class="ti ti-chevron-down" style="font-size:13px"></i></span></td>' +
