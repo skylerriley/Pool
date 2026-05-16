@@ -759,10 +759,10 @@ function renderTournament() {
     const thruDisp = g.live ? '<span class="live-dot"></span>' + g.thru : g.thru;
     h += '<tr class="' + (isPicked?'picked-row':'') + '">' +
       '<td class="' + posCls + ' c">' + g.pos + '</td>' +
-      '<td style="text-align:center;font-size:16px;padding:10px 4px">' + (g.flag||'&#127758;') + '</td>' +
+      '<td style="text-align:center;font-size:20px;padding:10px 4px">' + (g.flag||'&#127758;') + '</td>' +
       '<td>' +
         '<div style="display:flex;align-items:center;flex-wrap:wrap;gap:2px">' +
-          '<span class="pname" style="font-size:13px">' + g.name + '</span>' +
+          '<span class="pname" style="font-size:16px">' + g.name + '</span>' +
           (isPicked ? '<span class="pool-badge">POOL</span>' : '') +
           (g.cut ? '<span class="cut-badge">CUT</span>' : '') +
         '</div>' +
