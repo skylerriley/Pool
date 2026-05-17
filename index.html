@@ -459,7 +459,7 @@ function processLeaderboard(rows) {
 
     // liveScore: completed-rounds score + today's in-progress strokes if actively playing.
     // Used for team totals so the leaderboard reflects real-time scoring during a round.
-    const liveScore = score + (isLive ? today : 0);
+    const liveScore = score;
 
     GOLFERS[key] = {
       id: key, name, flag: getFlag(country), country,
