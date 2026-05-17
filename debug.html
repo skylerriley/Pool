@@ -37,7 +37,7 @@
     .hist-badge{background:rgba(138,149,176,.2);color:var(--txt2);font-size:10px;font-weight:700;padding:4px 8px;border-radius:4px;letter-spacing:1px;display:none}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
     .refresh-btn{background:rgba(255,255,255,.07);border:1px solid var(--bdr);color:var(--acc);font-size:12px;padding:7px 12px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:4px;transition:all .15s;white-space:nowrap;min-height:34px}
-    .round-bar{display:flex;gap:12px;font-size:11px;color:var(--txt2);margin:6px 0 10px;flex-wrap:wrap}
+    .round-bar{display:flex;gap:4px;font-size:11px;color:var(--txt2);margin:2px 0 10px;flex-wrap:wrap}
     .round-bar b{color:var(--acc3);font-weight:600}
     .tabs{display:flex;overflow-x:auto;scrollbar-width:none}
     .tabs::-webkit-scrollbar{display:none}
@@ -176,10 +176,10 @@
       </div>
     </div>
     <div class="round-bar">
-      <span>Round <b id="rnd-disp">&#8212;</b>/4</span>
-      <span><b id="course-info">&#8212;</b></span>
       <span style="width:100%"><b id="weekend-info" style="font-weight:500;color:var(--txt2)"></b></span>
-      <span>Updated <b id="upd">&#8212;</b></span>
+      <span>Round <b id="rnd-disp">&#8212;</b>/4</span>
+      <span><b id="course-info">&#8212;</b> Updated <b id="upd">&#8212;</b </span>
+      
     </div>
     <div class="tabs">
       <div class="tab" onclick="switchTab('trn',this)">Tournament</div>
