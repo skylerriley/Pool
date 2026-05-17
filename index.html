@@ -591,7 +591,7 @@ function processOldLeaderboard(rows) {
     const r3raw = toNum(r['R3']);
     const r4raw = toNum(r['R4']);
 
-    const scoreRaw = r['SCORE'] || r['TO PAR'] || '';
+    const scoreRaw = r['TRUSCORE'] || r['TO PAR'] || '';
     const scoreStr = String(scoreRaw).trim().toUpperCase();
     let score = scoreStr === 'E' ? 0 : (toNum(scoreRaw) ?? 0);
 
