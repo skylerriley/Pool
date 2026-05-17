@@ -183,7 +183,7 @@
     <div class="tabs">
       <div class="tab" onclick="switchTab('trn',this)">Tournament</div>
       <div class="tab active" onclick="switchTab('lb',this)">Leaderboard</div>
-      <div class="tab" onclick="switchTab('mt',this)">My Team</div>
+      <div style="visibility: !hidden" class="tab" onclick="switchTab('mt',this)">My Team</div>
       <div class="tab" onclick="switchTab('ch',this)">Champions</div>
       <div class="tab" onclick="switchTab('an',this)">Analytics</div>
     </div>
@@ -556,7 +556,7 @@ function processLiveLeaderboard(rows) {
       if (!t || t === 'F' || t === 'WD' || t === '&#8212;' || t === '-') return false;
       return /^\d{1,2}$/.test(t);
     })();
-    const liveScore = score + (isLive ? today : 0);
+    const liveScore = score;
 
     GOLFERS[key] = {
       id:key, name, flag:getFlag(country), country,
@@ -795,7 +795,7 @@ function renderLeaderboard() {
       '<td class="' + pCls + ' c">' + pos + '</td>' +
       '<td><div class="av-flag">' + participantFlagDisplay + '</div></td>' +
       '<td><div class="pname">' + p.name + '</div></td>' +
-      '<td class="r"><span class="bigsc ' + sc(p.total) + '">' + fs(p.total) + liveIndicator + '</span></td>' +
+      '<td class="r"><span class="bigsc ' + sc(p.total) + '">' + fs(p.total) + '</span></td>' +
       todayCell +
       '<td class="c"><span class="chv ' + (isOpen?'op':'') + '"><i class="ti ti-chevron-down" style="font-size:13px"></i></span></td>' +
       '</tr>';
