@@ -709,7 +709,7 @@ function updateHeader() {
   const title = m.emoji + ' ' + m.label + ' ' + activeYear;
   document.getElementById('t-title').innerHTML = title;
   if (c) {
-    document.getElementById('t-sub').textContent = c.course + '<br>' + (c.weekend ? ' \u00b7 ' + c.weekend : '');
+    document.getElementById('t-sub').textContent = c.course + (c.weekend ? ' \u00b7 ' + c.weekend : '');
     document.getElementById('course-info').textContent = 'Par ' + c.par + (c.yards ? ' \u00b7 ' + c.yards + ' yds' : '');
   } else {
     document.getElementById('t-sub').textContent = '';
