@@ -316,6 +316,7 @@ let OLD_GOLFERS  = {};   // all old leaderboard rows keyed year+major+player
 let OLD_RESULTS  = {};   // pre-computed team results for past tournaments
 
 let expanded = {};
+let LIVE_LB_ROWS = [];   // cached raw live leaderboard rows for restoring after history view
 
 /* ─── Helpers ─── */
 function parseCSV(text) {
@@ -363,10 +364,32 @@ function isCutStatus(pos, thru) {
 function activeMajorKey() {
   return MAJOR_META[activeMajorId].majorKey;
 }
+
+// Normalise a major name for loose comparison (lowercase, strip punctuation)
+function normMajor(s) {
+  return String(s||'').toLowerCase().trim().replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,' ');
+}
+
+// Find a MAJOR_META entry that matches a raw sheet major name
+function majorIdFromSheetValue(sheetMajor) {
+  const norm = normMajor(sheetMajor);
+  return Object.values(MAJOR_META).find(m => normMajor(m.majorKey) === norm) || null;
+}
+
+// Canonical key for a year+major combo — always uses the MAJOR_META majorKey
+// so lookups are consistent regardless of what the sheet stored
+function histKey(yr, sheetMajor) {
+  const meta = majorIdFromSheetValue(sheetMajor);
+  return String(yr).trim() + '||' + (meta ? meta.majorKey : String(sheetMajor).trim());
+}
+
+function activeHistKey() {
+  return String(activeYear) + '||' + activeMajorKey();
+}
 function activeCourse() {
   return COURSES.find(c =>
     String(c.year) === String(activeYear) &&
-    c.major.trim() === activeMajorKey()
+    normMajor(c.major) === normMajor(activeMajorKey())
   ) || null;
 }
 function activePar() {
@@ -407,8 +430,8 @@ async function loadAllData() {
     const activeRow = COURSES.find(c => String(c.active).toUpperCase() === 'YES' || c.active === '1' || c.active === 'TRUE');
     if (activeRow) {
       activeYear = String(activeRow.year);
-      // Set major to match active row
-      const matchedMajor = Object.values(MAJOR_META).find(m => m.majorKey === activeRow.major.trim());
+      // Set major to match active row using normalised comparison
+      const matchedMajor = Object.values(MAJOR_META).find(m => normMajor(m.majorKey) === normMajor(activeRow.major));
       if (matchedMajor) activeMajorId = matchedMajor.id;
     } else {
       // Fallback: latest year in courses
@@ -420,7 +443,8 @@ async function loadAllData() {
     buildMajorBtns();
     updateHeader();
 
-    processLiveLeaderboard(parseCSV(lbText));
+    LIVE_LB_ROWS = parseCSV(lbText);
+    processLiveLeaderboard(LIVE_LB_ROWS);
     filterParticipants();
 
     document.getElementById('upd').textContent = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) + ' ET';
@@ -462,7 +486,7 @@ function filterParticipants() {
   const rows = ALL_TEAMS.filter(r => {
     const ry = String(r['YEAR'] || '').trim();
     const rm = (r['MAJOR'] || '').trim();
-    return ry === yr && rm === maj;
+    return ry === yr && normMajor(rm) === normMajor(maj);
   });
   const map = {};
   rows.forEach(r => {
@@ -558,7 +582,7 @@ function processOldLeaderboard(rows) {
     const name = (r['PLAYER'] || r['NAME'] || '').trim();
     if (!yr || !maj || !name) return;
 
-    const courseInfo = COURSES.find(c => String(c.year)===yr && c.major===maj);
+    const courseInfo = COURSES.find(c => String(c.year)===yr && normMajor(c.major)===normMajor(maj));
     const par = courseInfo ? courseInfo.par : 72;
 
     const pos = r['POS'] || '&#8212;';
@@ -582,7 +606,7 @@ function processOldLeaderboard(rows) {
     }
 
     const country = (r['COUNTRY'] || r['CTY'] || '').trim();
-    const mapKey = yr + '|' + maj;
+    const mapKey = histKey(yr, maj);
     if (!OLD_GOLFERS[mapKey]) OLD_GOLFERS[mapKey] = {};
     const gKey = name.toUpperCase().replace(/\s+/g,'_');
     OLD_GOLFERS[mapKey][gKey] = {
@@ -595,12 +619,12 @@ function processOldLeaderboard(rows) {
   // Pre-compute team scores for each past tournament
   const tournamentKeys = [...new Set(Object.keys(OLD_GOLFERS))];
   tournamentKeys.forEach(key => {
-    const [yr, maj] = key.split('|');
+    const [yr, maj] = key.split('||');
     const golferMap = OLD_GOLFERS[key];
 
     // Get participants for this tournament
     const teamRows = ALL_TEAMS.filter(r =>
-      String(r['YEAR']||'').trim()===yr && (r['MAJOR']||'').trim()===maj
+      String(r['YEAR']||'').trim()===yr && normMajor(r['MAJOR']||'')===normMajor(maj)
     );
     const tMap = {};
     teamRows.forEach(r => {
@@ -693,7 +717,7 @@ function updateHeader() {
     document.getElementById('course-info').textContent = '';
   }
   // Live vs Historical badge
-  const isActive = COURSES.some(c2 => String(c2.year)===String(activeYear) && c2.major===activeMajorKey() && (String(c2.active).toUpperCase()==='YES'||c2.active==='1'||c2.active==='TRUE'));
+  const isActive = COURSES.some(c2 => String(c2.year)===String(activeYear) && normMajor(c2.major)===normMajor(activeMajorKey()) && (String(c2.active).toUpperCase()==='YES'||c2.active==='1'||c2.active==='TRUE'));
   document.getElementById('live-badge').style.display = isActive ? '' : 'none';
   document.getElementById('hist-badge').style.display = isActive ? 'none' : '';
   isHistorical = !isActive;
@@ -717,21 +741,16 @@ function onMajorClick(id) {
 function switchTournament() {
   expanded = {};
   updateHeader();
-  const histKey = activeYear + '|' + activeMajorKey();
+  const histKey = activeHistKey();
   const hasOld = !!OLD_RESULTS[histKey];
   const hasLive = !isHistorical;
 
   if (hasLive) {
-    // Re-filter live data for selected year/major (if live sheet has year/major cols)
-    processLiveLeaderboard([]); // clear; live tab only shows active tournament
-    filterParticipants();
-    // Reload from live sheet isn't cached — prompt a full reload
-    // For now, keep current GOLFERS (only makes sense if live year matches)
+    // Restore live golfers from cached rows
+    processLiveLeaderboard(LIVE_LB_ROWS);
   } else if (hasOld) {
-    // Load historical
+    // Point GOLFERS at the historical snapshot for this tournament
     GOLFERS = OLD_GOLFERS[histKey] || {};
-    filterParticipants();
-    // Override PARTICIPANTS with historical computed teams
   }
 
   filterParticipants();
@@ -744,7 +763,7 @@ function switchTournament() {
 
 /* ─── Leaderboard render ─── */
 function renderLeaderboard() {
-  const histKey = activeYear + '|' + activeMajorKey();
+  const histKey = activeHistKey();
   const ranked = isHistorical && OLD_RESULTS[histKey]
     ? OLD_RESULTS[histKey]
     : computeTeams();
@@ -832,7 +851,7 @@ function resolveGolferInContext(pickName, histKey) {
 function renderMyTeam(name) {
   const p = PARTICIPANTS.find(x=>x.name===name);
   if (!p) { document.getElementById('mt-grid').innerHTML=''; return; }
-  const histKey = activeYear + '|' + activeMajorKey();
+  const histKey = activeHistKey();
   const gs = (p.picks||[]).map(n=>resolveGolferInContext(n,histKey)).filter(Boolean);
   const total    = gs.reduce((a,g)=>a+g.liveScore,0);
   const todaySum = gs.reduce((a,g)=>a+(g.today||0),0);
@@ -908,7 +927,7 @@ function getAllHistoricalTeamResults() {
   // Returns flat array of {year, major, participant, total, position, picks}
   const results = [];
   Object.entries(OLD_RESULTS).forEach(([key, teams]) => {
-    const [yr, maj] = key.split('|');
+    const [yr, maj] = key.split('||');
     teams.forEach((t,i) => {
       results.push({year:yr, major:maj, name:t.name, total:t.total, position:i+1, picks:t.picks, gs:t.gs});
     });
@@ -1059,7 +1078,7 @@ function posToNum(pos) {
 }
 
 function renderTournament() {
-  const histKey = activeYear + '|' + activeMajorKey();
+  const histKey = activeHistKey();
   const golferSource = (isHistorical && OLD_GOLFERS[histKey]) ? Object.values(OLD_GOLFERS[histKey]) : Object.values(GOLFERS);
   if (!golferSource.length) { document.getElementById('trn-body').innerHTML='<tr><td colspan="6" class="trn-empty">No data for this tournament.</td></tr>'; return; }
 
