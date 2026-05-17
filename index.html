@@ -167,6 +167,7 @@
     </div>
     <div class="tabs">
       <div class="tab" onclick="switchTab('trn',this)">Tournament</div>
+   
       <div class="tab active" onclick="switchTab('lb',this)">Leaderboard</div>
       <div style="display: none !important;" class="tab" onclick="switchTab('mt',this)">My Team</div>
       <div class="tab" onclick="switchTab('ch',this)">Champions</div>
@@ -233,6 +234,13 @@
   <div id="tab-ch" style="display:none">
     <div class="sec-lbl">Past participant champions</div>
     <div id="champ-list" style="padding:0 13px 13px"></div>
+  </div>
+
+  <div id="tab-dbg" style="display:none;padding:12px;font-size:11px;font-family:monospace">
+    <div style="color:var(--acc3);font-weight:600;margin-bottom:8px">Raw parsed golfer scores — verify against your sheet</div>
+    <div id="dbg-body" style="overflow-x:auto"></div>
+    <div style="color:var(--acc3);font-weight:600;margin:12px 0 8px">Team totals</div>
+    <div id="dbg-teams" style="overflow-x:auto"></div>
   </div>
 
   <div id="tab-an" style="display:none">
@@ -322,10 +330,10 @@ function sc(n) { return (!n && n !== 0) ? 'ev' : n < 0 ? 'un' : n > 0 ? 'ov' : '
 function initials(name) { return name.split(' ').filter(Boolean).map(w=>w[0]).slice(0,2).join('').toUpperCase(); }
 function getFlag(c) { if (!c) return ''; const k = c.trim().toUpperCase().substring(0,3); return FLAGS[k] || ''; }
 function isCutStatus(pos, thru) {
-  if (!pos) return false;
-  const p = String(pos).toUpperCase().trim();
-  const t = String(thru).toUpperCase().trim();
-  return p === 'CUT' || p === 'MDF' || p === 'DQ' || t === 'CUT' || t === 'WD';
+  const p = String(pos || '').toUpperCase().trim();
+  const t = String(thru || '').toUpperCase().trim();
+  return p === 'CUT' || p === 'MDF' || p === 'DQ' || p === 'WD' ||
+         t === 'CUT' || t === 'MDF' || t === 'DQ' || t === 'WD';
 }
 
 /* ── Fetch ── */
@@ -396,22 +404,58 @@ function processLeaderboard(rows) {
       r4raw = penaltyRound;
     }
 
-    let score;
-    if (r1raw !== null && r2raw !== null) {
-      const roundsTotal = [r1raw, r2raw, r3raw, r4raw].filter(x => x !== null);
-      const roundsPar = par * roundsTotal.length;
-      score = roundsTotal.reduce((a,b) => a+b, 0) - roundsPar;
-    } else {
-      const scoreRaw = r['SCORE'] || r['TO PAR'] || '0';
-      score = String(scoreRaw).toUpperCase() === 'E' ? 0 : (toNum(scoreRaw) || 0);
-      if (cut) score += (CUT_PENALTY * 2);
+    // --- Score calculation ---
+    // The sheet's SCORE column (to-par, e.g. -3, E, +2) is always the authoritative
+    // source for a player's current to-par total. We never recalculate from raw strokes
+    // because R1-R4 may contain stroke totals OR to-par values depending on the ESPN
+    // formula, and mixing them causes wrong results.
+    //
+    // For CUT players the SCORE column reflects only R1+R2 to-par (their actual result).
+    // We add CUT_PENALTY×2 (+4) on top to penalise the two unplayed weekend rounds.
+    //
+    // For active/finished players we use SCORE as-is. liveScore then adds TODAY on top
+    // for players currently on the course.
+    const scoreRaw = r['SCORE'] || r['TO PAR'] || '';
+    const scoreStr = String(scoreRaw).trim().toUpperCase();
+    let score = scoreStr === 'E' ? 0 : (toNum(scoreRaw) ?? 0);
+
+    if (cut) {
+      // If SCORE is blank/zero for a cut player, try to build it from round columns.
+      // R1/R2 in the sheet could be stroke totals (68, 72) or to-par (-2, +2).
+      // We detect which by checking if values are plausible stroke totals (>30).
+      if (score === 0 && r1raw !== null && r2raw !== null) {
+        const r1isStrokes = r1raw > 30;
+        const r2isStrokes = r2raw > 30;
+        if (r1isStrokes && r2isStrokes) {
+          // Both are stroke totals — convert to to-par
+          score = (r1raw - par) + (r2raw - par);
+        } else {
+          // Already to-par values
+          score = r1raw + r2raw;
+        }
+      }
+      // Add weekend penalty: +2 per unplayed round
+      score += (CUT_PENALTY * 2);
     }
 
     const todayRaw = r['TODAY'] || '';
     const today = cut ? 0 : (String(todayRaw).toUpperCase() === 'E' ? 0 : (toNum(todayRaw) || 0));
 
     const key = name.toUpperCase().replace(/\s+/g,'_');
-    const isLive = (()=>{ const t=(thru||'').toUpperCase(); return !cut && t!=='' && t!=='F' && t!=='WD' && t!=='&#8212;'; })();
+    const _rawScore = r['SCORE'] || r['TO PAR'] || '(blank)';
+    const _rawToday = r['TODAY'] || '(blank)';
+    // isLive = true only when the player is currently on the course mid-round.
+    // A thru value is a hole number (1-18) when the player is actively playing.
+    // Tee times (e.g. "2:15 PM"), "F" (finished), "WD", blanks, and "CUT"
+    // all mean the player is NOT currently scoring, so today must not be added.
+    const isLive = (()=>{
+      if (cut) return false;
+      const t = (thru || '').trim();
+      if (!t || t === 'F' || t === 'WD' || t === '&#8212;' || t === '-') return false;
+      // A hole number is purely numeric (1-18). Anything with letters, colons,
+      // or spaces (e.g. "2:15 PM", "CUT") is a tee time or status — not a hole.
+      return /^\d{1,2}$/.test(t);
+    })();
 
     // liveScore: completed-rounds score + today's in-progress strokes if actively playing.
     // Used for team totals so the leaderboard reflects real-time scoring during a round.
@@ -425,8 +469,15 @@ function processLeaderboard(rows) {
       r4: r4raw,
       penaltyRound: cut ? penaltyRound : null,
       live: isLive,
+      _rawScore, _rawToday,
     };
   });
+  // Console debug — open browser DevTools to verify scores are parsed correctly
+  console.table(Object.values(GOLFERS).map(g=>({
+    name:g.name, pos:g.pos, thru:g.thru, cut:g.cut,
+    sheetScore:'(see raw)', score:g.score, today:g.today, liveScore:g.liveScore
+  })));
+
   const maxRnd = Math.max(0, ...Object.values(GOLFERS).map(g=>[g.r1,g.r2,g.r3,g.r4].filter(x=>x !== null).length));
   document.getElementById('rnd-disp').textContent = maxRnd || '&#8212;';
   
@@ -784,6 +835,59 @@ function renderTournament() {
   document.getElementById('trn-body').innerHTML = h;
 }
 
+/* ── Debug tab ── */
+function renderDebug() {
+  const gs = Object.values(GOLFERS).sort((a,b)=>a.name.localeCompare(b.name));
+  const par = MAJORS[activeMajor].par;
+
+  // Golfer table
+  let h = '<table style="border-collapse:collapse;width:100%;font-size:10px">' +
+    '<thead><tr style="border-bottom:1px solid #333">' +
+    ['Player','POS','THRU','CUT?','R1','R2','R3','R4','SCORE col','today col','score(calc)','liveScore'].map(c=>
+      '<th style="padding:3px 5px;text-align:left;color:var(--acc3);white-space:nowrap">'+c+'</th>'
+    ).join('') + '</tr></thead><tbody>';
+
+  gs.forEach(g => {
+    const rowStyle = g.cut ? 'background:rgba(226,75,74,.08)' : '';
+    h += '<tr style="border-bottom:1px solid #1a1a1a;'+rowStyle+'">' +
+      '<td style="padding:3px 5px;white-space:nowrap">'+g.name+'</td>' +
+      '<td style="padding:3px 5px">'+g.pos+'</td>' +
+      '<td style="padding:3px 5px">'+g.thru+'</td>' +
+      '<td style="padding:3px 5px;color:'+(g.cut?'#ff9494':'#74C69D')+'">'+(g.cut?'YES':'no')+'</td>' +
+      '<td style="padding:3px 5px">'+(g.r1!==null?g.r1:'—')+'</td>' +
+      '<td style="padding:3px 5px">'+(g.r2!==null?g.r2:'—')+'</td>' +
+      '<td style="padding:3px 5px">'+(g.r3!==null?g.r3:'—')+'</td>' +
+      '<td style="padding:3px 5px">'+(g.r4!==null?g.r4:'—')+'</td>' +
+      '<td style="padding:3px 5px;color:var(--acc3)">'+g._rawScore+'</td>' +
+      '<td style="padding:3px 5px;color:var(--acc3)">'+g._rawToday+'</td>' +
+      '<td style="padding:3px 5px;font-weight:600;color:'+(g.score<0?'var(--acc3)':g.score>0?'var(--red)':'var(--txt2)')+'">'+fs(g.score)+'</td>' +
+      '<td style="padding:3px 5px;font-weight:600;color:'+(g.liveScore<0?'var(--acc3)':g.liveScore>0?'var(--red)':'var(--txt2)')+'">'+fs(g.liveScore)+'</td>' +
+    '</tr>';
+  });
+  h += '</tbody></table>';
+  document.getElementById('dbg-body').innerHTML = h;
+
+  // Teams table
+  const ranked = computeTeams();
+  let t = '<table style="border-collapse:collapse;width:100%;font-size:10px">' +
+    '<thead><tr style="border-bottom:1px solid #333">' +
+    ['Participant','Pick 1','Pick 2','Pick 3','Pick 4','Team Total'].map(c=>
+      '<th style="padding:3px 5px;text-align:left;color:var(--acc3);white-space:nowrap">'+c+'</th>'
+    ).join('') + '</tr></thead><tbody>';
+
+  ranked.forEach(p => {
+    const scores = p.gs.map(g=>g.name.split(' ').slice(-1)[0]+':'+fs(g.liveScore)+(g.cut?'(CUT)':'')+(g.live?'(LIVE)':''));
+    while(scores.length < 4) scores.push('—');
+    t += '<tr style="border-bottom:1px solid #1a1a1a">' +
+      '<td style="padding:3px 5px;white-space:nowrap;font-weight:600">'+p.name+'</td>' +
+      scores.map(s=>'<td style="padding:3px 5px;white-space:nowrap">'+s+'</td>').join('') +
+      '<td style="padding:3px 5px;font-weight:600;color:'+(p.total<0?'var(--acc3)':p.total>0?'var(--red)':'var(--txt2)')+'">'+fs(p.total)+'</td>' +
+    '</tr>';
+  });
+  t += '</tbody></table>';
+  document.getElementById('dbg-teams').innerHTML = t;
+}
+
 /* ── Selectors & navigation ── */
 function buildSelectors() {
   const opts = PARTICIPANTS.map(p=>'<option value="'+p.name+'">'+p.name+'</option>').join('');
@@ -804,11 +908,12 @@ function switchTab(tab, el) {
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
   el.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
-  ['lb','mt','trn','ch','an'].forEach(t=>document.getElementById('tab-'+t).style.display=t===tab?'block':'none');
+  ['lb','mt','trn','ch','an','dbg'].forEach(t=>document.getElementById('tab-'+t).style.display=t===tab?'block':'none');
   if (tab==='mt')  renderMyTeam(document.getElementById('mt-sel').value);
   if (tab==='trn') renderTournament();
   if (tab==='ch')  renderChampions();
   if (tab==='an')  onAnView(document.getElementById('an-view').value);
+  if (tab==='dbg') renderDebug();
 }
 
 function init() {
