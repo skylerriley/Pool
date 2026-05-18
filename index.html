@@ -99,7 +99,7 @@
     .champ-sec{padding:0 13px 5px}
     .cmaj-ttl{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--acc);font-weight:600;padding:13px 2px 7px;border-bottom:1px solid var(--bdr);margin-bottom:6px}
     .crow{display:flex;align-items:flex-start;gap:9px;padding:9px 4px;border-bottom:1px solid var(--bdr2)}
-    .cy{font-family:'Bebas Neue',cursive;font-size:18px;color:var(--acc3);width:40px;flex-shrink:0;padding-top:1px}
+    .cy{font-family:'Bebas Neue',cursive;font-size:18px;color:var(--acc3);width:60px;flex-shrink:0;padding-top:1px;line-spacing:2px}
     .cwrap{flex:1;min-width:0}
     .cname{font-weight:500;font-size:13px;color:var(--txt);margin-bottom:3px}
     .cbadges{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:3px}
@@ -569,7 +569,13 @@ function processLiveLeaderboard(rows) {
   });
 
   const maxRnd = Math.max(0, ...Object.values(GOLFERS).map(g=>[g.r1,g.r2,g.r3,g.r4].filter(x=>x!==null).length));
-  document.getElementById('rnd-disp').textContent = maxRnd || '&#8212;';
+  if (isHistorical) {
+    const histGolfers = OLD_GOLFERS[histKey] ? Object.values(OLD_GOLFERS[histKey]) : [];
+    const histMaxRnd = histGolfers.length ? Math.max(0, ...histGolfers.map(g=>[g.r1,g.r2,g.r3,g.r4].filter(x=>x!==null).length)) : 4;
+    document.getElementById('rnd-disp').textContent = histMaxRnd || 4;
+  } else {
+    document.getElementById('rnd-disp').textContent = maxRnd || '&#8212;';
+  }
 }
 
 /* ─── Process old leaderboard ─── */
@@ -898,20 +904,24 @@ function renderMyTeam(name) {
 
 /* ─── Champions ─── */
 function renderChampions() {
-  const majors = [...new Set(HISTORY.map(h=>h.major))];
+  const MAJOR_ORDER = ['Masters', 'PGA', 'US Open', 'The Open'];
+  const normMaj = m => { const s = (m||'').trim().toUpperCase(); if (s==='MASTERS') return 'Masters'; if (s==='PGA') return 'PGA'; if (s.includes('US')) return 'US Open'; if (s.includes('OPEN')) return 'The Open'; return m; };
+  const years = [...new Set(HISTORY.map(h=>h.year))].sort((a,b)=>b-a);
   let h = '';
-  majors.forEach(maj => {
-    const entries = HISTORY.filter(x=>x.major===maj).sort((a,b)=>b.year-a.year);
-    if (!entries.length) return;
-    h += '<div class="champ-sec"><div class="cmaj-ttl">' + maj + '</div>';
-    entries.forEach(e => {
+  years.forEach(yr => {
+    const yEntries = HISTORY.filter(x=>x.year===yr);
+    if (!yEntries.length) return;
+    h += '<div class="champ-sec"><div class="cmaj-ttl">' + yr + '</div>';
+    MAJOR_ORDER.forEach(maj => {
+      const e = yEntries.find(x => normMaj(x.major) === maj);
+      if (!e) return;
       const same = e.t4 === e.pk;
-      h += '<div class="crow"><div class="cy">' + e.year + '</div><div class="cwrap">';
+      h += '<div class="crow"><div class="cy">' + maj + '</div><div class="cwrap">';
       if (same) {
         h += '<div class="cbadges"><span class="badge t4">Top 4some</span><span class="badge pk">Picked Winner</span></div><div class="cname">' + e.t4 + '</div>';
       } else {
         h += '<div class="cbadges"><span class="badge t4">Top 4some</span></div><div class="cname">' + e.t4 + '</div>' +
-             '<div class="cbadges" style="margin-top:4px"><span class="badge pk">Picked Winner</span></div><div class="cname">' + e.pk + '</div>';
+             (e.pk ? '<div class="cbadges" style="margin-top:4px"><span class="badge pk">Picked Winner</span></div><div class="cname">' + e.pk + '</div>' : '');
       }
       h += '<div class="csub" style="margin-top:3px">Winner: ' + e.aw + '</div></div></div>';
     });
@@ -948,9 +958,9 @@ function renderOverviewAnalytics() {
   const avg  = ranked.length ? Math.round(allT.reduce((a,b)=>a+b,0)/allT.length) : 0;
   const spread = ranked.length ? Math.abs(ranked[0].total - ranked[ranked.length-1].total) : 0;
 
-  // All-time wins from HISTORY sheet
+  // All-time wins from HISTORY sheet — skip blank winners
   const t4w={}, pkw={};
-  HISTORY.forEach(h=>{ t4w[h.t4]=(t4w[h.t4]||0)+1; pkw[h.pk]=(pkw[h.pk]||0)+1; });
+  HISTORY.forEach(h=>{ if (h.t4) t4w[h.t4]=(t4w[h.t4]||0)+1; if (h.pk) pkw[h.pk]=(pkw[h.pk]||0)+1; });
   const mt4 = Object.entries(t4w).sort((a,b)=>b[1]-a[1])[0]||['&#8212;',0];
   const mpk = Object.entries(pkw).sort((a,b)=>b[1]-a[1])[0]||['&#8212;',0];
 
