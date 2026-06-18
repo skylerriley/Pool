@@ -2,10 +2,15 @@ name: Fetch Golf Odds
 
 on:
   schedule:
-    # Runs every 20 minutes = 3x per hour
-    # GitHub Actions cron uses UTC
-    - cron: '0/20 * * * *'
-  workflow_dispatch:   # lets you trigger manually from the Actions tab
+    # Target cadence: every 20 min (3x/hr). NOTE: GitHub's built-in scheduler
+    # is best-effort on free repos and frequently delays or DROPS runs under
+    # load — you may see far fewer runs than this. For reliable 20-min cadence,
+    # use the external trigger below (see SETUP step "Reliable scheduling").
+    # Offset to :07/:27/:47 to dodge the top-of-hour high-load window.
+    - cron: '7,27,47 * * * *'
+  workflow_dispatch:        # manual "Run workflow" button in the Actions tab
+  repository_dispatch:      # external trigger (cron-job.org) — event_type: fetch-odds
+    types: [fetch-odds]
 
 jobs:
   fetch-odds:
@@ -21,11 +26,9 @@ jobs:
       - name: Determine active major sport key
         id: major
         run: |
-          # Map our major names to The Odds API sport keys
-          # Edit ACTIVE_MAJOR below whenever the active tournament changes,
-          # OR read it dynamically from your courses sheet if you prefer.
-          ACTIVE_MAJOR="golf_us_open_winner"
-          MAJOR_LABEL="US Open"
+          # Edit these two whenever the active tournament changes.
+          ACTIVE_MAJOR="golf_pga_championship_winner"
+          MAJOR_LABEL="PGA"
           echo "sport_key=$ACTIVE_MAJOR" >> $GITHUB_OUTPUT
           echo "major_label=$MAJOR_LABEL" >> $GITHUB_OUTPUT
 
@@ -36,7 +39,7 @@ jobs:
           SPORT_KEY: ${{ steps.major.outputs.sport_key }}
           MAJOR_LABEL: ${{ steps.major.outputs.major_label }}
         run: |
-          echo "Fetching odds for $SPORT_KEY ..."
+          echo "Fetching odds for $SPORT_KEY at $(date -u) ..."
 
           RESPONSE=$(curl -sf \
             "https://api.the-odds-api.com/v4/sports/${SPORT_KEY}/odds?regions=us&markets=outrights&oddsFormat=american&apiKey=${ODDS_API_KEY}" \
@@ -52,24 +55,13 @@ jobs:
             exit 0
           fi
 
-          # Parse: flatten all bookmakers, pick the best (lowest absolute value
-          # for favourites / highest value for underdogs) consensus odds per player.
-          # We use FanDuel if available, otherwise average across US books.
-          python3 - <<'PYEOF'
-          import json, os, sys
-          from collections import defaultdict
-
-          body = os.environ.get("API_BODY", "")
-          # Read from file written below instead
-          PYEOF
-
-          # Write the raw API body to a temp file so Python can read it
           echo "$BODY" > /tmp/odds_raw.json
 
           python3 - <<'PYEOF'
           import json, os, sys
           from collections import defaultdict
           from statistics import median
+          from datetime import datetime, timezone
 
           with open("/tmp/odds_raw.json") as f:
               data = json.load(f)
@@ -77,13 +69,12 @@ jobs:
           major_label = os.environ.get("MAJOR_LABEL", "Unknown")
 
           if not data:
-              print("No events returned", file=sys.stderr)
+              print("No events returned by API (tournament may not be open for betting yet)", file=sys.stderr)
               sys.exit(0)
 
           event = data[0]  # majors return a single event
           bookmakers = event.get("bookmakers", [])
 
-          # Collect all prices per player across all bookmakers
           player_prices = defaultdict(list)
           fanduel_prices = {}
 
@@ -98,7 +89,6 @@ jobs:
                       if bk["key"] == "fanduel":
                           fanduel_prices[name] = price
 
-          # Final odds: prefer FanDuel, fall back to median across books
           final_odds = {}
           for name, prices in player_prices.items():
               if name in fanduel_prices:
@@ -106,10 +96,15 @@ jobs:
               else:
                   final_odds[name] = int(median(prices))
 
+          # Most recent bookmaker update across all books (when prices last MOVED)
+          last_updates = [bk.get("last_update", "") for bk in bookmakers if bk.get("last_update")]
+          bookmaker_updated = max(last_updates) if last_updates else ""
+
           output = {
               "major": major_label,
               "sport_key": event.get("sport_key", ""),
-              "updated": event.get("bookmakers", [{}])[0].get("last_update", ""),
+              "fetched_at": datetime.now(timezone.utc).isoformat(),  # when THIS workflow ran
+              "bookmaker_updated": bookmaker_updated,                # when odds last changed at the book
               "source": "fanduel_or_median",
               "odds": final_odds
           }
@@ -117,7 +112,7 @@ jobs:
           with open("data/odds.json", "w") as f:
               json.dump(output, f, indent=2)
 
-          print(f"Wrote {len(final_odds)} players to data/odds.json")
+          print(f"Wrote {len(final_odds)} players to data/odds.json at {output['fetched_at']}")
           PYEOF
 
           echo "skip=false" >> $GITHUB_OUTPUT
@@ -130,10 +125,13 @@ jobs:
 
           git add data/odds.json
 
-          # Only commit if the file actually changed
+          # fetched_at changes every run, so this commits on EVERY successful run.
+          # That's intentional: the commit history of data/odds.json becomes a
+          # complete audit log of when fetches actually happened, which is the
+          # easiest way to verify your cadence. (~72 commits/day during a major.)
           if git diff --cached --quiet; then
-            echo "odds.json unchanged — no commit needed"
+            echo "Nothing to commit (no odds file change)"
           else
-            git commit -m "chore: update golf odds [skip ci]"
+            git commit -m "odds: fetch at $(date -u '+%Y-%m-%d %H:%M UTC') [skip ci]"
             git push
           fi
