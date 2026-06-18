@@ -2027,8 +2027,7 @@ function renderOdds() {
   const fetchedTxt = fmtTime(ODDS_META.fetched);
   const bookTxt = fmtTime(ODDS_META.bookUpdated);
   meta.innerHTML = 'Tournament-winner odds &middot; <b>' + ODDS_LIST.length + '</b> players priced' +
-    (fetchedTxt ? ' &middot; fetched <b>' + fetchedTxt + '</b>' : '') +
-    (bookTxt ? ' &middot; prices moved <b>' + bookTxt + '</b>' : '');
+    (fetchedTxt ? ' &middot; fetched <b>' + fetchedTxt + '</b>' : '');
 
   if (oddsView === 'field') renderFieldOdds();
   else renderTeamOdds();
