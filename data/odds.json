@@ -2,6 +2,8 @@
   "major": "US Open",
   "sport_key": "golf_us_open_winner",
   "updated": "2026-06-18T15:55:45Z",
+  "fetched_at": "",
+  "bookmaker_updated": "",
   "source": "fanduel_or_median",
   "odds": {
     "Scottie Scheffler": 700,
