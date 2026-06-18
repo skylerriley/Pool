@@ -24,8 +24,8 @@ jobs:
           # Map our major names to The Odds API sport keys
           # Edit ACTIVE_MAJOR below whenever the active tournament changes,
           # OR read it dynamically from your courses sheet if you prefer.
-          ACTIVE_MAJOR="golf_pga_championship_winner"
-          MAJOR_LABEL="PGA"
+          ACTIVE_MAJOR="golf_us_open_winner"
+          MAJOR_LABEL="US Open"
           echo "sport_key=$ACTIVE_MAJOR" >> $GITHUB_OUTPUT
           echo "major_label=$MAJOR_LABEL" >> $GITHUB_OUTPUT
 
