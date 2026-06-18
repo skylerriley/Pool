@@ -1308,11 +1308,11 @@ async function loadAllData() {
       processLiveLeaderboard(espn.rows);
       const espnDate = new Date(espn.updated);
       const espnTime = isNaN(espnDate) ? 'ESPN' :
-        espnDate.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) + ' ET';
+        espnDate.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZoneName:'short'});
       document.getElementById('upd').textContent = espnTime;
     } else {
       processLiveLeaderboard(LIVE_LB_ROWS);
-      document.getElementById('upd').textContent = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) + ' ET';
+      document.getElementById('upd').textContent = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZoneName:'short'});
     }
     filterParticipants();
 
@@ -1611,7 +1611,7 @@ function switchTournament() {
         processLiveLeaderboard(espn.rows);
         const d = new Date(espn.updated);
         document.getElementById('upd').textContent = isNaN(d) ? 'ESPN' :
-          d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) + ' ET';
+          d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZoneName:'short'});
       } else {
         processLiveLeaderboard(LIVE_LB_ROWS);
       }
@@ -2061,7 +2061,7 @@ function renderOdds() {
   let updatedTxt = '';
   if (ODDS_META.updated) {
     const d = new Date(ODDS_META.updated);
-    if (!isNaN(d)) updatedTxt = d.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+    if (!isNaN(d)) updatedTxt = d.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'});
   }
   meta.innerHTML = 'Tournament-winner odds &middot; <b>' + ODDS_LIST.length + '</b> players priced' +
     (updatedTxt ? ' &middot; updated <b>' + updatedTxt + '</b>' : '');
