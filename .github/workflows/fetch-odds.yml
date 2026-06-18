@@ -1,0 +1,139 @@
+name: Fetch Golf Odds
+
+on:
+  schedule:
+    # Runs every 20 minutes = 3x per hour
+    # GitHub Actions cron uses UTC
+    - cron: '0/20 * * * *'
+  workflow_dispatch:   # lets you trigger manually from the Actions tab
+
+jobs:
+  fetch-odds:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write   # needed to push odds.json back to the repo
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Determine active major sport key
+        id: major
+        run: |
+          # Map our major names to The Odds API sport keys
+          # Edit ACTIVE_MAJOR below whenever the active tournament changes,
+          # OR read it dynamically from your courses sheet if you prefer.
+          ACTIVE_MAJOR="golf_pga_championship_winner"
+          MAJOR_LABEL="PGA"
+          echo "sport_key=$ACTIVE_MAJOR" >> $GITHUB_OUTPUT
+          echo "major_label=$MAJOR_LABEL" >> $GITHUB_OUTPUT
+
+      - name: Fetch odds from The Odds API
+        id: fetch
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          SPORT_KEY: ${{ steps.major.outputs.sport_key }}
+          MAJOR_LABEL: ${{ steps.major.outputs.major_label }}
+        run: |
+          echo "Fetching odds for $SPORT_KEY ..."
+
+          RESPONSE=$(curl -sf \
+            "https://api.the-odds-api.com/v4/sports/${SPORT_KEY}/odds?regions=us&markets=outrights&oddsFormat=american&apiKey=${ODDS_API_KEY}" \
+            -w "\n%{http_code}" \
+            --max-time 15)
+
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          BODY=$(echo "$RESPONSE" | head -n -1)
+
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "API returned HTTP $HTTP_CODE — skipping write"
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Parse: flatten all bookmakers, pick the best (lowest absolute value
+          # for favourites / highest value for underdogs) consensus odds per player.
+          # We use FanDuel if available, otherwise average across US books.
+          python3 - <<'PYEOF'
+          import json, os, sys
+          from collections import defaultdict
+
+          body = os.environ.get("API_BODY", "")
+          # Read from file written below instead
+          PYEOF
+
+          # Write the raw API body to a temp file so Python can read it
+          echo "$BODY" > /tmp/odds_raw.json
+
+          python3 - <<'PYEOF'
+          import json, os, sys
+          from collections import defaultdict
+          from statistics import median
+
+          with open("/tmp/odds_raw.json") as f:
+              data = json.load(f)
+
+          major_label = os.environ.get("MAJOR_LABEL", "Unknown")
+
+          if not data:
+              print("No events returned", file=sys.stderr)
+              sys.exit(0)
+
+          event = data[0]  # majors return a single event
+          bookmakers = event.get("bookmakers", [])
+
+          # Collect all prices per player across all bookmakers
+          player_prices = defaultdict(list)
+          fanduel_prices = {}
+
+          for bk in bookmakers:
+              for market in bk.get("markets", []):
+                  if market.get("key") != "outrights":
+                      continue
+                  for outcome in market.get("outcomes", []):
+                      name = outcome["name"]
+                      price = outcome["price"]
+                      player_prices[name].append(price)
+                      if bk["key"] == "fanduel":
+                          fanduel_prices[name] = price
+
+          # Final odds: prefer FanDuel, fall back to median across books
+          final_odds = {}
+          for name, prices in player_prices.items():
+              if name in fanduel_prices:
+                  final_odds[name] = fanduel_prices[name]
+              else:
+                  final_odds[name] = int(median(prices))
+
+          output = {
+              "major": major_label,
+              "sport_key": event.get("sport_key", ""),
+              "updated": event.get("bookmakers", [{}])[0].get("last_update", ""),
+              "source": "fanduel_or_median",
+              "odds": final_odds
+          }
+
+          with open("data/odds.json", "w") as f:
+              json.dump(output, f, indent=2)
+
+          print(f"Wrote {len(final_odds)} players to data/odds.json")
+          PYEOF
+
+          echo "skip=false" >> $GITHUB_OUTPUT
+
+      - name: Commit and push odds.json
+        if: steps.fetch.outputs.skip != 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add data/odds.json
+
+          # Only commit if the file actually changed
+          if git diff --cached --quiet; then
+            echo "odds.json unchanged — no commit needed"
+          else
+            git commit -m "chore: update golf odds [skip ci]"
+            git push
+          fi
