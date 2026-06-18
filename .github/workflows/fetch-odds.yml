@@ -1,137 +1,138 @@
-name: Fetch Golf Odds
+#!/usr/bin/env python3
+"""
+GitHub Actions script: fetches tournament-winner odds for the active major
+from The Odds API and writes data/odds.json in the shape the Pool app expects.
 
-on:
-  schedule:
-    # Target cadence: every 20 min (3x/hr). NOTE: GitHub's built-in scheduler
-    # is best-effort on free repos and frequently delays or DROPS runs under
-    # load — you may see far fewer runs than this. For reliable 20-min cadence,
-    # use the external trigger below (see SETUP step "Reliable scheduling").
-    # Offset to :07/:27/:47 to dodge the top-of-hour high-load window.
-    - cron: '7,27,47 * * * *'
-  workflow_dispatch:        # manual "Run workflow" button in the Actions tab
-  repository_dispatch:      # external trigger (cron-job.org) — event_type: fetch-odds
-    types: [fetch-odds]
+THE FIX (vs the previous version):
+  - Always writes "fetched_at"  = when THIS script actually ran (UTC, real time).
+  - Always writes "bookmaker_updated" = when the book last moved prices (from the API).
+  - Keeps "updated" for backward-compatibility (mirrors fetched_at).
 
-jobs:
-  fetch-odds:
-    runs-on: ubuntu-latest
+The app shows "fetched_at" first, so once this runs, the timestamp will match
+your cron cadence instead of the bookmaker's last price move.
 
-    permissions:
-      contents: write   # needed to push odds.json back to the repo
+Output shape:
+{
+  "major": "US Open",
+  "sport_key": "golf_us_open_winner",
+  "updated": "2026-06-18T16:20:03Z",            # mirror of fetched_at (legacy field)
+  "fetched_at": "2026-06-18T16:20:03Z",         # when this workflow ran  <-- THE FIX
+  "bookmaker_updated": "2026-06-18T16:18:55Z",  # when odds last moved at the book
+  "source": "fanduel_or_median",
+  "odds": { "Scottie Scheffler": 700, ... }
+}
+"""
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+import json
+import os
+import sys
+import urllib.request
+import urllib.error
+from datetime import datetime, timezone
+from statistics import median
 
-      - name: Determine active major sport key
-        id: major
-        run: |
-          # Edit these two whenever the active tournament changes.
-          ACTIVE_MAJOR="golf_pga_championship_winner"
-          MAJOR_LABEL="PGA"
-          echo "sport_key=$ACTIVE_MAJOR" >> $GITHUB_OUTPUT
-          echo "major_label=$MAJOR_LABEL" >> $GITHUB_OUTPUT
+# ── Config ────────────────────────────────────────────────────────────────
+API_KEY = os.environ.get("ODDS_API_KEY", "").strip()
 
-      - name: Fetch odds from The Odds API
-        id: fetch
-        env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-          SPORT_KEY: ${{ steps.major.outputs.sport_key }}
-          MAJOR_LABEL: ${{ steps.major.outputs.major_label }}
-        run: |
-          echo "Fetching odds for $SPORT_KEY at $(date -u) ..."
+# Set these to match the active major when it changes.
+SPORT_KEY   = os.environ.get("SPORT_KEY",   "golf_us_open_winner")
+MAJOR_LABEL = os.environ.get("MAJOR_LABEL", "US Open")
 
-          RESPONSE=$(curl -sf \
-            "https://api.the-odds-api.com/v4/sports/${SPORT_KEY}/odds?regions=us&markets=outrights&oddsFormat=american&apiKey=${ODDS_API_KEY}" \
-            -w "\n%{http_code}" \
-            --max-time 15)
+REGIONS = "us"
+MARKETS = "outrights"
+ODDS_FORMAT = "american"
 
-          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
-          BODY=$(echo "$RESPONSE" | head -n -1)
+API_URL = (
+    f"https://api.the-odds-api.com/v4/sports/{SPORT_KEY}/odds"
+    f"?regions={REGIONS}&markets={MARKETS}&oddsFormat={ODDS_FORMAT}&apiKey={API_KEY}"
+)
 
-          if [ "$HTTP_CODE" != "200" ]; then
-            echo "API returned HTTP $HTTP_CODE — skipping write"
-            echo "skip=true" >> $GITHUB_OUTPUT
-            exit 0
-          fi
+OUT_PATH = "data/odds.json"
 
-          echo "$BODY" > /tmp/odds_raw.json
 
-          python3 - <<'PYEOF'
-          import json, os, sys
-          from collections import defaultdict
-          from statistics import median
-          from datetime import datetime, timezone
+def now_iso() -> str:
+    # Real fetch time, whole seconds, Z suffix
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
-          with open("/tmp/odds_raw.json") as f:
-              data = json.load(f)
 
-          major_label = os.environ.get("MAJOR_LABEL", "Unknown")
+def fetch_odds():
+    req = urllib.request.Request(API_URL, headers={"Accept": "application/json"})
+    with urllib.request.urlopen(req, timeout=20) as resp:
+        return json.loads(resp.read().decode())
 
-          if not data:
-              print("No events returned by API (tournament may not be open for betting yet)", file=sys.stderr)
-              sys.exit(0)
 
-          event = data[0]  # majors return a single event
-          bookmakers = event.get("bookmakers", [])
+def main():
+    fetched_at = now_iso()
 
-          player_prices = defaultdict(list)
-          fanduel_prices = {}
+    if not API_KEY:
+        print("ERROR: ODDS_API_KEY is not set (add it as a repo secret).", file=sys.stderr)
+        sys.exit(1)
 
-          for bk in bookmakers:
-              for market in bk.get("markets", []):
-                  if market.get("key") != "outrights":
-                      continue
-                  for outcome in market.get("outcomes", []):
-                      name = outcome["name"]
-                      price = outcome["price"]
-                      player_prices[name].append(price)
-                      if bk["key"] == "fanduel":
-                          fanduel_prices[name] = price
+    print(f"Fetching odds for {SPORT_KEY} at {fetched_at} ...")
+    try:
+        data = fetch_odds()
+    except urllib.error.HTTPError as e:
+        print(f"HTTP {e.code}: {e.reason} — not overwriting odds.json", file=sys.stderr)
+        sys.exit(1)
+    except Exception as e:
+        print(f"Fetch failed: {e} — not overwriting odds.json", file=sys.stderr)
+        sys.exit(1)
 
-          final_odds = {}
-          for name, prices in player_prices.items():
-              if name in fanduel_prices:
-                  final_odds[name] = fanduel_prices[name]
-              else:
-                  final_odds[name] = int(median(prices))
+    if not data:
+        print("API returned no events (book may not be up yet) — not overwriting.", file=sys.stderr)
+        sys.exit(0)
 
-          # Most recent bookmaker update across all books (when prices last MOVED)
-          last_updates = [bk.get("last_update", "") for bk in bookmakers if bk.get("last_update")]
-          bookmaker_updated = max(last_updates) if last_updates else ""
+    event = data[0]
+    bookmakers = event.get("bookmakers", [])
 
-          output = {
-              "major": major_label,
-              "sport_key": event.get("sport_key", ""),
-              "fetched_at": datetime.now(timezone.utc).isoformat(),  # when THIS workflow ran
-              "bookmaker_updated": bookmaker_updated,                # when odds last changed at the book
-              "source": "fanduel_or_median",
-              "odds": final_odds
-          }
+    # Collect prices per player across books; prefer FanDuel, else median.
+    player_prices = {}
+    fanduel = {}
+    last_updates = []
 
-          with open("data/odds.json", "w") as f:
-              json.dump(output, f, indent=2)
+    for bk in bookmakers:
+        if bk.get("last_update"):
+            last_updates.append(bk["last_update"])
+        for market in bk.get("markets", []):
+            if market.get("key") != "outrights":
+                continue
+            for outcome in market.get("outcomes", []):
+                name = outcome.get("name")
+                price = outcome.get("price")
+                if name is None or price is None:
+                    continue
+                player_prices.setdefault(name, []).append(price)
+                if bk.get("key") == "fanduel":
+                    fanduel[name] = price
 
-          print(f"Wrote {len(final_odds)} players to data/odds.json at {output['fetched_at']}")
-          PYEOF
+    final_odds = {}
+    for name, prices in player_prices.items():
+        final_odds[name] = fanduel[name] if name in fanduel else int(median(prices))
 
-          echo "skip=false" >> $GITHUB_OUTPUT
+    if not final_odds:
+        print("No outright prices found in response — not overwriting.", file=sys.stderr)
+        sys.exit(0)
 
-      - name: Commit and push odds.json
-        if: steps.fetch.outputs.skip != 'true'
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+    bookmaker_updated = max(last_updates) if last_updates else ""
 
-          git add data/odds.json
+    out = {
+        "major": MAJOR_LABEL,
+        "sport_key": event.get("sport_key", SPORT_KEY),
+        "updated": fetched_at,              # legacy mirror so old readers still work
+        "fetched_at": fetched_at,           # <-- THE FIX: real run time, always populated
+        "bookmaker_updated": bookmaker_updated,
+        "source": "fanduel_or_median",
+        "odds": final_odds,
+    }
 
-          # fetched_at changes every run, so this commits on EVERY successful run.
-          # That's intentional: the commit history of data/odds.json becomes a
-          # complete audit log of when fetches actually happened, which is the
-          # easiest way to verify your cadence. (~72 commits/day during a major.)
-          if git diff --cached --quiet; then
-            echo "Nothing to commit (no odds file change)"
-          else
-            git commit -m "odds: fetch at $(date -u '+%Y-%m-%d %H:%M UTC') [skip ci]"
-            git push
-          fi
+    os.makedirs("data", exist_ok=True)
+    with open(OUT_PATH, "w") as f:
+        json.dump(out, f, indent=2)
+
+    print(f"Wrote {len(final_odds)} players to {OUT_PATH}")
+    print(f"  fetched_at        = {fetched_at}")
+    print(f"  bookmaker_updated = {bookmaker_updated or '(none provided)'}")
+
+
+if __name__ == "__main__":
+    main()
