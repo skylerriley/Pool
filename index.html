@@ -2118,9 +2118,7 @@ function renderTeamOdds() {
   const maxShare = teams[0].share || 1;
   const rankClasses = ['rank-1','rank-2','rank-3'];
 
-  let h = '<div class="notice" style="margin:10px 14px">' +
-    'Each team\'s chance of owning the tournament winner, based on their foursome\'s live odds. ' +
-    'Share % is normalised across all pool teams.</div>';
+  let h = '';
 
   h += '<table><thead><tr>' +
     '<th class="c" style="width:36px">Pos</th>' +
