@@ -18,7 +18,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
   <style>
     /* ─── Design tokens ─── */
@@ -147,12 +147,13 @@
     }
 
     .t-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px;
-      font-weight: 900;
+      font-family: 'Oswald', sans-serif;
+      font-size: 23px;
+      font-weight: 700;
       color: #fff;
-      line-height: 1.15;
-      letter-spacing: -.2px;
+      line-height: 1.1;
+      letter-spacing: .3px;
+      text-transform: uppercase;
     }
     .t-sub {
       font-size: 12px;
@@ -352,11 +353,11 @@
 
     td { padding: 12px 10px; vertical-align: middle; font-size: 14px; }
 
-    /* Position number — Playfair for the real scoreboard feel */
+    /* Position number — condensed Oswald for the scoreboard feel */
     .pos-n {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px;
-      font-weight: 700;
+      font-family: 'Oswald', sans-serif;
+      font-size: 21px;
+      font-weight: 600;
       color: var(--ink3);
     }
     .pos-n.hi { color: var(--gold); }
@@ -375,12 +376,13 @@
     .pname { font-weight: 600; font-size: 14px; color: var(--ink); line-height: 1.2; }
     .psub { font-size: 11px; color: var(--ink2); margin-top: 2px; }
 
-    /* Score display — the signature element: large Playfair serif numbers */
+    /* Score display — the signature element: condensed Oswald numerals */
     .bigsc {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px;
-      font-weight: 700;
+      font-family: 'Oswald', sans-serif;
+      font-size: 21px;
+      font-weight: 600;
       line-height: 1;
+      letter-spacing: .3px;
     }
     .un { color: var(--birdie); }
     .ov { color: var(--red); }
@@ -422,7 +424,7 @@
     .gcn { font-size: 12px; font-weight: 600; color: var(--ink); line-height: 1.3; }
     .gcp { font-size: 11px; color: var(--ink2); margin-top: 2px; }
     .gcr { text-align: right; flex-shrink: 0; }
-    .gcsc { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; }
+    .gcsc { font-family: 'Oswald', sans-serif; font-size: 21px; font-weight: 600; letter-spacing: .3px; }
     .gcth { font-size: 11px; color: var(--ink2); margin-top: 1px; }
     .gcth.lv { color: var(--birdie); }
     .cut-badge {
@@ -556,9 +558,9 @@
       font-weight: 600;
     }
     .ts-val {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Oswald', sans-serif;
       font-size: 22px;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--green);
       margin-top: 3px;
       line-height: 1;
@@ -587,7 +589,7 @@
       gap: 6px;
     }
     .mtc-nm { font-weight: 600; font-size: 13px; line-height: 1.3; color: var(--ink); }
-    .mtc-sc { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; }
+    .mtc-sc { font-family: 'Oswald', sans-serif; font-size: 23px; font-weight: 600; letter-spacing: .3px; }
     .mtc-pos { font-size: 11px; color: var(--ink2); }
     .rp-row { display: flex; gap: 3px; flex-wrap: wrap; margin-top: 4px; }
     .rp {
@@ -626,7 +628,7 @@
     /* ─── Champions tab ─── */
     .champ-sec { padding: 0 14px 6px; }
     .cmaj-ttl {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Oswald', sans-serif;
       font-size: 18px;
       font-weight: 700;
       color: var(--green);
@@ -689,9 +691,9 @@
       font-weight: 600;
     }
     .ac-big {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Oswald', sans-serif;
       font-size: 26px;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--green);
       line-height: 1;
     }
@@ -731,9 +733,9 @@
     }
     .pay-name { color: var(--ink); font-weight: 500; font-size: 12px; }
     .pay-amt {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Oswald', sans-serif;
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--birdie);
     }
     .streak {
@@ -784,9 +786,9 @@
       box-shadow: var(--shadow);
     }
     .trn-stat-val {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Oswald', sans-serif;
       font-size: 18px;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--green);
       line-height: 1;
     }
@@ -857,7 +859,7 @@
       margin-bottom: 8px;
     }
     .hist-result-title {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Oswald', sans-serif;
       font-size: 16px;
       font-weight: 700;
       color: var(--green);
@@ -1133,7 +1135,7 @@ async function fetchCSV(url) {
 }
 
 /* ─── Odds ─── */
-// Keyed by normalised lowercase name → american odds integer
+// Keyed by normalised name → american odds integer
 let ODDS = {};
 // Array of {name, price} with original casing, for the Field Odds view
 let ODDS_LIST = [];
@@ -1148,6 +1150,31 @@ const ODDS_SPORT_KEY = {
   'The Open':  'golf_the_open_championship_winner',
 };
 
+// Manual aliases for name mismatches that AREN'T just accents.
+// Key and value are both run through normName, so you only need an entry here
+// if two sources spell a name differently in a way diacritic-stripping can't fix
+// (e.g. "Cam Davis" vs "Cameron Davis", "Si Woo Kim" vs "Siwoo Kim").
+// Ludvig Åberg / Aberg is handled automatically by accent stripping below.
+const NAME_ALIASES = {
+  // 'cam davis': 'cameron davis',
+  // 'si woo kim': 'siwoo kim',
+};
+
+// Normalise a golfer name for cross-source matching:
+// strips diacritics (Å→A, ñ→n, í→i), lowercases, trims, collapses spaces,
+// then applies any manual alias.
+function normName(s) {
+  let n = String(s || '')
+    .normalize('NFD')                  // decompose accented letters
+    .replace(/[\u0300-\u036f]/g, '')   // remove combining diacritical marks
+    .toLowerCase()
+    .replace(/[.''-]/g, ' ')           // punctuation → space
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (NAME_ALIASES[n]) n = NAME_ALIASES[n];
+  return n;
+}
+
 async function loadOdds() {
   // odds.json is written by GitHub Actions; path is relative to the HTML file
   ODDS = {}; ODDS_LIST = []; ODDS_META = { updated:'', major:'', source:'' };
@@ -1160,7 +1187,7 @@ async function loadOdds() {
     if (json.major !== maj) return; // stale file for a different tournament — ignore
     ODDS_META = { updated: json.updated || '', major: json.major || '', source: json.source || '' };
     Object.entries(json.odds || {}).forEach(([name, price]) => {
-      ODDS[name.toLowerCase().trim()] = price;
+      ODDS[normName(name)] = price;
       ODDS_LIST.push({ name, price });
     });
     ODDS_LIST.sort((a,b) => impliedProb(b.price) - impliedProb(a.price)); // favourites first
@@ -1171,12 +1198,14 @@ async function loadOdds() {
 
 function hasOdds() { return ODDS_LIST.length > 0 && !isHistorical; }
 
-// Look up odds for a golfer by name; tries full name then last name
+// Look up odds for a golfer by name; tries full name then last name.
+// All matching is accent-insensitive via normName, so the sheet's
+// "Ludvig Åberg" matches the odds feed's "Ludvig Aberg" automatically.
 function getOdds(golferName) {
   if (!golferName || !Object.keys(ODDS).length) return null;
-  const lower = golferName.toLowerCase().trim();
-  if (ODDS[lower] !== undefined) return ODDS[lower];
-  const last = lower.split(' ').slice(-1)[0];
+  const norm = normName(golferName);
+  if (ODDS[norm] !== undefined) return ODDS[norm];
+  const last = norm.split(' ').slice(-1)[0];
   const match = Object.keys(ODDS).find(k => k.split(' ').slice(-1)[0] === last);
   return match !== undefined ? ODDS[match] : null;
 }
@@ -1953,7 +1982,7 @@ function renderTournament() {
         '</div>' +
       '</td>' +
       '<td class="r"><span class="bigsc '+sc(g.score)+'">'+fs(g.score)+'</span></td>' +
-      (isHistorical ? '' : '<td class="r"><span style="font-family:\'Playfair Display\',serif;font-size:16px;font-weight:700" class="'+sc(g.today)+'">'+fs(g.today)+'</span></td>') +
+      (isHistorical ? '' : '<td class="r"><span style="font-family:\'Oswald\',sans-serif;font-size:17px;font-weight:600;letter-spacing:.3px" class="'+sc(g.today)+'">'+fs(g.today)+'</span></td>') +
       '<td class="r"><span class="gcth'+(g.live?' lv':'')+'" style="font-size:11px">'+thruDisp+'</span></td>' +
     '</tr>';
   });
@@ -1999,21 +2028,29 @@ function renderOdds() {
 
 function renderFieldOdds() {
   const body = document.getElementById('od-body');
-  // Which odds-named golfers are picked in the pool
-  const pickedLower = new Set();
+  // Which odds-named golfers are picked in the pool (accent-insensitive)
+  const pickedLast = new Set();
   PARTICIPANTS.forEach(p => p.picks.forEach(n => {
-    const last = n.toLowerCase().trim().split(' ').slice(-1)[0];
-    pickedLower.add(last);
+    const last = normName(n).split(' ').slice(-1)[0];
+    pickedLast.add(last);
   }));
 
   let rows = '';
   ODDS_LIST.forEach((o, i) => {
     const pos = i + 1;
     const prob = impliedProb(o.price);
-    const last = o.name.toLowerCase().trim().split(' ').slice(-1)[0];
-    const isPicked = pickedLower.has(last);
-    // Try to find golfer in field for a flag
-    const g = resolveGolfer(o.name);
+    const last = normName(o.name).split(' ').slice(-1)[0];
+    const isPicked = pickedLast.has(last);
+    // Try to find golfer in field for a flag (accent-insensitive fallback)
+    let g = resolveGolfer(o.name);
+    if (!g || !g.flag) {
+      const oNorm = normName(o.name);
+      const oLast = oNorm.split(' ').slice(-1)[0];
+      g = Object.values(GOLFERS).find(x => {
+        const xn = normName(x.name);
+        return xn === oNorm || xn.split(' ').slice(-1)[0] === oLast;
+      }) || g;
+    }
     const flag = g && g.flag ? g.flag : '🌍';
     const posCls = pos <= 3 ? 'pos-n hi' : 'pos-n';
     rows += '<tr class="' + (isPicked ? 'picked-row' : '') + '">' +
