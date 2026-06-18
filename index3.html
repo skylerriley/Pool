@@ -1134,29 +1134,13 @@ async function fetchCSV(url) {
   return text;
 }
 
-// Attempt to load data/leaderboard.json (written by GitHub Actions from ESPN).
-// Returns the parsed JSON if active + matching current major/year, else null.
-async function loadESPNLeaderboard() {
-  try {
-    const res = await fetch('data/leaderboard.json?t=' + Date.now());
-    if (!res.ok) return null;
-    const json = await res.json();
-    if (!json.active || !json.rows || !json.rows.length) return null;
-    if (json.major !== activeMajorKey()) return null;
-    if (String(json.year) !== String(activeYear)) return null;
-    return json;
-  } catch (_) {
-    return null;
-  }
-}
-
 /* ─── Odds ─── */
 // Keyed by normalised name → american odds integer
 let ODDS = {};
 // Array of {name, price} with original casing, for the Field Odds view
 let ODDS_LIST = [];
 // Metadata about the loaded odds file
-let ODDS_META = { updated: '', major: '', source: '' };
+let ODDS_META = { fetched: '', bookUpdated: '', major: '', source: '' };
 
 // Map The Odds API sport key → our major key
 const ODDS_SPORT_KEY = {
@@ -1193,7 +1177,7 @@ function normName(s) {
 
 async function loadOdds() {
   // odds.json is written by GitHub Actions; path is relative to the HTML file
-  ODDS = {}; ODDS_LIST = []; ODDS_META = { updated:'', major:'', source:'' };
+  ODDS = {}; ODDS_LIST = []; ODDS_META = { fetched:'', bookUpdated:'', major:'', source:'' };
   try {
     const res = await fetch('data/odds.json?t=' + Date.now());
     if (!res.ok) return;
@@ -1201,7 +1185,12 @@ async function loadOdds() {
     // json shape: { major:"PGA", updated:"ISO", odds:{ "Scottie Scheffler":300, ... } }
     const maj = activeMajorKey();
     if (json.major !== maj) return; // stale file for a different tournament — ignore
-    ODDS_META = { updated: json.updated || '', major: json.major || '', source: json.source || '' };
+    ODDS_META = {
+      fetched:     json.fetched_at || json.updated || '',     // when the workflow ran
+      bookUpdated: json.bookmaker_updated || '',               // when odds last moved
+      major:       json.major || '',
+      source:      json.source || ''
+    };
     Object.entries(json.odds || {}).forEach(([name, price]) => {
       ODDS[normName(name)] = price;
       ODDS_LIST.push({ name, price });
@@ -1260,7 +1249,7 @@ function oddsHtml(golferName, cut) {
   const price = getOdds(golferName);
   if (price === null) return '';
   const cls = oddsClass(price);
-  return '<div class="odds-line"><span class="odds-val ' + cls + '">' + fmtOdds(price) + '</span></div>';
+  return '<div class="odds-line">Win odds: <span class="odds-val ' + cls + '">' + fmtOdds(price) + '</span></div>';
 }
 
 /* ─── Load all data ─── */
@@ -1300,25 +1289,13 @@ async function loadAllData() {
     updateHeader();
 
     LIVE_LB_ROWS = parseCSV(lbText);
-
-    // Try ESPN leaderboard.json first (GitHub Actions, ~5 min refresh, no Google Sheets cache).
-    // activeMajorKey() and activeYear are set above so the check is valid here.
-    const espn = await loadESPNLeaderboard();
-    if (espn) {
-      processLiveLeaderboard(espn.rows);
-      const espnDate = new Date(espn.updated);
-      const espnTime = isNaN(espnDate) ? 'ESPN' :
-        espnDate.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZoneName:'short'});
-      document.getElementById('upd').textContent = espnTime;
-    } else {
-      processLiveLeaderboard(LIVE_LB_ROWS);
-      document.getElementById('upd').textContent = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZoneName:'short'});
-    }
+    processLiveLeaderboard(LIVE_LB_ROWS);
     filterParticipants();
 
     // Load odds (non-blocking — renders fine without them)
     await loadOdds();
 
+    document.getElementById('upd').textContent = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) + ' ET';
     document.getElementById('lb-loading').style.display = 'none';
     document.getElementById('lb-content').style.display = 'block';
 
@@ -1382,8 +1359,8 @@ function processLiveLeaderboard(rows) {
 
   const hasYearCol = rows.length && rows[0].hasOwnProperty('YEAR');
   const filtered = hasYearCol
-    ? rows.filter(r => String(r['YEAR']||'').trim()===yr && normMajor(r['MAJOR']||'')===normMajor(maj))
-    : rows;  
+    ? rows.filter(r => String(r['YEAR']||'').trim()===yr && (r['MAJOR']||'').trim()===maj)
+    : rows;
 
   filtered.forEach(r => {
     const name = (r['PLAYER'] || r['NAME'] || '').trim();
@@ -1605,23 +1582,7 @@ function switchTournament() {
   updateHeader();
   const hk = activeHistKey();
   if (!isHistorical) {
-    // Prefer ESPN leaderboard.json over cached Google Sheets rows
-    loadESPNLeaderboard().then(espn => {
-      if (espn) {
-        processLiveLeaderboard(espn.rows);
-        const d = new Date(espn.updated);
-        document.getElementById('upd').textContent = isNaN(d) ? 'ESPN' :
-          d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZoneName:'short'});
-      } else {
-        processLiveLeaderboard(LIVE_LB_ROWS);
-      }
-      filterParticipants();
-      buildSelectors();
-      renderLeaderboard();
-      renderMyTeam(PARTICIPANTS[0]?.name || '');
-      if (document.getElementById('tab-trn').style.display !== 'none') renderTournament();
-    });
-    return; // early return — rendering happens inside the promise above
+    processLiveLeaderboard(LIVE_LB_ROWS);
   } else if (OLD_GOLFERS[hk]) {
     GOLFERS = OLD_GOLFERS[hk] || {};
   }
@@ -2017,7 +1978,7 @@ function renderTournament() {
     const thruDisp = g.live ? '<span class="live-dot"></span>'+g.thru : g.thru;
     h += '<tr class="'+(isPicked?'picked-row':'')+'">' +
       '<td class="'+posCls+' c">'+g.pos+'</td>' +
-      '<td style="text-align:center;font-size:20px;padding:10px 10px">'+(g.flag||'🌍')+'</td>' +
+      '<td style="text-align:center;font-size:20px;padding:10px 4px">'+(g.flag||'🌍')+'</td>' +
       '<td>' +
         '<div style="display:flex;align-items:center;flex-wrap:wrap;gap:2px">' +
           '<span class="pname" style="font-size:13px">'+g.name+'</span>' +
@@ -2057,14 +2018,17 @@ function renderOdds() {
     return;
   }
 
-  // Meta line
-  let updatedTxt = '';
-  if (ODDS_META.updated) {
-    const d = new Date(ODDS_META.updated);
-    if (!isNaN(d)) updatedTxt = d.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'});
-  }
+  // Meta line — "fetched" = when our workflow last pulled; "prices moved" = book's own timestamp
+  const fmtTime = iso => {
+    if (!iso) return '';
+    const d = new Date(iso);
+    return isNaN(d) ? '' : d.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+  };
+  const fetchedTxt = fmtTime(ODDS_META.fetched);
+  const bookTxt = fmtTime(ODDS_META.bookUpdated);
   meta.innerHTML = 'Tournament-winner odds &middot; <b>' + ODDS_LIST.length + '</b> players priced' +
-    (updatedTxt ? ' &middot; updated <b>' + updatedTxt + '</b>' : '');
+    (fetchedTxt ? ' &middot; fetched <b>' + fetchedTxt + '</b>' : '') +
+    (bookTxt ? ' &middot; prices moved <b>' + bookTxt + '</b>' : '');
 
   if (oddsView === 'field') renderFieldOdds();
   else renderTeamOdds();
@@ -2154,7 +2118,9 @@ function renderTeamOdds() {
   const maxShare = teams[0].share || 1;
   const rankClasses = ['rank-1','rank-2','rank-3'];
 
-  let h = '';
+  let h = '<div class="notice" style="margin:10px 14px">' +
+    'Each team\'s chance of owning the tournament winner, based on their foursome\'s live odds. ' +
+    'Share % is normalised across all pool teams.</div>';
 
   h += '<table><thead><tr>' +
     '<th class="c" style="width:36px">Pos</th>' +
