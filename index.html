@@ -1354,8 +1354,8 @@ function processLiveLeaderboard(rows) {
 
   const hasYearCol = rows.length && rows[0].hasOwnProperty('YEAR');
   const filtered = hasYearCol
-    ? rows.filter(r => String(r['YEAR']||'').trim()===yr && (r['MAJOR']||'').trim()===maj)
-    : rows;
+    ? rows.filter(r => String(r['YEAR']||'').trim()===yr && normMajor(r['MAJOR']||'')===normMajor(maj))
+    : rows;  
 
   filtered.forEach(r => {
     const name = (r['PLAYER'] || r['NAME'] || '').trim();
