@@ -1244,7 +1244,7 @@ function oddsHtml(golferName, cut) {
   const price = getOdds(golferName);
   if (price === null) return '';
   const cls = oddsClass(price);
-  return '<div class="odds-line">Win odds: <span class="odds-val ' + cls + '">' + fmtOdds(price) + '</span></div>';
+  return '<div class="odds-line"><span class="odds-val ' + cls + '">' + fmtOdds(price) + '</span></div>';
 }
 
 /* ─── Load all data ─── */
