@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<!-- ════════════════════════════════════════════════════════════════
+     TEST BUILD — LIVE LEADERBOARD FROM ESPN API
+     Live scores come directly from ESPN (site.api.espn.com), bypassing
+     the Google Sheet. Teams / history / courses / past results still
+     come from the Sheet. A badge in the header shows the active source.
+     If ESPN is unreachable (or blocked by CORS), it auto-falls back to
+     the Sheet leaderboard so the app still works.
+     ════════════════════════════════════════════════════════════════ -->
 <html lang="en">
 <head>
   <title>Majors Pool Tracking</title>
@@ -894,6 +902,7 @@
       <span>Round <b id="rnd-disp">—</b>/4</span>
       <span><b id="course-info">—</b></span>
       <span>Updated <b id="upd">—</b></span>
+      <span id="src-badge" style="font-weight:700;padding:1px 7px;border-radius:20px;font-size:10px;letter-spacing:.4px"></span>
     </div>
   </div>
 
@@ -1019,12 +1028,25 @@
 <script>
 const BASE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS42Jq2JDLP8HJdxyzKQZFoyUJx4WaHpll-89pQSUGVN08IJuLm0oX1WNKcDi2wQJ9POj8twIybvM2c/pub?output=csv&gid=';
 const SHEET_URLS = {
-  leaderboard:    BASE_URL + '0',
+  leaderboard:    BASE_URL + '0',   // (still used as a fallback if ESPN fails)
   teams:          BASE_URL + '857167336',
   history:        BASE_URL + '1510498394',
   courses:        BASE_URL + '770739619',
   oldLeaderboard: BASE_URL + '1563163455',
 };
+
+/* ════════════════════════════════════════════════════════════════
+   ESPN LIVE LEADERBOARD (TEST BUILD)
+   This build pulls the LIVE leaderboard straight from ESPN's public
+   golf API instead of the Google Sheet. Teams, history, courses and
+   past results still come from the Sheet.
+   Endpoint returns the currently featured PGA event (the active major
+   during major week).
+   ════════════════════════════════════════════════════════════════ */
+const ESPN_LEADERBOARD_URL = 'https://site.api.espn.com/apis/site/v2/sports/golf/pga/leaderboard';
+let ESPN_JSON = null;        // cached raw ESPN payload (for tournament switching)
+let ESPN_EVENT_NAME = '';    // name of the event ESPN returned
+let ESPN_OK = false;         // did the ESPN fetch succeed this load?
 
 const MAJOR_META = {
   masters:{id:'masters',label:'Masters',  emoji:'&#127807;',cls:'masters', majorKey:'Masters'},
@@ -1289,7 +1311,22 @@ async function loadAllData() {
     updateHeader();
 
     LIVE_LB_ROWS = parseCSV(lbText);
-    processLiveLeaderboard(LIVE_LB_ROWS);
+
+    // TEST BUILD: pull the live leaderboard from ESPN; fall back to the sheet on failure.
+    ESPN_OK = false; ESPN_JSON = null;
+    if (!isHistorical) {
+      try {
+        ESPN_JSON = await fetchESPN();
+        processESPNLeaderboard(ESPN_JSON);
+        ESPN_OK = true;
+      } catch (espnErr) {
+        console.warn('ESPN fetch failed, falling back to sheet:', espnErr);
+        processLiveLeaderboard(LIVE_LB_ROWS);
+      }
+    } else {
+      processLiveLeaderboard(LIVE_LB_ROWS);
+    }
+    updateSourceBadge();
     filterParticipants();
 
     // Load odds (non-blocking — renders fine without them)
@@ -1351,6 +1388,136 @@ function filterParticipants() {
   }));
 }
 
+/* ─── ESPN live leaderboard (test build) ─── */
+
+// Fetch ESPN's featured PGA leaderboard. Returns parsed JSON or throws.
+async function fetchESPN() {
+  const res = await fetch(ESPN_LEADERBOARD_URL + '?_=' + Date.now());
+  if (!res.ok) throw new Error('ESPN HTTP ' + res.status);
+  return res.json();
+}
+
+// Parse a to-par value from various ESPN shapes: "-12" | "E" | "+3" | number | {displayValue|value}
+function espnToPar(v) {
+  if (v === null || v === undefined) return null;
+  if (typeof v === 'object') v = (v.displayValue !== undefined ? v.displayValue : v.value);
+  const s = String(v).trim().toUpperCase();
+  if (s === 'E') return 0;
+  if (s === '' || s === '-' || s === '--') return null;
+  const n = parseFloat(s.replace('+',''));
+  return isNaN(n) ? null : n;
+}
+
+// Resolve a flag emoji from ESPN's flag object (prefers the 3-letter code in the image href).
+function espnFlag(flagObj) {
+  if (!flagObj) return '';
+  if (flagObj.href) {
+    const m = flagObj.href.match(/\/([a-z]{2,3})\.png/i);
+    if (m) { const code = m[1].toUpperCase(); if (FLAGS[code]) return FLAGS[code]; }
+  }
+  if (flagObj.alt) { const f = getFlag(flagObj.alt); if (f) return f; }
+  return '';
+}
+
+// Build the GOLFERS map from an ESPN payload — same structure processLiveLeaderboard produces,
+// so every downstream view (teams, odds, drill-downs) works unchanged.
+function processESPNLeaderboard(json) {
+  GOLFERS = {};
+  const par = activePar();
+
+  const ev = (json && json.events && json.events[0]) || null;
+  ESPN_EVENT_NAME = ev ? (ev.name || ev.shortName || '') : '';
+  const comp = ev && ev.competitions && ev.competitions[0];
+  const competitors = (comp && comp.competitors) || [];
+
+  competitors.forEach(c => {
+    const ath = c.athlete || {};
+    const name = (ath.displayName || ath.fullName || '').trim();
+    if (!name) return;
+
+    const country = (ath.flag && ath.flag.alt) || '';
+    const st = c.status || {};
+    const stType = st.type || {};
+    const stState = String(stType.state || stType.name || '').toLowerCase();
+
+    // Position (e.g. "T5"); fall back to numeric order
+    let pos = (st.position && (st.position.displayValue || st.position.displayName)) || '';
+    if (!pos && c.order != null) pos = String(c.order);
+    if (!pos) pos = '&#8212;';
+
+    // Cut / WD / DQ detection
+    let cut = /cut|mdf|wd|dq|withd|disqual/.test(stState) ||
+              /cut|mdf|wd|dq/.test(String(pos).toLowerCase()) ||
+              isCutStatus(pos, '');
+
+    // Total to par
+    let score = espnToPar(c.score);
+    if (score === null && Array.isArray(c.statistics)) {
+      const sp = c.statistics.find(s => /scoretopar|topar|score/i.test(s.name || ''));
+      if (sp) score = espnToPar(sp.displayValue);
+    }
+    if (score === null) score = 0;
+
+    // Per-round strokes from linescores (period 1–4, value = strokes)
+    const rounds = [null, null, null, null];
+    (c.linescores || []).forEach(ls => {
+      const p = ls.period;
+      if (p >= 1 && p <= 4 && ls.value != null) rounds[p - 1] = ls.value;
+    });
+
+    // Current round in progress
+    const playedPeriods = rounds.map((v,i)=>v!=null?i+1:0).filter(Boolean);
+    const curP = st.period || (playedPeriods.length ? Math.max(...playedPeriods) : 1);
+
+    // Thru
+    let thru;
+    if (cut) {
+      thru = 'CUT';
+    } else if (stType.completed === true || /post|final/.test(stState)) {
+      thru = 'F';
+    } else if (st.thru !== undefined && st.thru !== null && st.thru !== '') {
+      thru = String(st.thru);
+    } else {
+      // Fallback: count holes in the current round's nested linescores
+      const curLs = (c.linescores || []).find(l => l.period === curP);
+      const holes = curLs && Array.isArray(curLs.linescores) ? curLs.linescores.length : 0;
+      thru = holes >= 18 ? 'F' : (holes > 0 ? String(holes) : '&#8212;');
+    }
+
+    // Today (to-par for the current round)
+    let today = 0;
+    if (!cut) {
+      const curLs = (c.linescores || []).find(l => l.period === curP);
+      const t = curLs ? espnToPar(curLs.displayValue) : null;
+      today = (t === null ? 0 : t);
+    }
+
+    // Apply the same missed-cut penalty model the sheet build uses
+    const penaltyRound = par + CUT_PENALTY;
+    let r1 = rounds[0], r2 = rounds[1], r3 = rounds[2], r4 = rounds[3];
+    if (cut) {
+      r3 = penaltyRound; r4 = penaltyRound;
+      score += (CUT_PENALTY * 2);
+      today = 0;
+    }
+
+    const key = name.toUpperCase().replace(/\s+/g, '_');
+    const live = !cut && /^\d{1,2}$/.test(String(thru));
+
+    GOLFERS[key] = {
+      id: key, name, flag: espnFlag(ath.flag), country,
+      pos, score, liveScore: score, today, thru, cut,
+      r1, r2, r3, r4,
+      penaltyRound: cut ? penaltyRound : null,
+      live,
+    };
+  });
+
+  const maxRnd = Math.max(0, ...Object.values(GOLFERS).map(g => [g.r1,g.r2,g.r3,g.r4].filter(x => x !== null).length));
+  document.getElementById('rnd-disp').textContent = maxRnd || '&#8212;';
+}
+
+/* ─── Sheet-based live leaderboard (fallback) ─── */
 function processLiveLeaderboard(rows) {
   GOLFERS = {};
   const par = activePar();
@@ -1568,6 +1735,25 @@ function updateHeader() {
   if (todayTh) todayTh.style.display = isHistorical ? 'none' : '';
 }
 
+// Shows which data source is feeding the leaderboard in this test build.
+function updateSourceBadge() {
+  const el = document.getElementById('src-badge');
+  if (!el) return;
+  if (isHistorical) {
+    el.textContent = 'SHEET · PAST';
+    el.style.background = 'rgba(255,255,255,.12)';
+    el.style.color = 'rgba(255,255,255,.7)';
+  } else if (ESPN_OK) {
+    el.textContent = 'ESPN LIVE' + (ESPN_EVENT_NAME ? ' · ' + ESPN_EVENT_NAME.replace(/ presented.*/i,'').slice(0,22) : '');
+    el.style.background = 'rgba(45,125,74,.9)';
+    el.style.color = '#fff';
+  } else {
+    el.textContent = 'SHEET (ESPN failed)';
+    el.style.background = 'rgba(192,57,43,.85)';
+    el.style.color = '#fff';
+  }
+}
+
 function onYearChange(yr) { activeYear = yr; switchTournament(); }
 
 function onMajorClick(id) {
@@ -1582,10 +1768,13 @@ function switchTournament() {
   updateHeader();
   const hk = activeHistKey();
   if (!isHistorical) {
-    processLiveLeaderboard(LIVE_LB_ROWS);
+    // TEST BUILD: prefer the cached ESPN payload; fall back to the sheet
+    if (ESPN_OK && ESPN_JSON) processESPNLeaderboard(ESPN_JSON);
+    else processLiveLeaderboard(LIVE_LB_ROWS);
   } else if (OLD_GOLFERS[hk]) {
     GOLFERS = OLD_GOLFERS[hk] || {};
   }
+  updateSourceBadge();
   filterParticipants();
   buildSelectors();
   renderLeaderboard();
