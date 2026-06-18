@@ -436,6 +436,22 @@
       margin-left: 4px;
       vertical-align: middle;
     }
+    /* ─── Odds badge ─── */
+    .odds-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      margin-top: 3px;
+      font-size: 10px;
+      color: var(--ink3);
+    }
+    .odds-val {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .odds-val.fav  { color: var(--birdie); }
+    .odds-val.long { color: var(--ink2); }
 
     /* ─── Stats strip ─── */
     .ts-row {
@@ -1023,6 +1039,70 @@ async function fetchCSV(url) {
   return text;
 }
 
+/* ─── Odds ─── */
+// Keyed by normalised lowercase name → american odds integer
+let ODDS = {};
+
+// Map The Odds API sport key → our major key
+const ODDS_SPORT_KEY = {
+  'Masters':   'golf_masters_tournament_winner',
+  'PGA':       'golf_pga_championship_winner',
+  'US Open':   'golf_us_open_winner',
+  'The Open':  'golf_the_open_championship_winner',
+};
+
+async function loadOdds() {
+  // odds.json is written by GitHub Actions; path is relative to the HTML file
+  try {
+    const res = await fetch('data/odds.json?t=' + Date.now());
+    if (!res.ok) return;
+    const json = await res.json();
+    // json shape: { major: "PGA", updated: "ISO string", odds: { "Scottie Scheffler": 300, ... } }
+    const maj = activeMajorKey();
+    if (json.major !== maj) return; // stale file for a different tournament — ignore
+    ODDS = {};
+    Object.entries(json.odds || {}).forEach(([name, price]) => {
+      ODDS[name.toLowerCase().trim()] = price;
+    });
+  } catch (_) {
+    // odds.json may not exist yet — silently skip
+  }
+}
+
+// Look up odds for a golfer by name; tries full name then last name
+function getOdds(golferName) {
+  if (!golferName || !Object.keys(ODDS).length) return null;
+  const lower = golferName.toLowerCase().trim();
+  if (ODDS[lower] !== undefined) return ODDS[lower];
+  // Try last name only
+  const last = lower.split(' ').slice(-1)[0];
+  const match = Object.keys(ODDS).find(k => k.split(' ').slice(-1)[0] === last);
+  return match !== undefined ? ODDS[match] : null;
+}
+
+// Format american odds for display: +650, -120, etc.
+function fmtOdds(price) {
+  if (price === null || price === undefined) return null;
+  return price > 0 ? '+' + price : '' + price;
+}
+
+// CSS class for the odds value
+function oddsClass(price) {
+  if (price === null) return '';
+  if (price < 0) return 'fav';
+  if (price > 3000) return 'long';
+  return '';
+}
+
+// Build the small odds line HTML for a golfer card
+function oddsHtml(golferName, cut) {
+  if (cut || isHistorical) return '';
+  const price = getOdds(golferName);
+  if (price === null) return '';
+  const cls = oddsClass(price);
+  return '<div class="odds-line">Win odds: <span class="odds-val ' + cls + '">' + fmtOdds(price) + '</span></div>';
+}
+
 /* ─── Load all data ─── */
 async function loadAllData() {
   const ri = document.getElementById('ri');
@@ -1062,6 +1142,9 @@ async function loadAllData() {
     LIVE_LB_ROWS = parseCSV(lbText);
     processLiveLeaderboard(LIVE_LB_ROWS);
     filterParticipants();
+
+    // Load odds (non-blocking — renders fine without them)
+    await loadOdds();
 
     document.getElementById('upd').textContent = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) + ' ET';
     document.getElementById('lb-loading').style.display = 'none';
@@ -1412,6 +1495,7 @@ function renderLeaderboard() {
           '<div style="min-width:0">' +
             '<div class="gcn">' + (g.flag||'') + ' ' + g.name + cutBadge + '</div>' +
             '<div class="gcp">Pos ' + g.pos + '</div>' +
+            oddsHtml(g.name, g.cut) +
             '<div class="gcp" style="margin-top:3px">R1:' + (g.r1!==null?g.r1:'—') + ' R2:' + (g.r2!==null?g.r2:'—') + ' R3:' + r3disp + ' R4:' + r4disp + '</div>' +
           '</div>' +
           '<div class="gcr">' +
@@ -1477,6 +1561,7 @@ function renderMyTeam(name) {
         '<div style="min-width:0">' +
           '<div class="mtc-nm">' + (g.flag||'') + ' ' + g.name + (g.cut?'<span class="cut-badge">CUT</span>':'') + '</div>' +
           '<div class="mtc-pos">Pos ' + g.pos + ' ' + (g.country||'') + '</div>' +
+          oddsHtml(g.name, g.cut) +
         '</div>' +
         '<div style="text-align:right;flex-shrink:0">' +
           '<div class="mtc-sc ' + sc(g.score) + '">' + fs(g.score) + '</div>' +
