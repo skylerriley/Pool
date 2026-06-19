@@ -1,9 +1,9 @@
 {
   "major": "US Open",
   "sport_key": "golf_us_open_winner",
-  "updated": "2026-06-19T08:45:17Z",
-  "fetched_at": "2026-06-19T08:45:17Z",
-  "bookmaker_updated": "2026-06-19T08:45:17Z",
+  "updated": "2026-06-19T09:00:24Z",
+  "fetched_at": "2026-06-19T09:00:24Z",
+  "bookmaker_updated": "2026-06-19T09:00:16Z",
   "source": "fanduel_or_median",
   "odds": {
     "Wyndham Clark": 310,
@@ -118,8 +118,8 @@
     "Eric Cole": 375000,
     "Jack Schoenberger": 100000,
     "Taihei Sato": 100000,
-    "David Puig": 100000,
     "Jake Knapp": 100000,
+    "David Puig": 100000,
     "Padraig Harrington": 100000,
     "Nick Hardy": 100000,
     "Nathan Kimsey": 100000,
