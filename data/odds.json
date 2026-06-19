@@ -1,9 +1,9 @@
 {
   "major": "US Open",
   "sport_key": "golf_us_open_winner",
-  "updated": "2026-06-19T05:33:34Z",
-  "fetched_at": "2026-06-19T05:33:34Z",
-  "bookmaker_updated": "2026-06-19T05:32:22Z",
+  "updated": "2026-06-19T05:45:16Z",
+  "fetched_at": "2026-06-19T05:45:16Z",
+  "bookmaker_updated": "2026-06-19T05:44:41Z",
   "source": "fanduel_or_median",
   "odds": {
     "Wyndham Clark": 310,
@@ -19,7 +19,7 @@
     "Gary Woodland": 3500,
     "Sam Burns": 4500,
     "Xander Schauffele": 4000,
-    "Cameron Young": 4500,
+    "Cameron Young": 4000,
     "Sam Stevens": 7000,
     "Justin Thomas": 6500,
     "Kristoffer Reitan": 7000,
