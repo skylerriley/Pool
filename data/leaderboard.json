@@ -1,7 +1,7 @@
 {
   "major": "US Open",
   "year": "2026",
-  "updated": "2026-06-19T22:38:33.344015+00:00",
+  "updated": "2026-06-19T23:48:27.565092+00:00",
   "active": true,
   "rows": [
     {
@@ -53,6 +53,18 @@
       "R4": null
     },
     {
+      "PLAYER": "Tom Kim",
+      "COUNTRY": "KOR",
+      "POS": "\u2014",
+      "SCORE": "-75",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": null,
+      "R2": "-75",
+      "R3": null,
+      "R4": null
+    },
+    {
       "PLAYER": "Collin Morikawa",
       "COUNTRY": "USA",
       "POS": "\u2014",
@@ -61,30 +73,6 @@
       "THRU": "",
       "R1": "-69",
       "R2": "-77",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Sam Burns",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-146",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-71",
-      "R2": "-75",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Tom Kim",
-      "COUNTRY": "KOR",
-      "POS": "\u2014",
-      "SCORE": "-74",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": null,
-      "R2": "-74",
       "R3": null,
       "R4": null
     },
@@ -113,26 +101,26 @@
       "R4": null
     },
     {
-      "PLAYER": "Maverick McNealy",
+      "PLAYER": "Sam Burns",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-145",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-70",
-      "R2": "-75",
+      "R1": "-71",
+      "R2": "-74",
       "R3": null,
       "R4": null
     },
     {
-      "PLAYER": "Brian Harman",
+      "PLAYER": "Maverick McNealy",
       "COUNTRY": "USA",
       "POS": "\u2014",
-      "SCORE": "-73",
+      "SCORE": "-144",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-73",
-      "R2": null,
+      "R1": "-70",
+      "R2": "-74",
       "R3": null,
       "R4": null
     },
@@ -173,6 +161,30 @@
       "R4": null
     },
     {
+      "PLAYER": "Keith Mitchell",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "E",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": null,
+      "R2": null,
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Rory McIlroy",
+      "COUNTRY": "NIR",
+      "POS": "\u2014",
+      "SCORE": "-144",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-73",
+      "R2": "-71",
+      "R3": null,
+      "R4": null
+    },
+    {
       "PLAYER": "Ryder Cowan",
       "COUNTRY": "USA",
       "POS": "\u2014",
@@ -197,38 +209,14 @@
       "R4": null
     },
     {
-      "PLAYER": "Rory McIlroy",
-      "COUNTRY": "NIR",
-      "POS": "\u2014",
-      "SCORE": "-144",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-73",
-      "R2": "-71",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Ludvig \u00c5berg",
-      "COUNTRY": "SWE",
-      "POS": "\u2014",
-      "SCORE": "-144",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-73",
-      "R2": "-71",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Keegan Bradley",
+      "PLAYER": "Scottie Scheffler",
       "COUNTRY": "USA",
       "POS": "\u2014",
-      "SCORE": "E",
+      "SCORE": "-144",
       "TODAY": "E",
       "THRU": "",
-      "R1": null,
-      "R2": null,
+      "R1": "-70",
+      "R2": "-74",
       "R3": null,
       "R4": null
     },
@@ -245,19 +233,7 @@
       "R4": null
     },
     {
-      "PLAYER": "Max Greyserman",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-144",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-73",
-      "R2": "-71",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Ben James",
+      "PLAYER": "Brian Harman",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-144",
@@ -341,31 +317,7 @@
       "R4": null
     },
     {
-      "PLAYER": "Corey Conners",
-      "COUNTRY": "CAN",
-      "POS": "\u2014",
-      "SCORE": "-143",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-73",
-      "R2": "-70",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Max McGreevy",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-143",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-74",
-      "R2": "-69",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Keith Mitchell",
+      "PLAYER": "Keegan Bradley",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-71",
@@ -389,26 +341,62 @@
       "R4": null
     },
     {
-      "PLAYER": "Kurt Kitayama",
-      "COUNTRY": "USA",
+      "PLAYER": "Corey Conners",
+      "COUNTRY": "CAN",
       "POS": "\u2014",
       "SCORE": "-143",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-68",
-      "R2": "-75",
+      "R1": "-73",
+      "R2": "-70",
       "R3": null,
       "R4": null
     },
     {
-      "PLAYER": "Scottie Scheffler",
+      "PLAYER": "Ludvig \u00c5berg",
+      "COUNTRY": "SWE",
+      "POS": "\u2014",
+      "SCORE": "-143",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-73",
+      "R2": "-70",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Max McGreevy",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-143",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-70",
-      "R2": "-73",
+      "R1": "-74",
+      "R2": "-69",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Max Greyserman",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-143",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-73",
+      "R2": "-70",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Ben James",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-143",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-73",
+      "R2": "-70",
       "R3": null,
       "R4": null
     },
@@ -425,18 +413,6 @@
       "R4": null
     },
     {
-      "PLAYER": "Michael Kim",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-71",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-71",
-      "R2": null,
-      "R3": null,
-      "R4": null
-    },
-    {
       "PLAYER": "Andrew Putnam",
       "COUNTRY": "USA",
       "POS": "\u2014",
@@ -449,7 +425,55 @@
       "R4": null
     },
     {
+      "PLAYER": "Sungjae Im",
+      "COUNTRY": "KOR",
+      "POS": "\u2014",
+      "SCORE": "-142",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-68",
+      "R2": "-74",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Tyrrell Hatton",
+      "COUNTRY": "ENG",
+      "POS": "\u2014",
+      "SCORE": "-142",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-68",
+      "R2": "-74",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Kurt Kitayama",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-142",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-68",
+      "R2": "-74",
+      "R3": null,
+      "R4": null
+    },
+    {
       "PLAYER": "Ben Griffin",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-70",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-70",
+      "R2": null,
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Cameron Young",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-70",
@@ -521,26 +545,14 @@
       "R4": null
     },
     {
-      "PLAYER": "Tyrrell Hatton",
-      "COUNTRY": "ENG",
+      "PLAYER": "Michael Kim",
+      "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-142",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-68",
-      "R2": "-74",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Cameron Young",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-70",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-70",
-      "R2": null,
+      "R1": "-71",
+      "R2": "-71",
       "R3": null,
       "R4": null
     },
@@ -594,6 +606,30 @@
     },
     {
       "PLAYER": "Michael Brennan",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-141",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-70",
+      "R2": "-71",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Patrick Rodgers",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-141",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-70",
+      "R2": "-71",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Miles Russell",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-141",
@@ -665,19 +701,7 @@
       "R4": null
     },
     {
-      "PLAYER": "Sungjae Im",
-      "COUNTRY": "KOR",
-      "POS": "\u2014",
-      "SCORE": "-141",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-68",
-      "R2": "-73",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Miles Russell",
+      "PLAYER": "Jackson Koivun",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-141",
@@ -685,71 +709,23 @@
       "THRU": "",
       "R1": "-70",
       "R2": "-71",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Patrick Rodgers",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-141",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-70",
-      "R2": "-71",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Rickie Fowler",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-141",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-71",
-      "R2": "-70",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Jacob Bridgeman",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-69",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-69",
-      "R2": null,
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Harris English",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-141",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-70",
-      "R2": "-71",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Dylan Wu",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-69",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-69",
-      "R2": null,
       "R3": null,
       "R4": null
     },
     {
       "PLAYER": "Caleb Surratt",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-140",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-67",
+      "R2": "-73",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Chris Gotterup",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-140",
@@ -869,19 +845,7 @@
       "R4": null
     },
     {
-      "PLAYER": "Chris Gotterup",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-140",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-67",
-      "R2": "-73",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Andrew Novak",
+      "PLAYER": "Jacob Bridgeman",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-140",
@@ -893,14 +857,14 @@
       "R4": null
     },
     {
-      "PLAYER": "Jackson Koivun",
+      "PLAYER": "Dylan Wu",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-140",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-70",
-      "R2": "-70",
+      "R1": "-69",
+      "R2": "-71",
       "R3": null,
       "R4": null
     },
@@ -919,6 +883,18 @@
     {
       "PLAYER": "Jackson Suber",
       "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-139",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-68",
+      "R2": "-71",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Nick Taylor",
+      "COUNTRY": "CAN",
       "POS": "\u2014",
       "SCORE": "-139",
       "TODAY": "E",
@@ -965,6 +941,18 @@
       "R4": null
     },
     {
+      "PLAYER": "Andrew Novak",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-139",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-69",
+      "R2": "-70",
+      "R3": null,
+      "R4": null
+    },
+    {
       "PLAYER": "Matthew Jordan",
       "COUNTRY": "ENG",
       "POS": "\u2014",
@@ -973,6 +961,30 @@
       "THRU": "",
       "R1": "-70",
       "R2": "-69",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Patrick Reed",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-139",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-70",
+      "R2": "-69",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Rickie Fowler",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-139",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-71",
+      "R2": "-68",
       "R3": null,
       "R4": null
     },
@@ -989,50 +1001,26 @@
       "R4": null
     },
     {
-      "PLAYER": "Cameron Smith",
-      "COUNTRY": "AUS",
-      "POS": "\u2014",
-      "SCORE": "-67",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-67",
-      "R2": null,
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Kristoffer Reitan",
-      "COUNTRY": "NOR",
-      "POS": "\u2014",
-      "SCORE": "-67",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": null,
-      "R2": "-67",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Alex Noren",
-      "COUNTRY": "SWE",
-      "POS": "\u2014",
-      "SCORE": "-139",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-68",
-      "R2": "-71",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Sepp Straka",
-      "COUNTRY": "AUT",
+      "PLAYER": "Harris English",
+      "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-139",
       "TODAY": "E",
       "THRU": "",
       "R1": "-70",
       "R2": "-69",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Si Woo Kim",
+      "COUNTRY": "KOR",
+      "POS": "\u2014",
+      "SCORE": "-138",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-65",
+      "R2": "-73",
       "R3": null,
       "R4": null
     },
@@ -1049,8 +1037,44 @@
       "R4": null
     },
     {
+      "PLAYER": "Cameron Smith",
+      "COUNTRY": "AUS",
+      "POS": "\u2014",
+      "SCORE": "-138",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-67",
+      "R2": "-71",
+      "R3": null,
+      "R4": null
+    },
+    {
       "PLAYER": "Patrick Cantlay",
       "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-138",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-68",
+      "R2": "-70",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Lucas Herbert",
+      "COUNTRY": "AUS",
+      "POS": "\u2014",
+      "SCORE": "-138",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-68",
+      "R2": "-70",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Alex Noren",
+      "COUNTRY": "SWE",
       "POS": "\u2014",
       "SCORE": "-138",
       "TODAY": "E",
@@ -1109,6 +1133,18 @@
       "R4": null
     },
     {
+      "PLAYER": "Kristoffer Reitan",
+      "COUNTRY": "NOR",
+      "POS": "\u2014",
+      "SCORE": "-66",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": null,
+      "R2": "-66",
+      "R3": null,
+      "R4": null
+    },
+    {
       "PLAYER": "Jon Rahm",
       "COUNTRY": "ESP",
       "POS": "\u2014",
@@ -1121,30 +1157,6 @@
       "R4": null
     },
     {
-      "PLAYER": "Si Woo Kim",
-      "COUNTRY": "KOR",
-      "POS": "\u2014",
-      "SCORE": "-138",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-65",
-      "R2": "-73",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Patrick Reed",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-138",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-70",
-      "R2": "-68",
-      "R3": null,
-      "R4": null
-    },
-    {
       "PLAYER": "Filippo Celli",
       "COUNTRY": "ITA",
       "POS": "\u2014",
@@ -1153,6 +1165,18 @@
       "THRU": "",
       "R1": "-67",
       "R2": "-71",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Brandon Wu",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-137",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-64",
+      "R2": "-73",
       "R3": null,
       "R4": null
     },
@@ -1170,6 +1194,18 @@
     },
     {
       "PLAYER": "Giuseppe Puebla",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-137",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-68",
+      "R2": "-69",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Jimmy Stanger",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-137",
@@ -1217,7 +1253,19 @@
       "R4": null
     },
     {
-      "PLAYER": "Brandon Wu",
+      "PLAYER": "Sepp Straka",
+      "COUNTRY": "AUT",
+      "POS": "\u2014",
+      "SCORE": "-137",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-70",
+      "R2": "-67",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Mason Howell",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-137",
@@ -1225,42 +1273,6 @@
       "THRU": "",
       "R1": "-64",
       "R2": "-73",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Jimmy Stanger",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-137",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-68",
-      "R2": "-69",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Lucas Herbert",
-      "COUNTRY": "AUS",
-      "POS": "\u2014",
-      "SCORE": "-137",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-68",
-      "R2": "-69",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Nick Taylor",
-      "COUNTRY": "CAN",
-      "POS": "\u2014",
-      "SCORE": "-137",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-68",
-      "R2": "-69",
       "R3": null,
       "R4": null
     },
@@ -1337,26 +1349,14 @@
       "R4": null
     },
     {
-      "PLAYER": "Brooks Koepka",
+      "PLAYER": "J.J. Spaun",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-136",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-69",
-      "R2": "-67",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Mason Howell",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-64",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-64",
-      "R2": null,
+      "R1": "-65",
+      "R2": "-71",
       "R3": null,
       "R4": null
     },
@@ -1385,6 +1385,18 @@
       "R4": null
     },
     {
+      "PLAYER": "Jake Peacock",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-136",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-66",
+      "R2": "-70",
+      "R3": null,
+      "R4": null
+    },
+    {
       "PLAYER": "Chris Kirk",
       "COUNTRY": "USA",
       "POS": "\u2014",
@@ -1393,6 +1405,18 @@
       "THRU": "",
       "R1": "-64",
       "R2": "-71",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Carl Yuan",
+      "COUNTRY": "CHN",
+      "POS": "\u2014",
+      "SCORE": "-135",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-65",
+      "R2": "-70",
       "R3": null,
       "R4": null
     },
@@ -1493,49 +1517,13 @@
       "R4": null
     },
     {
-      "PLAYER": "Carl Yuan",
-      "COUNTRY": "CHN",
-      "POS": "\u2014",
-      "SCORE": "-135",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-65",
-      "R2": "-70",
-      "R3": null,
-      "R4": null
-    },
-    {
       "PLAYER": "Daniel Berger",
       "COUNTRY": "USA",
       "POS": "\u2014",
-      "SCORE": "-135",
+      "SCORE": "-134",
       "TODAY": "E",
       "THRU": "",
       "R1": "-65",
-      "R2": "-70",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "J.J. Spaun",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-135",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-65",
-      "R2": "-70",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Jake Peacock",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-135",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-66",
       "R2": "-69",
       "R3": null,
       "R4": null
@@ -1565,26 +1553,14 @@
       "R4": null
     },
     {
-      "PLAYER": "Graeme McDowell",
-      "COUNTRY": "NIR",
-      "POS": "\u2014",
-      "SCORE": "-134",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-66",
-      "R2": "-68",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Logan Reilly",
+      "PLAYER": "Brooks Koepka",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-134",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-63",
-      "R2": "-71",
+      "R1": "-69",
+      "R2": "-65",
       "R3": null,
       "R4": null
     },
@@ -1637,6 +1613,18 @@
       "R4": null
     },
     {
+      "PLAYER": "Padraig Harrington",
+      "COUNTRY": "IRL",
+      "POS": "\u2014",
+      "SCORE": "-133",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-65",
+      "R2": "-68",
+      "R3": null,
+      "R4": null
+    },
+    {
       "PLAYER": "Harry Hall",
       "COUNTRY": "ENG",
       "POS": "\u2014",
@@ -1673,26 +1661,14 @@
       "R4": null
     },
     {
-      "PLAYER": "Padraig Harrington",
-      "COUNTRY": "IRL",
-      "POS": "\u2014",
-      "SCORE": "-133",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-65",
-      "R2": "-68",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Vaughn Harber",
+      "PLAYER": "Logan Reilly",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-133",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-67",
-      "R2": "-66",
+      "R1": "-63",
+      "R2": "-70",
       "R3": null,
       "R4": null
     },
@@ -1711,6 +1687,18 @@
     {
       "PLAYER": "Hennie Du Plessis",
       "COUNTRY": "RSA",
+      "POS": "\u2014",
+      "SCORE": "-132",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-66",
+      "R2": "-66",
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Graeme McDowell",
+      "COUNTRY": "NIR",
       "POS": "\u2014",
       "SCORE": "-132",
       "TODAY": "E",
@@ -1757,6 +1745,18 @@
       "R4": null
     },
     {
+      "PLAYER": "Vaughn Harber",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-132",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-67",
+      "R2": "-65",
+      "R3": null,
+      "R4": null
+    },
+    {
       "PLAYER": "Jake Sollon",
       "COUNTRY": "USA",
       "POS": "\u2014",
@@ -1777,18 +1777,6 @@
       "THRU": "",
       "R1": "-65",
       "R2": "-65",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Jackson Ormond",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-130",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-62",
-      "R2": "-68",
       "R3": null,
       "R4": null
     },
@@ -1829,14 +1817,26 @@
       "R4": null
     },
     {
+      "PLAYER": "Jackson Ormond",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-126",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-62",
+      "R2": "-64",
+      "R3": null,
+      "R4": null
+    },
+    {
       "PLAYER": "Greyson Leach",
       "COUNTRY": "USA",
       "POS": "\u2014",
-      "SCORE": "-127",
+      "SCORE": "-125",
       "TODAY": "E",
       "THRU": "",
       "R1": "-63",
-      "R2": "-64",
+      "R2": "-62",
       "R3": null,
       "R4": null
     },
