@@ -1,9 +1,9 @@
 {
   "major": "US Open",
   "sport_key": "golf_us_open_winner",
-  "updated": "2026-06-20T09:15:16Z",
-  "fetched_at": "2026-06-20T09:15:16Z",
-  "bookmaker_updated": "2026-06-20T09:15:07Z",
+  "updated": "2026-06-20T09:30:21Z",
+  "fetched_at": "2026-06-20T09:30:21Z",
+  "bookmaker_updated": "2026-06-20T09:29:41Z",
   "source": "fanduel_or_median",
   "odds": {
     "Wyndham Clark": 180,
