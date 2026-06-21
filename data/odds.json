@@ -1,9 +1,9 @@
 {
   "major": "US Open",
   "sport_key": "golf_us_open_winner",
-  "updated": "2026-06-21T03:30:23Z",
-  "fetched_at": "2026-06-21T03:30:23Z",
-  "bookmaker_updated": "2026-06-21T03:26:35Z",
+  "updated": "2026-06-21T03:45:20Z",
+  "fetched_at": "2026-06-21T03:45:20Z",
+  "bookmaker_updated": "2026-06-21T03:42:05Z",
   "source": "fanduel_or_median",
   "odds": {
     "Wyndham Clark": -280,
@@ -11,7 +11,7 @@
     "Xander Schauffele": 2700,
     "Sahith Theegala": 3000,
     "Joohyung Kim": 3300,
-    "Sam Burns": 3500,
+    "Sam Burns": 3000,
     "Sam Stevens": 3500,
     "Keith Mitchell": 6000,
     "Matthew Fitzpatrick": 6000,
