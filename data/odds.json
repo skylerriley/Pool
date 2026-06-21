@@ -1,13 +1,12 @@
 {
   "major": "US Open",
   "sport_key": "golf_us_open_winner",
-  "updated": "2026-06-21T22:30:26Z",
-  "fetched_at": "2026-06-21T22:30:26Z",
-  "bookmaker_updated": "2026-06-21T22:29:56Z",
+  "updated": "2026-06-21T22:45:16Z",
+  "fetched_at": "2026-06-21T22:45:16Z",
+  "bookmaker_updated": "2026-06-21T22:44:34Z",
   "source": "fanduel_or_median",
   "odds": {
-    "Wyndham Clark": -2500,
-    "Sam Burns": 1200,
-    "Joohyung Kim": 100000
+    "Wyndham Clark": -900,
+    "Sam Burns": 600
   }
 }
