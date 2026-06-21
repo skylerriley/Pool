@@ -1,9 +1,9 @@
 {
   "major": "US Open",
   "sport_key": "golf_us_open_winner",
-  "updated": "2026-06-21T13:00:25Z",
-  "fetched_at": "2026-06-21T13:00:25Z",
-  "bookmaker_updated": "2026-06-21T12:59:38Z",
+  "updated": "2026-06-21T13:15:20Z",
+  "fetched_at": "2026-06-21T13:15:20Z",
+  "bookmaker_updated": "2026-06-21T13:15:17Z",
   "source": "fanduel_or_median",
   "odds": {
     "Wyndham Clark": -280,
@@ -17,9 +17,9 @@
     "Matthew Fitzpatrick": 6000,
     "Tommy Fleetwood": 5500,
     "Collin Morikawa": 6500,
-    "Emiliano Grillo": 8000,
+    "Emiliano Grillo": 7000,
     "Rory McIlroy": 15000,
-    "Alex Fitzpatrick": 17500,
+    "Alex Fitzpatrick": 22500,
     "Corey Conners": 35000,
     "Keegan Bradley": 22500,
     "Aaron Rai": 50000,
@@ -58,7 +58,6 @@
     "Jordan Spieth": 100000,
     "Caleb Surratt": 100000,
     "Jacob Bridgeman": 100000,
-    "Benjamin James": 100000,
     "Ben Kohles": 100000,
     "Angel Hidalgo": 100000,
     "Andrew Putnam": 100000,
@@ -74,6 +73,7 @@
     "Adrien Dumont": 100000,
     "Patrick Rodgers": 100000,
     "Russell Henley": 100000,
+    "Benjamin James": 100000,
     "Miles Russell": 100000,
     "James Nicholas": 100000
   }
