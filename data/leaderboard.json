@@ -1,7 +1,7 @@
 {
   "major": "US Open",
   "year": "2026",
-  "updated": "2026-06-21T02:30:29.831019+00:00",
+  "updated": "2026-06-21T13:01:21.347423+00:00",
   "active": true,
   "rows": [
     {
@@ -653,6 +653,30 @@
       "R4": null
     },
     {
+      "PLAYER": "Nico Echavarria",
+      "COUNTRY": "COL",
+      "POS": "\u2014",
+      "SCORE": "-280",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-71",
+      "R2": "-69",
+      "R3": "-67",
+      "R4": "-73"
+    },
+    {
+      "PLAYER": "Ben James",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-208",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-73",
+      "R2": "-70",
+      "R3": "-65",
+      "R4": null
+    },
+    {
       "PLAYER": "Jacob Bridgeman",
       "COUNTRY": "USA",
       "POS": "\u2014",
@@ -725,18 +749,6 @@
       "R4": null
     },
     {
-      "PLAYER": "Ben James",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-208",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-73",
-      "R2": "-70",
-      "R3": "-65",
-      "R4": null
-    },
-    {
       "PLAYER": "Caleb Surratt",
       "COUNTRY": "USA",
       "POS": "\u2014",
@@ -749,44 +761,32 @@
       "R4": null
     },
     {
-      "PLAYER": "Nico Echavarria",
-      "COUNTRY": "COL",
-      "POS": "\u2014",
-      "SCORE": "-207",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-71",
-      "R2": "-69",
-      "R3": "-67",
-      "R4": null
-    },
-    {
       "PLAYER": "Adrien Dumont de Chassart",
       "COUNTRY": "BEL",
       "POS": "\u2014",
-      "SCORE": "-207",
+      "SCORE": "-278",
       "TODAY": "E",
       "THRU": "",
       "R1": "-71",
       "R2": "-71",
       "R3": "-65",
-      "R4": null
+      "R4": "-71"
     },
     {
-      "PLAYER": "Hideki Matsuyama",
-      "COUNTRY": "JPN",
+      "PLAYER": "Peter Uihlein",
+      "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-205",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-71",
-      "R2": "-69",
-      "R3": "-65",
-      "R4": null
+      "R1": "-68",
+      "R2": null,
+      "R3": "-62",
+      "R4": "-75"
     },
     {
-      "PLAYER": "Neal Shipley",
-      "COUNTRY": "USA",
+      "PLAYER": "Hideki Matsuyama",
+      "COUNTRY": "JPN",
       "POS": "\u2014",
       "SCORE": "-205",
       "TODAY": "E",
@@ -809,40 +809,40 @@
       "R4": null
     },
     {
-      "PLAYER": "Patrick Rodgers",
+      "PLAYER": "Neal Shipley",
       "COUNTRY": "USA",
       "POS": "\u2014",
-      "SCORE": "-203",
+      "SCORE": "-276",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-70",
-      "R2": "-71",
-      "R3": "-62",
-      "R4": null
+      "R1": "-71",
+      "R2": "-69",
+      "R3": "-65",
+      "R4": "-71"
     },
     {
       "PLAYER": "Russell Henley",
       "COUNTRY": "USA",
       "POS": "\u2014",
-      "SCORE": "-131",
+      "SCORE": "-202",
       "TODAY": "E",
       "THRU": "",
       "R1": null,
       "R2": "-69",
       "R3": "-62",
-      "R4": null
+      "R4": "-71"
     },
     {
-      "PLAYER": "Peter Uihlein",
+      "PLAYER": "Patrick Rodgers",
       "COUNTRY": "USA",
       "POS": "\u2014",
-      "SCORE": "-130",
+      "SCORE": "-274",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-68",
-      "R2": null,
+      "R1": "-70",
+      "R2": "-71",
       "R3": "-62",
-      "R4": null
+      "R4": "-71"
     },
     {
       "PLAYER": "James Nicholas",
@@ -860,13 +860,13 @@
       "PLAYER": "Dylan Wu",
       "COUNTRY": "USA",
       "POS": "\u2014",
-      "SCORE": "-200",
+      "SCORE": "-271",
       "TODAY": "E",
       "THRU": "",
       "R1": "-69",
       "R2": "-71",
       "R3": "-60",
-      "R4": null
+      "R4": "-71"
     },
     {
       "PLAYER": "Viktor Hovland",
