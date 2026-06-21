@@ -1,21 +1,21 @@
 {
   "major": "US Open",
   "sport_key": "golf_us_open_winner",
-  "updated": "2026-06-21T21:15:18Z",
-  "fetched_at": "2026-06-21T21:15:18Z",
-  "bookmaker_updated": "2026-06-21T21:15:18Z",
+  "updated": "2026-06-21T21:30:25Z",
+  "fetched_at": "2026-06-21T21:30:25Z",
+  "bookmaker_updated": "2026-06-21T21:30:13Z",
   "source": "fanduel_or_median",
   "odds": {
-    "Wyndham Clark": -450,
-    "Sam Burns": 500,
-    "Scottie Scheffler": 1200,
-    "Joohyung Kim": 5000,
-    "Keith Mitchell": 8000,
+    "Wyndham Clark": -425,
+    "Sam Burns": 700,
+    "Scottie Scheffler": 850,
+    "Keith Mitchell": 3500,
+    "Joohyung Kim": 3300,
     "Sam Stevens": 100000,
+    "Tommy Fleetwood": 100000,
     "Sahith Theegala": 100000,
-    "Emiliano Grillo": 100000,
-    "J.T. Poston": 500000,
+    "J.T. Poston": 100000,
     "Xander Schauffele": 500000,
-    "Tommy Fleetwood": 500000
+    "Emiliano Grillo": 100000
   }
 }
