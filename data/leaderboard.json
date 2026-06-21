@@ -1,7 +1,7 @@
 {
   "major": "US Open",
   "year": "2026",
-  "updated": "2026-06-20T23:19:15.172074+00:00",
+  "updated": "2026-06-21T01:44:21.582264+00:00",
   "active": true,
   "rows": [
     {
@@ -38,6 +38,18 @@
       "R1": "-70",
       "R2": "-75",
       "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Tom Kim",
+      "COUNTRY": "KOR",
+      "POS": "\u2014",
+      "SCORE": "-145",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": null,
+      "R2": "-75",
+      "R3": "-70",
       "R4": null
     },
     {
@@ -101,30 +113,6 @@
       "R4": null
     },
     {
-      "PLAYER": "Tom Kim",
-      "COUNTRY": "KOR",
-      "POS": "\u2014",
-      "SCORE": "-144",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": null,
-      "R2": "-75",
-      "R3": "-69",
-      "R4": null
-    },
-    {
-      "PLAYER": "Matt Fitzpatrick",
-      "COUNTRY": "ENG",
-      "POS": "\u2014",
-      "SCORE": "-144",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-75",
-      "R2": null,
-      "R3": "-69",
-      "R4": null
-    },
-    {
       "PLAYER": "Tommy Fleetwood",
       "COUNTRY": "ENG",
       "POS": "\u2014",
@@ -146,6 +134,18 @@
       "R1": "-69",
       "R2": "-77",
       "R3": "-69",
+      "R4": null
+    },
+    {
+      "PLAYER": "Matt Fitzpatrick",
+      "COUNTRY": "ENG",
+      "POS": "\u2014",
+      "SCORE": "-143",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-75",
+      "R2": null,
+      "R3": "-68",
       "R4": null
     },
     {
