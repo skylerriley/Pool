@@ -1,44 +1,32 @@
 {
   "major": "US Open",
   "year": "2026",
-  "updated": "2026-06-21T21:25:11.949203+00:00",
+  "updated": "2026-06-21T22:40:49.009648+00:00",
   "active": true,
   "rows": [
     {
       "PLAYER": "Wyndham Clark",
       "COUNTRY": "USA",
       "POS": "\u2014",
-      "SCORE": "-221",
+      "SCORE": "-220",
       "TODAY": "E",
       "THRU": "",
       "R1": "-78",
       "R2": "-73",
       "R3": null,
-      "R4": "-70"
+      "R4": "-69"
     },
     {
       "PLAYER": "Sam Burns",
       "COUNTRY": "USA",
       "POS": "\u2014",
-      "SCORE": "-290",
+      "SCORE": "-291",
       "TODAY": "E",
       "THRU": "",
       "R1": "-71",
       "R2": "-74",
       "R3": "-71",
-      "R4": "-74"
-    },
-    {
-      "PLAYER": "Keith Mitchell",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-73",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": null,
-      "R2": null,
-      "R3": null,
-      "R4": "-73"
+      "R4": "-75"
     },
     {
       "PLAYER": "Tom Kim",
@@ -53,18 +41,6 @@
       "R4": null
     },
     {
-      "PLAYER": "Scottie Scheffler",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-217",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-70",
-      "R2": "-74",
-      "R3": "-73",
-      "R4": null
-    },
-    {
       "PLAYER": "J.T. Poston",
       "COUNTRY": "USA",
       "POS": "\u2014",
@@ -75,6 +51,30 @@
       "R2": "-71",
       "R3": "-71",
       "R4": "-75"
+    },
+    {
+      "PLAYER": "Keith Mitchell",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "E",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": null,
+      "R2": null,
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Scottie Scheffler",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-288",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-70",
+      "R2": "-74",
+      "R3": "-73",
+      "R4": "-71"
     },
     {
       "PLAYER": "Joaqu\u00edn Niemann",
@@ -161,18 +161,6 @@
       "R4": "-73"
     },
     {
-      "PLAYER": "Collin Morikawa",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-286",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-69",
-      "R2": "-77",
-      "R3": "-69",
-      "R4": "-71"
-    },
-    {
       "PLAYER": "Tommy Fleetwood",
       "COUNTRY": "ENG",
       "POS": "\u2014",
@@ -257,6 +245,18 @@
       "R4": null
     },
     {
+      "PLAYER": "Collin Morikawa",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-285",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-69",
+      "R2": "-77",
+      "R3": "-69",
+      "R4": "-70"
+    },
+    {
       "PLAYER": "Matt Fitzpatrick",
       "COUNTRY": "ENG",
       "POS": "\u2014",
@@ -267,18 +267,6 @@
       "R2": null,
       "R3": "-68",
       "R4": "-69"
-    },
-    {
-      "PLAYER": "Emiliano Grillo",
-      "COUNTRY": "ARG",
-      "POS": "\u2014",
-      "SCORE": "-212",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-69",
-      "R2": null,
-      "R3": "-75",
-      "R4": "-68"
     },
     {
       "PLAYER": "Ben James",
@@ -341,6 +329,18 @@
       "R4": "-71"
     },
     {
+      "PLAYER": "Corey Conners",
+      "COUNTRY": "CAN",
+      "POS": "\u2014",
+      "SCORE": "-283",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-73",
+      "R2": "-70",
+      "R3": "-71",
+      "R4": "-69"
+    },
+    {
       "PLAYER": "Alex Fitzpatrick",
       "COUNTRY": "ENG",
       "POS": "\u2014",
@@ -365,28 +365,16 @@
       "R4": "-69"
     },
     {
-      "PLAYER": "Keegan Bradley",
-      "COUNTRY": "USA",
+      "PLAYER": "Emiliano Grillo",
+      "COUNTRY": "ARG",
       "POS": "\u2014",
       "SCORE": "-211",
       "TODAY": "E",
       "THRU": "",
-      "R1": null,
-      "R2": "-71",
-      "R3": "-71",
-      "R4": "-69"
-    },
-    {
-      "PLAYER": "Corey Conners",
-      "COUNTRY": "CAN",
-      "POS": "\u2014",
-      "SCORE": "-283",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-73",
-      "R2": "-70",
-      "R3": "-71",
-      "R4": "-69"
+      "R1": "-69",
+      "R2": null,
+      "R3": "-75",
+      "R4": "-67"
     },
     {
       "PLAYER": "Dustin Johnson",
@@ -459,6 +447,18 @@
       "R2": "-71",
       "R3": "-69",
       "R4": "-69"
+    },
+    {
+      "PLAYER": "Keegan Bradley",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-210",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": null,
+      "R2": "-71",
+      "R3": "-71",
+      "R4": "-68"
     },
     {
       "PLAYER": "Jacob Bridgeman",
