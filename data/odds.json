@@ -1,9 +1,9 @@
 {
   "major": "The Open",
   "sport_key": "golf_the_open_championship_winner",
-  "updated": "2026-07-15T08:30:31Z",
-  "fetched_at": "2026-07-15T08:30:31Z",
-  "bookmaker_updated": "2026-07-15T08:30:03Z",
+  "updated": "2026-07-15T08:45:16Z",
+  "fetched_at": "2026-07-15T08:45:16Z",
+  "bookmaker_updated": "2026-07-15T08:43:08Z",
   "source": "fanduel_or_median",
   "odds": {
     "Scottie Scheffler": 750,
@@ -83,7 +83,7 @@
     "Keith Mitchell": 15000,
     "Jesper Svensson": 50000,
     "Lucas Herbert": 25000,
-    "Marco Penge": 17500,
+    "Marco Penge": 22500,
     "Matt McCarty": 25000,
     "Michael Kim": 17500,
     "Nick Taylor": 17500,
