@@ -35,7 +35,7 @@ from statistics import median
 API_KEY = os.environ.get("ODDS_API_KEY", "").strip()
 
 # Set these to match the active major when it changes.
-SPORT_KEY   = os.environ.get("SPORT_KEY",   "golf_the_open_winner")
+SPORT_KEY   = os.environ.get("SPORT_KEY",   "golf_the_open_championship_winner")
 MAJOR_LABEL = os.environ.get("MAJOR_LABEL", "The Open")
 
 REGIONS = "us"
