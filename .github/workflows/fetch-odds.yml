@@ -23,8 +23,8 @@ jobs:
       - name: Fetch odds
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-          SPORT_KEY: golf_us_open_winner
-          MAJOR_LABEL: US Open
+          SPORT_KEY: golf_the_open_championship_winner
+          MAJOR_LABEL: The Open
         run: python fetch_odds.py
       - name: Commit and push if changed
         run: |
