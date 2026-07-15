@@ -1,9 +1,9 @@
 {
   "major": "The Open",
   "sport_key": "golf_the_open_championship_winner",
-  "updated": "2026-07-15T13:15:17Z",
-  "fetched_at": "2026-07-15T13:15:17Z",
-  "bookmaker_updated": "2026-07-15T13:13:49Z",
+  "updated": "2026-07-15T13:30:33Z",
+  "fetched_at": "2026-07-15T13:30:33Z",
+  "bookmaker_updated": "2026-07-15T13:29:44Z",
   "source": "fanduel_or_median",
   "odds": {
     "Scottie Scheffler": 750,
@@ -34,9 +34,9 @@
     "Bryson DeChambeau": 6500,
     "Patrick Cantlay": 5500,
     "Alex Fitzpatrick": 6000,
+    "Hideki Matsuyama": 7000,
     "J.J. Spaun": 6500,
     "Brooks Koepka": 7000,
-    "Hideki Matsuyama": 7000,
     "Jordan Spieth": 10000,
     "Adam Scott": 10000,
     "Cameron Smith": 12500,
