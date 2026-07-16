@@ -1,7 +1,7 @@
 {
   "major": "The Open",
   "year": "2026",
-  "updated": "2026-07-16T19:44:25.407257+00:00",
+  "updated": "2026-07-16T20:35:39.892073+00:00",
   "active": true,
   "rows": [
     {
@@ -461,18 +461,6 @@
       "R4": null
     },
     {
-      "PLAYER": "Xander Schauffele",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-73",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-73",
-      "R2": null,
-      "R3": null,
-      "R4": null
-    },
-    {
       "PLAYER": "Andy Sullivan",
       "COUNTRY": "ENG",
       "POS": "\u2014",
@@ -690,6 +678,30 @@
     },
     {
       "PLAYER": "Jacob Bridgeman",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "E",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": null,
+      "R2": null,
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Cameron John",
+      "COUNTRY": "AUS",
+      "POS": "\u2014",
+      "SCORE": "E",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": null,
+      "R2": null,
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Marcus Plunkett",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "E",
@@ -965,8 +977,8 @@
       "R4": null
     },
     {
-      "PLAYER": "Rasmus Neergaard-Petersen",
-      "COUNTRY": "DEN",
+      "PLAYER": "Xander Schauffele",
+      "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-71",
       "TODAY": "E",
@@ -991,42 +1003,6 @@
     {
       "PLAYER": "Nico Echavarria",
       "COUNTRY": "COL",
-      "POS": "\u2014",
-      "SCORE": "-71",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-71",
-      "R2": null,
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Cameron John",
-      "COUNTRY": "AUS",
-      "POS": "\u2014",
-      "SCORE": "-71",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-71",
-      "R2": null,
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Francesco Laporta",
-      "COUNTRY": "ITA",
-      "POS": "\u2014",
-      "SCORE": "-71",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-71",
-      "R2": null,
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Marcus Plunkett",
-      "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-71",
       "TODAY": "E",
@@ -1241,8 +1217,56 @@
       "R4": null
     },
     {
+      "PLAYER": "Rory McIlroy",
+      "COUNTRY": "NIR",
+      "POS": "\u2014",
+      "SCORE": "-70",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-70",
+      "R2": null,
+      "R3": null,
+      "R4": null
+    },
+    {
       "PLAYER": "Matt Fitzpatrick",
       "COUNTRY": "ENG",
+      "POS": "\u2014",
+      "SCORE": "-70",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-70",
+      "R2": null,
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Rasmus Neergaard-Petersen",
+      "COUNTRY": "DEN",
+      "POS": "\u2014",
+      "SCORE": "-70",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-70",
+      "R2": null,
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Sam Bairstow",
+      "COUNTRY": "ENG",
+      "POS": "\u2014",
+      "SCORE": "-70",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-70",
+      "R2": null,
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Kazuki Higa",
+      "COUNTRY": "JPN",
       "POS": "\u2014",
       "SCORE": "-70",
       "TODAY": "E",
@@ -1445,18 +1469,6 @@
       "R4": null
     },
     {
-      "PLAYER": "Rory McIlroy",
-      "COUNTRY": "NIR",
-      "POS": "\u2014",
-      "SCORE": "-69",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-69",
-      "R2": null,
-      "R3": null,
-      "R4": null
-    },
-    {
       "PLAYER": "Tim Wiedemeyer",
       "COUNTRY": "GER",
       "POS": "\u2014",
@@ -1493,18 +1505,6 @@
       "R4": null
     },
     {
-      "PLAYER": "Sam Bairstow",
-      "COUNTRY": "ENG",
-      "POS": "\u2014",
-      "SCORE": "-69",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-69",
-      "R2": null,
-      "R3": null,
-      "R4": null
-    },
-    {
       "PLAYER": "Naoyuki Kataoka",
       "COUNTRY": "JPN",
       "POS": "\u2014",
@@ -1519,18 +1519,6 @@
     {
       "PLAYER": "Bard Bjornevik Skogen",
       "COUNTRY": "NOR",
-      "POS": "\u2014",
-      "SCORE": "-69",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-69",
-      "R2": null,
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Kazuki Higa",
-      "COUNTRY": "JPN",
       "POS": "\u2014",
       "SCORE": "-69",
       "TODAY": "E",
@@ -1613,20 +1601,8 @@
       "R4": null
     },
     {
-      "PLAYER": "Daniel Berger",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-68",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-68",
-      "R2": null,
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Nevill Ruiter",
-      "COUNTRY": "NED",
+      "PLAYER": "Francesco Laporta",
+      "COUNTRY": "ITA",
       "POS": "\u2014",
       "SCORE": "-68",
       "TODAY": "E",
@@ -1721,18 +1697,6 @@
       "R4": null
     },
     {
-      "PLAYER": "Austen Truslow",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-67",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-67",
-      "R2": null,
-      "R3": null,
-      "R4": null
-    },
-    {
       "PLAYER": "Ren Yonezawa",
       "COUNTRY": "JPN",
       "POS": "\u2014",
@@ -1771,6 +1735,42 @@
     {
       "PLAYER": "Joaqu\u00edn Niemann",
       "COUNTRY": "CHI",
+      "POS": "\u2014",
+      "SCORE": "-66",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-66",
+      "R2": null,
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Daniel Berger",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-66",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-66",
+      "R2": null,
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Jiho Yang",
+      "COUNTRY": "KOR",
+      "POS": "\u2014",
+      "SCORE": "-66",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-66",
+      "R2": null,
+      "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Nevill Ruiter",
+      "COUNTRY": "NED",
       "POS": "\u2014",
       "SCORE": "-66",
       "TODAY": "E",
@@ -1841,19 +1841,19 @@
       "R4": null
     },
     {
-      "PLAYER": "Jiho Yang",
-      "COUNTRY": "KOR",
+      "PLAYER": "Gary Woodland",
+      "COUNTRY": "USA",
       "POS": "\u2014",
-      "SCORE": "-65",
+      "SCORE": "-64",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-65",
+      "R1": "-64",
       "R2": null,
       "R3": null,
       "R4": null
     },
     {
-      "PLAYER": "Gary Woodland",
+      "PLAYER": "Austen Truslow",
       "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-64",
