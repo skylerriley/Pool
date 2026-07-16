@@ -1,9 +1,9 @@
 {
   "major": "The Open",
   "sport_key": "golf_the_open_championship_winner",
-  "updated": "2026-07-16T03:45:12Z",
-  "fetched_at": "2026-07-16T03:45:12Z",
-  "bookmaker_updated": "2026-07-16T03:44:52Z",
+  "updated": "2026-07-16T04:00:33Z",
+  "fetched_at": "2026-07-16T04:00:33Z",
+  "bookmaker_updated": "2026-07-16T04:00:14Z",
   "source": "fanduel_or_median",
   "odds": {
     "Scottie Scheffler": 650,
@@ -104,7 +104,7 @@
     "Sami V\u00e4lim\u00e4ki": 35000,
     "Bernd Wiesberger": 35000,
     "Michael Brennan": 35000,
-    "Jackson Suber": 35000,
+    "Jackson Suber": 25000,
     "Aldrich Potgieter": 35000,
     "Daniel Brown": 50000,
     "John Parry": 22500,
