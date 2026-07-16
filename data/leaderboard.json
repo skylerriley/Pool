@@ -1,7 +1,7 @@
 {
   "major": "The Open",
   "year": "2026",
-  "updated": "2026-07-16T20:35:39.892073+00:00",
+  "updated": "2026-07-16T21:41:32.732084+00:00",
   "active": true,
   "rows": [
     {
@@ -1265,18 +1265,6 @@
       "R4": null
     },
     {
-      "PLAYER": "Kazuki Higa",
-      "COUNTRY": "JPN",
-      "POS": "\u2014",
-      "SCORE": "-70",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-70",
-      "R2": null,
-      "R3": null,
-      "R4": null
-    },
-    {
       "PLAYER": "Michael Kim",
       "COUNTRY": "USA",
       "POS": "\u2014",
@@ -1529,6 +1517,18 @@
       "R4": null
     },
     {
+      "PLAYER": "Kazuki Higa",
+      "COUNTRY": "JPN",
+      "POS": "\u2014",
+      "SCORE": "-69",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-69",
+      "R2": null,
+      "R3": null,
+      "R4": null
+    },
+    {
       "PLAYER": "Martin Couvra",
       "COUNTRY": "FRA",
       "POS": "\u2014",
@@ -1757,18 +1757,6 @@
       "R4": null
     },
     {
-      "PLAYER": "Jiho Yang",
-      "COUNTRY": "KOR",
-      "POS": "\u2014",
-      "SCORE": "-66",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-66",
-      "R2": null,
-      "R3": null,
-      "R4": null
-    },
-    {
       "PLAYER": "Nevill Ruiter",
       "COUNTRY": "NED",
       "POS": "\u2014",
@@ -1841,6 +1829,18 @@
       "R4": null
     },
     {
+      "PLAYER": "Jiho Yang",
+      "COUNTRY": "KOR",
+      "POS": "\u2014",
+      "SCORE": "-65",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-65",
+      "R2": null,
+      "R3": null,
+      "R4": null
+    },
+    {
       "PLAYER": "Gary Woodland",
       "COUNTRY": "USA",
       "POS": "\u2014",
@@ -1856,10 +1856,10 @@
       "PLAYER": "Austen Truslow",
       "COUNTRY": "USA",
       "POS": "\u2014",
-      "SCORE": "-64",
+      "SCORE": "-63",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-64",
+      "R1": "-63",
       "R2": null,
       "R3": null,
       "R4": null
