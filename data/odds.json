@@ -1,9 +1,9 @@
 {
   "major": "The Open",
   "sport_key": "golf_the_open_championship_winner",
-  "updated": "2026-07-16T05:00:36Z",
-  "fetched_at": "2026-07-16T05:00:36Z",
-  "bookmaker_updated": "2026-07-16T05:00:13Z",
+  "updated": "2026-07-16T05:15:13Z",
+  "fetched_at": "2026-07-16T05:15:13Z",
+  "bookmaker_updated": "2026-07-16T05:15:10Z",
   "source": "fanduel_or_median",
   "odds": {
     "Scottie Scheffler": 650,
@@ -56,7 +56,7 @@
     "Sepp Straka": 17500,
     "Gary Woodland": 22500,
     "Alexander Noren": 12500,
-    "Angel Ayora": 17500,
+    "Angel Ayora": 22500,
     "Jordan Smith": 17500,
     "Kristoffer Reitan": 10000,
     "Ryan Gerard": 10000,
