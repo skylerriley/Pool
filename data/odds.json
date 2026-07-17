@@ -1,9 +1,9 @@
 {
   "major": "The Open",
   "sport_key": "golf_the_open_championship_winner",
-  "updated": "2026-07-17T21:45:15Z",
-  "fetched_at": "2026-07-17T21:45:15Z",
-  "bookmaker_updated": "2026-07-17T21:42:38Z",
+  "updated": "2026-07-17T22:00:23Z",
+  "fetched_at": "2026-07-17T22:00:23Z",
+  "bookmaker_updated": "2026-07-17T21:57:53Z",
   "source": "fanduel_or_median",
   "odds": {
     "Scottie Scheffler": 550,
@@ -75,13 +75,14 @@
     "Alex Smalley": 100000,
     "Eric Cole": 100000,
     "M.J. Daffue": 100000,
-    "Aldrich Potgieter": 100000,
     "Ryo Hisatsune": 100000,
-    "Kazuki Higa": 100000,
+    "Aldrich Potgieter": 100000,
+    "David Howard": 150000,
     "Jose Luis Ballester": 100000,
-    "Marcus Plunkett": 500000,
-    "Jack McDonald": 500000,
     "Peter Uihlein": 100000,
-    "Naoyuki Kataoka": 100000
+    "Kazuki Higa": 100000,
+    "Naoyuki Kataoka": 100000,
+    "Jack McDonald": 375000,
+    "Marcus Plunkett": 375000
   }
 }
