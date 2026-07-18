@@ -1,9 +1,9 @@
 {
   "major": "The Open",
   "sport_key": "golf_the_open_championship_winner",
-  "updated": "2026-07-18T03:15:13Z",
-  "fetched_at": "2026-07-18T03:15:13Z",
-  "bookmaker_updated": "2026-07-18T03:15:13Z",
+  "updated": "2026-07-18T03:30:17Z",
+  "fetched_at": "2026-07-18T03:30:17Z",
+  "bookmaker_updated": "2026-07-18T03:29:57Z",
   "source": "fanduel_or_median",
   "odds": {
     "Scottie Scheffler": 550,
@@ -52,7 +52,7 @@
     "Kurt Kitayama": 25000,
     "Nicolas Echavarria": 22500,
     "Rickie Fowler": 50000,
-    "Russell Henley": 50000,
+    "Russell Henley": 35000,
     "Ryan Fox": 75000,
     "Max Homa": 100000,
     "Jacob Bridgeman": 35000,
