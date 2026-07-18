@@ -1,9 +1,9 @@
 {
   "major": "The Open",
   "sport_key": "golf_the_open_championship_winner",
-  "updated": "2026-07-18T20:00:16Z",
-  "fetched_at": "2026-07-18T20:00:16Z",
-  "bookmaker_updated": "2026-07-18T20:00:04Z",
+  "updated": "2026-07-18T20:15:16Z",
+  "fetched_at": "2026-07-18T20:15:16Z",
+  "bookmaker_updated": "2026-07-18T20:12:22Z",
   "source": "fanduel_or_median",
   "odds": {
     "Sam Burns": 125,
@@ -40,8 +40,8 @@
     "Jordan Smith": 100000,
     "Kristoffer Reitan": 100000,
     "Jose Luis Ballester": 100000,
-    "Hennie du Plessis": 100000,
     "Francesco Molinari": 100000,
+    "Hennie du Plessis": 100000,
     "Russell Henley": 100000,
     "Patrick Reed": 100000,
     "Alex Fitzpatrick": 100000,
