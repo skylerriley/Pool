@@ -1,7 +1,7 @@
 {
   "major": "The Open",
   "year": "2026",
-  "updated": "2026-07-18T18:36:40.314455+00:00",
+  "updated": "2026-07-18T19:49:32.459600+00:00",
   "active": true,
   "rows": [
     {
@@ -41,30 +41,6 @@
       "R4": null
     },
     {
-      "PLAYER": "Lucas Herbert",
-      "COUNTRY": "AUS",
-      "POS": "\u2014",
-      "SCORE": "-80",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": null,
-      "R2": "-80",
-      "R3": null,
-      "R4": null
-    },
-    {
-      "PLAYER": "Bryson DeChambeau",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-223",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-75",
-      "R2": "-74",
-      "R3": "-74",
-      "R4": null
-    },
-    {
       "PLAYER": "Ryan Gerard",
       "COUNTRY": "USA",
       "POS": "\u2014",
@@ -77,15 +53,15 @@
       "R4": null
     },
     {
-      "PLAYER": "Jackson Suber",
-      "COUNTRY": "USA",
+      "PLAYER": "Lucas Herbert",
+      "COUNTRY": "AUS",
       "POS": "\u2014",
-      "SCORE": "-223",
+      "SCORE": "-151",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-77",
-      "R2": "-73",
-      "R3": "-73",
+      "R1": null,
+      "R2": "-80",
+      "R3": "-71",
       "R4": null
     },
     {
@@ -98,6 +74,30 @@
       "R1": "-71",
       "R2": "-76",
       "R3": "-75",
+      "R4": null
+    },
+    {
+      "PLAYER": "Bryson DeChambeau",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-222",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-75",
+      "R2": "-74",
+      "R3": "-73",
+      "R4": null
+    },
+    {
+      "PLAYER": "Jackson Suber",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-150",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-77",
+      "R2": "-73",
+      "R3": null,
       "R4": null
     },
     {
@@ -233,18 +233,6 @@
       "R4": null
     },
     {
-      "PLAYER": "Cameron Young",
-      "COUNTRY": "USA",
-      "POS": "\u2014",
-      "SCORE": "-220",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-75",
-      "R2": "-75",
-      "R3": "-70",
-      "R4": null
-    },
-    {
       "PLAYER": "Josele Ballester",
       "COUNTRY": "ESP",
       "POS": "\u2014",
@@ -341,15 +329,15 @@
       "R4": null
     },
     {
-      "PLAYER": "Matt Wallace",
-      "COUNTRY": "ENG",
+      "PLAYER": "Cameron Young",
+      "COUNTRY": "USA",
       "POS": "\u2014",
       "SCORE": "-219",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-73",
+      "R1": "-75",
       "R2": "-75",
-      "R3": "-71",
+      "R3": "-69",
       "R4": null
     },
     {
@@ -434,6 +422,18 @@
       "R1": "-74",
       "R2": null,
       "R3": null,
+      "R4": null
+    },
+    {
+      "PLAYER": "Matt Wallace",
+      "COUNTRY": "ENG",
+      "POS": "\u2014",
+      "SCORE": "-218",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-73",
+      "R2": "-75",
+      "R3": "-70",
       "R4": null
     },
     {
