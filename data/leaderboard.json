@@ -1,9 +1,21 @@
 {
   "major": "The Open",
   "year": "2026",
-  "updated": "2026-07-19T17:12:04.851559+00:00",
+  "updated": "2026-07-19T18:06:42.123200+00:00",
   "active": true,
   "rows": [
+    {
+      "PLAYER": "Ryan Fox",
+      "COUNTRY": "NZL",
+      "POS": "\u2014",
+      "SCORE": "-298",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-70",
+      "R2": "-74",
+      "R3": "-80",
+      "R4": "-74"
+    },
     {
       "PLAYER": "Cameron Young",
       "COUNTRY": "USA",
@@ -15,18 +27,6 @@
       "R2": "-75",
       "R3": "-69",
       "R4": "-78"
-    },
-    {
-      "PLAYER": "Ryan Fox",
-      "COUNTRY": "NZL",
-      "POS": "\u2014",
-      "SCORE": "-297",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-70",
-      "R2": "-74",
-      "R3": "-80",
-      "R4": "-73"
     },
     {
       "PLAYER": "Sam Burns",
@@ -65,18 +65,6 @@
       "R4": "-74"
     },
     {
-      "PLAYER": "Si Woo Kim",
-      "COUNTRY": "KOR",
-      "POS": "\u2014",
-      "SCORE": "-295",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-74",
-      "R2": "-75",
-      "R3": "-75",
-      "R4": "-71"
-    },
-    {
       "PLAYER": "Casey Jarvis",
       "COUNTRY": "RSA",
       "POS": "\u2014",
@@ -87,18 +75,6 @@
       "R2": "-75",
       "R3": "-74",
       "R4": "-76"
-    },
-    {
-      "PLAYER": "Ludvig \u00c5berg",
-      "COUNTRY": "SWE",
-      "POS": "\u2014",
-      "SCORE": "-222",
-      "TODAY": "E",
-      "THRU": "",
-      "R1": "-71",
-      "R2": "-76",
-      "R3": "-75",
-      "R4": null
     },
     {
       "PLAYER": "Lucas Herbert",
@@ -113,16 +89,16 @@
       "R4": "-71"
     },
     {
-      "PLAYER": "Ryan Gerard",
-      "COUNTRY": "USA",
+      "PLAYER": "Si Woo Kim",
+      "COUNTRY": "KOR",
       "POS": "\u2014",
       "SCORE": "-294",
       "TODAY": "E",
       "THRU": "",
-      "R1": "-75",
+      "R1": "-74",
       "R2": "-75",
-      "R3": "-73",
-      "R4": "-71"
+      "R3": "-75",
+      "R4": "-70"
     },
     {
       "PLAYER": "Russell Henley",
@@ -159,6 +135,30 @@
       "R2": "-76",
       "R3": "-75",
       "R4": null
+    },
+    {
+      "PLAYER": "Ludvig \u00c5berg",
+      "COUNTRY": "SWE",
+      "POS": "\u2014",
+      "SCORE": "-293",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-71",
+      "R2": "-76",
+      "R3": "-75",
+      "R4": "-71"
+    },
+    {
+      "PLAYER": "Ryan Gerard",
+      "COUNTRY": "USA",
+      "POS": "\u2014",
+      "SCORE": "-293",
+      "TODAY": "E",
+      "THRU": "",
+      "R1": "-75",
+      "R2": "-75",
+      "R3": "-73",
+      "R4": "-70"
     },
     {
       "PLAYER": "Corey Conners",
