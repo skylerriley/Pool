@@ -1,13 +1,13 @@
 {
   "major": "The Open",
   "sport_key": "golf_the_open_championship_winner",
-  "updated": "2026-07-19T06:00:17Z",
-  "fetched_at": "2026-07-19T06:00:17Z",
-  "bookmaker_updated": "2026-07-19T06:00:02Z",
+  "updated": "2026-07-19T06:15:14Z",
+  "fetched_at": "2026-07-19T06:15:14Z",
+  "bookmaker_updated": "2026-07-19T06:14:35Z",
   "source": "fanduel_or_median",
   "odds": {
     "Sam Burns": 125,
-    "Si Woo Kim": 500,
+    "Si Woo Kim": 480,
     "Ryan Fox": 750,
     "Bryson DeChambeau": 1300,
     "Ludvig Aberg": 1300,
