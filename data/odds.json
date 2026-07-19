@@ -1,14 +1,13 @@
 {
   "major": "The Open",
   "sport_key": "golf_the_open_championship_winner",
-  "updated": "2026-07-19T17:15:14Z",
-  "fetched_at": "2026-07-19T17:15:14Z",
-  "bookmaker_updated": "2026-07-19T17:15:07Z",
+  "updated": "2026-07-19T17:30:16Z",
+  "fetched_at": "2026-07-19T17:30:16Z",
+  "bookmaker_updated": "2026-07-19T17:30:05Z",
   "source": "fanduel_or_median",
   "odds": {
     "Cameron Young": 100,
-    "Ryan Fox": 155,
-    "Sam Burns": 390,
-    "Si Woo Kim": 100000
+    "Ryan Fox": -110,
+    "Sam Burns": 1200
   }
 }
