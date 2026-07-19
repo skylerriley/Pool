@@ -1,9 +1,9 @@
 {
   "major": "The Open",
   "sport_key": "golf_the_open_championship_winner",
-  "updated": "2026-07-19T11:44:34Z",
-  "fetched_at": "2026-07-19T11:44:34Z",
-  "bookmaker_updated": "2026-07-19T11:44:18Z",
+  "updated": "2026-07-19T11:45:15Z",
+  "fetched_at": "2026-07-19T11:45:15Z",
+  "bookmaker_updated": "2026-07-19T11:44:47Z",
   "source": "fanduel_or_median",
   "odds": {
     "Sam Burns": 125,
@@ -41,7 +41,7 @@
     "Matt Wallace": 250000,
     "Casey Jarvis": 100000,
     "Jordan Smith": 100000,
-    "Sahith Theegala": 287500,
+    "Sahith Theegala": 200000,
     "Francesco Molinari": 100000,
     "Hennie du Plessis": 100000,
     "Patrick Reed": 100000,
