@@ -1,18 +1,17 @@
 {
   "major": "The Open",
   "sport_key": "golf_the_open_championship_winner",
-  "updated": "2026-07-19T16:30:18Z",
-  "fetched_at": "2026-07-19T16:30:18Z",
-  "bookmaker_updated": "2026-07-19T16:30:02Z",
+  "updated": "2026-07-19T16:38:14Z",
+  "fetched_at": "2026-07-19T16:38:14Z",
+  "bookmaker_updated": "2026-07-19T16:37:14Z",
   "source": "fanduel_or_median",
   "odds": {
-    "Cameron Young": 110,
-    "Sam Burns": 270,
-    "Ryan Fox": 390,
-    "Si Woo Kim": 600,
-    "Lucas Herbert": 4500,
+    "Cameron Young": 115,
+    "Sam Burns": 240,
+    "Ryan Fox": 440,
+    "Si Woo Kim": 700,
+    "Lucas Herbert": 3500,
     "Ryan Gerard": 10000,
-    "Ludvig Aberg": 100000,
-    "Tommy Fleetwood": 500000
+    "Ludvig Aberg": 500000
   }
 }
